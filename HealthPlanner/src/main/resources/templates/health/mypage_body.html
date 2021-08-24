@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>마이페이지 - 신체레벨</title>
+    <link rel="stylesheet" href="./css/mypage_window.css">
+    <link rel="stylesheet" href="./css/mypage_body.css">
+  </head>
+  <body>
+    <div id="wrapper">
+      <div class="empty"></div>
+      <header>
+
+      </header>
+      <section>
+        <div class="contain_title">
+          <h1>내 정보</h1>
+        </div>
+        <div class="contain">
+          <aside class="info_list">
+            <ul>
+              <li><a href="mypage_main.html">개인정보변경</a></li>
+              <li><a href="mypage_body.html">내 신체레벨</a></li>
+              <li><a href="mypage_graph.html">내 운동그래프</a></li>
+              <li><a href="mypage_point.html">내 포인트</a></li>
+            </ul>
+          </aside>
+          <div class="length_line"></div>
+          <div class="profile_img">
+            <img src="./image/profile.png" alt="">
+          </div>
+          <article class="main_contain">
+            <!-- input값을 주고 readonly로 수정할 수 없게 -->
+            <label>이름
+              <input type="text" class="view" name="" value="이름 값" readonly/>
+            </label>
+            <hr>
+            <h2>종합 신체 레벨 - 3</h2>
+            <div class="muscle_img">
+              <img src="./image/근육 앞 copy copy.png" alt="">
+              <img src="./image/근육 뒤 copy copy.PNG" alt="">
+            </div>
+            <h2>'부위값' 운동 레벨</h2>
+            <div class="">
+              <!-- 스크립트로 재정의 -->
+              <table class="practice_record">
+                <tr>
+                  <th></th>
+                  <th>체스트 프레스</th>
+                  <th>벤치 프레스</th>
+                  <th>덤벨 플라이</th>
+                  <th>인클라인 프레스</th>
+                </tr>
+                <tr>
+                  <th>현재 기록</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th>다음 승급 기록</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </table>
+            </div>
+          </article>
+        </div>
+      </section>
+      <footer>
+        <br>
+      </footer>
+    </div>
+  </body>
+</html>

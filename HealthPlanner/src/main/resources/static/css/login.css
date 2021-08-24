@@ -1,0 +1,28 @@
+section{
+  height:330px;
+}
+
+input[type="submit"]{
+  background:#3498db;
+  color:white;
+  height:40px;
+}
+
+input:last-of-type{
+  padding:0;
+  width:100%;
+}
+
+.forget{
+  margin-top:20px;
+  text-align:center;
+}
+
+a{
+  font-size:12px;
+  color:#4abeca;
+}
+
+.join{
+  text-align:center;
+}

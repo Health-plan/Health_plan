@@ -1,0 +1,97 @@
+/* 관리자페이지 */
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+}
+
+#wrapper{
+  width:100%;
+  height:100%;
+  background-color:#eee;
+}
+
+nav{
+  width:100%;
+  height:35px;
+  background-color:#9e9e9e;
+}
+
+#nav ul{
+  display:flex;
+  margin:auto;
+  max-width:1200px;
+  height:30px;
+  font-size:16px;
+  line-height: 35px;
+}
+
+#nav ul li{
+  list-style: none;
+  margin-right:20px;
+}
+
+#nav ul li a{
+  color:white;
+  font-weight:bold;
+  text-decoration: none;
+}
+
+#nav ul li a:hover{
+  color:black;
+}
+
+section{
+  display:flex;
+  /* box-sizing: border-box; */
+  max-width:1200px;
+  margin:auto;
+  background-color:white;
+}
+
+a{
+  text-decoration: none;
+  color:black;
+}
+
+.side{
+  height:100%;
+}
+
+.main_category{
+  padding:10px 0;
+}
+
+.main_category a{
+  font-size: 18px;
+}
+
+.side a:hover{
+  color:white;
+}
+
+.side ul{
+  height:100%;
+  margin:0;
+  padding:10px 10px 20px 30px;
+  background:#e0e0e0;
+  font-weight: bold;
+}
+
+.side ul li{
+  list-style: none;
+}
+
+.side ul li ul{
+  padding:10px 20px;
+}
+
+.side ul li ul li{
+  list-style-type: disc;
+}
+
+.side ul li ul li a {
+  font-size: 16px;
+  font-weight: normal;
+}

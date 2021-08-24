@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>아이디찾기</title>
+    <link rel="stylesheet" href="./css/background_window.css">
+    <link rel="stylesheet" href="./css/forget_id.css">
+  </head>
+  <body>
+    <div id="wrapper">
+      <div class="empty"></div>
+      <section>
+        <h1>아이디 찾기</h1>
+        <!-- 경로 : forget_id_2.html-->
+        <!-- 경로 변경 필요 -->
+        <form class="" action="forget_id_2.html" method="post">
+          <label>가입한 이메일 주소
+            <input type="email" name="" value="" placeholder="이메일주소">
+          </label>
+          <div class="btn_img">
+            <img src="./image/button_on.png" alt="">
+            <img src="./image/button_off.png" alt="">
+          </div>
+          <input type="button" class="cancel_btn" name="" value="취소" onclick="history.back()">
+          <input type="submit" class="confirm_btn" name="" value="다음">
+        </form>
+      </section>
+    </div>
+  </body>
+</html>
