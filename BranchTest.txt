@@ -1,3 +1,7 @@
 브런치 테스트하기
 
+<<<<<<< HEAD
 master 2차수정 ㅎㅎㅎㅎㅎ
+=======
+2차로 바꿔보는 TestBranch.text
+>>>>>>> TestBranch
