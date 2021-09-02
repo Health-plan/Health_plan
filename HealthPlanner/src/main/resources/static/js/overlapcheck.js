@@ -4,10 +4,24 @@ function registerCheck() {
 		return false;
 	}
 
+	var pwd = document.getElementById("mbrPw")
+	
+
 	if ($.trim($('#mbr_pw').val()) == '') {
 		alert("비밀번호를 입력해주세요.");
 		return false;
 	}
+	
+	/*var pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+	
+	if(!pwdCheck.test(pwd.value))
+	{
+		alert("비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리 사용해야 합니다.");
+		pwd.focus();
+		return false;
+	}*/
+	
+	
 
 	if ($.trim($('#mbr_nm').val()) == '') {
 		alert("이름을 입력해주세요.");
@@ -22,9 +36,12 @@ function registerCheck() {
 		alert("이메일을 입력해주세요.");
 		return false;
 	}
+	if ($.trim($('#mbr_pw_answer').val()) == '') {
+			alert("비밀번호힌트를 입력해주세요.");
+			return false;
+		}
 
-
-	else if (confirm("회원가입을 하시겠습니까?")) {
+	if (confirm("회원가입을 하시겠습니까?")) {
 		alert("회원가입이 완료되었습니다. 감사합니다.");
 		$("form").submit();	}
 
