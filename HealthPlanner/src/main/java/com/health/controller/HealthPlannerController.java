@@ -1,5 +1,7 @@
 package com.health.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,18 +10,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.health.domain.MemberDTO;
 import com.health.service.MemberService;
-//import com.health.service.MemberService;
+
 
 
 
 @Controller
 public class HealthPlannerController {
-	
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	//private HealthPlannerService healthplannerSevice;
+	
 	@Autowired
 	private MemberService memberService;
+	
 	
 	@GetMapping(value = "main.do")
 	public String openHealthPlannerMain(Model model) {
@@ -29,7 +34,7 @@ public class HealthPlannerController {
 	@GetMapping(value = "login.do")
 	public String openHealthPlannerLogin(Model model) {
 
-		return "login";
+		return "login.html";
 	}
 	
 	@GetMapping(value = "join.do")
@@ -38,29 +43,38 @@ public class HealthPlannerController {
 		return "join";
 	}
 	
-//   @PostMapping(value= "join/newaccount.do")
-//	public String createNewAccount(MemberDTO memberDto) {
-//		memberService.joinUser(memberDto);
-//		return "redirect:/login";
-//	}
-//	
+	
+	@PostMapping(value= "join.do")
+	public String createNewAccount( MemberDTO memberDto) throws Exception
+    {
+		log.debug(memberDto+"/가입버튼");
+		memberService.memberRegister(memberDto);
+		return "redirect:/login.do";
+	}
+	
+
 	@ResponseBody
 	@PostMapping(value = "/idCheck.do")
 	public int IdCheck(@RequestBody String mbr_id) throws Exception
 	{
-		System.out.println(mbr_id);
+		log.debug(mbr_id);
 
 		int count = 0;
 		if(mbr_id != null)
 		{
-			System.out.println(mbr_id+"1123125");
+			log.debug(mbr_id+"1123125");
 			count = memberService.idCheck(mbr_id);
-			System.out.println(mbr_id+"#");
+			log.debug(mbr_id+"#");
 			
 		}
-		System.out.println(count);
+		log.debug("count : "+count);
 		return count;	
 	}
+	
+	
+	
+	   
+		
 	
 	
 	@GetMapping(value = "forget_id.do")
