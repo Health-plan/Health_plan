@@ -14,8 +14,6 @@ import com.health.domain.MemberDTO;
 import com.health.service.MemberService;
 
 
-
-
 @Controller
 public class HealthPlannerController {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
