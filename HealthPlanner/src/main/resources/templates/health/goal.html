@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>목표설정</title>
+    <link rel="stylesheet" href="./css/regist_window.css">
+    <link rel="stylesheet" href="./css/goal.css">
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+      </header>
+      <section>
+        <div class="main_contents">
+          <article class="my_status">
+            <div class="title">
+              <h1>내 현재 상태</h1>
+            </div>
+            <div class="body_graph">
+              <!-- 이 부분 데이터 받아서 그래프 생성해야함 -->
+              <img src="https://t1.daumcdn.net/cfile/tistory/99C01D3D5ECEE36312" alt="" width="400">
+            </div>
+          </article>
+          <article class="goal">
+            <div class="title">
+              <h1>목표 설정</h1>
+            </div>
+            <!-- 경로 일단 main으로 설정 -->
+            <form class="" action="main.html" method="post">
+              <div class="info">
+                <div class="age_select">
+                  <label>몸무게 :
+                    <input type="number" name="" value="">
+                    <select class="" name="">
+                      <option value="">kg</option>
+                      <option value="">lb</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="height_select">
+                  <label class="weight_per">체지방률 :
+                    <input type="number" name="" value="">
+                    <span>%</span>
+                  </label>
+                </div>
+                <div class="weight_select">
+                  <label>목표기간 :
+                    <input type="datetime" name="" value="">
+                  </label>
+                </div>
+              </div>
+              <div class="btn">
+                <button type="button" name="button" onclick="history.back()">취소</button>
+                <input type="submit" name="" value="확인">
+              </div>
+            </form>
+          </div>
+        </article>
+      </section>
+      <footer></footer>
+    </div>
+  </body>
+</html>

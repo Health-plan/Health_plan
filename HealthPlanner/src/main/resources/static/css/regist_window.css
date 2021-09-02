@@ -1,0 +1,38 @@
+/* 기본정보, 목표 데이터 입력 페이지 */
+
+*{
+  margin:0;
+  padding:0;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+}
+
+.wrapper{
+  width:100%;
+  height:100%;
+  background:black;
+}
+
+header{
+  width:100%;
+  height:150px;
+}
+
+.main_contents{
+  text-align: center;
+}
+
+h1,a{
+  display:inline-block;
+  font-size:40px;
+  color:white;
+  text-decoration: none;
+}
+
+.title{
+  display:inline-block;
+  padding:60px 0;
+}

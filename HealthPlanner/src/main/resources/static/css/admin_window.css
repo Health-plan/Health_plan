@@ -4,12 +4,12 @@ html,body{
   padding:0;
   width:100%;
   height:100%;
+  background-color:#eee;
 }
 
 #wrapper{
   width:100%;
   height:100%;
-  background-color:#eee;
 }
 
 nav{
@@ -42,21 +42,18 @@ nav{
   color:black;
 }
 
-section{
-  display:flex;
-  /* box-sizing: border-box; */
+#contents{
+  width:100%;
   max-width:1200px;
-  margin:auto;
-  background-color:white;
+  height:auto;
+  margin:0 auto;
 }
 
-a{
-  text-decoration: none;
-  color:black;
-}
-
-.side{
-  height:100%;
+#side{
+  float:left;
+  width:200px;
+  height:auto;
+  background:#e0e0e0;
 }
 
 .main_category{
@@ -67,31 +64,82 @@ a{
   font-size: 18px;
 }
 
-.side a:hover{
+#side a:hover{
   color:white;
 }
 
-.side ul{
-  height:100%;
+#side ul{
+  width:160px;
   margin:0;
   padding:10px 10px 20px 30px;
-  background:#e0e0e0;
   font-weight: bold;
 }
 
-.side ul li{
+#side ul li{
   list-style: none;
 }
 
-.side ul li ul{
+#side ul li ul{
+  width:auto;
   padding:10px 20px;
 }
 
-.side ul li ul li{
+#side ul li ul li{
   list-style-type: disc;
 }
 
-.side ul li ul li a {
+#side ul li ul li a {
   font-size: 16px;
   font-weight: normal;
+}
+
+a{
+  text-decoration: none;
+  color:black;
+}
+
+section{
+  margin-left:200px;
+  width:1000px;
+  min-height:560px;
+  height:100%;
+  /* box-sizing: border-box; */
+  max-width:1000px;
+  background-color:white;
+}
+
+.main_contents{
+  width:100%;
+  height:100%;
+  min-height:560px;
+  box-sizing: border-box;
+  padding:20px;
+}
+
+.title{
+  margin-bottom:20px;
+}
+
+.main_title{
+  font-size: 32px;
+}
+
+.sub_title{
+  font-size: 24px;
+}
+
+.delete_btn,.answer_btn,.edit_btn{
+  float:right;
+  border:none;
+  width:80px;
+  height:30px;
+  color:#909090;
+  border-radius: 5px;
+  cursor:pointer;
+  margin:0 5px;
+}
+
+.edit_btn{
+  background-color: #505050;
+  color:white;
 }

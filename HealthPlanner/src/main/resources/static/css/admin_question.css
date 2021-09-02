@@ -1,0 +1,60 @@
+.sort_select{
+  float:right;
+  height:30px;
+}
+
+table,th,tr,td{
+  border-collapse: collapse;
+  text-align: center;
+}
+table{
+  margin: 0 auto 20px;
+}
+tr{
+  height:40px;
+  border-top:1px solid #f0f0f0;
+}
+tr:last-of-type{
+  border-bottom:1px solid #f0f0f0;
+}
+th:first-of-type{
+  width:90px;
+}
+th:nth-of-type(2){
+  width:450px;
+}
+th:nth-of-type(3){
+  width:120px;
+}
+th:nth-of-type(4){
+  width:120px;
+}
+th:last-of-type{
+  width:150px;
+}
+.tr_title{
+  background:#eee;
+}
+
+.delete_btn{
+  float:right;
+  border:none;
+  width:80px;
+  height:30px;
+  color:#909090;
+  border-radius: 5px;
+  cursor:pointer;
+}
+
+.paging{
+  text-align:center;
+  padding:20px;
+}
+
+.paging a{
+  display:inline-block;
+  width:30px;
+  height:30px;
+  background-color: #eee;
+  line-height:30px;
+}

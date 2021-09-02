@@ -1,0 +1,25 @@
+form{
+  display:inline-block;
+}
+
+.man,.woman{
+  display:inline-block;
+  width:140px;
+  height:140px;
+  border-radius: 50%;
+  padding:20px;
+  margin:20px;
+  font-weight:bold;
+  font-size:30px;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+
+.man{
+  background: #3498db;
+}
+
+.woman{
+  background: #ffc4c0;
+}
