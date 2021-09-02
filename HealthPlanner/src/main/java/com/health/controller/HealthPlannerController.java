@@ -1,20 +1,25 @@
 package com.health.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.health.service.MemberService;
+//import com.health.service.MemberService;
 
 
 
 @Controller
 public class HealthPlannerController {
 	
-	//@Autowired
+	
 	//private HealthPlannerService healthplannerSevice;
+	@Autowired
+	private MemberService memberService;
 	
 	@GetMapping(value = "main.do")
 	public String openHealthPlannerMain(Model model) {
@@ -32,6 +37,32 @@ public class HealthPlannerController {
 
 		return "join";
 	}
+	
+//   @PostMapping(value= "join/newaccount.do")
+//	public String createNewAccount(MemberDTO memberDto) {
+//		memberService.joinUser(memberDto);
+//		return "redirect:/login";
+//	}
+//	
+	@ResponseBody
+	@PostMapping(value = "/idCheck.do")
+	public int IdCheck(@RequestBody String mbr_id) throws Exception
+	{
+		System.out.println(mbr_id);
+
+		int count = 0;
+		if(mbr_id != null)
+		{
+			System.out.println(mbr_id+"1123125");
+			count = memberService.idCheck(mbr_id);
+			System.out.println(mbr_id+"#");
+			
+		}
+		System.out.println(count);
+		return count;	
+	}
+	
+	
 	@GetMapping(value = "forget_id.do")
 	public String openHealthPlannerForgetId(Model model)
 	{
