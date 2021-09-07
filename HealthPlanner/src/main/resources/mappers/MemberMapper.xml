@@ -13,4 +13,11 @@
 		insert into members(mbr_id, mbr_pw, mbr_nm, mbr_birth, mbr_email, mbr_pw_hint, mbr_pw_answer, registrant,regist_date)
 		values(#{mbrId}, #{mbrPw}, #{mbrNm}, #{mbrBirth}, #{mbrEmail}, #{mbrPwHint}, #{mbrPwAnswer}, #{mbrNm} ,NOW())
 	</insert>
+	
+	<select id="readAccount" parameterType="String" resultType="com.health.domain.Account">
+	SELECT *
+	FROM members
+	WHERE mbr_id=#{mbr_id}
+	
+	</select>
 </mapper>

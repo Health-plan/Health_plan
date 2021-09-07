@@ -7,9 +7,9 @@
    
    <link rel="stylesheet" th:href="@{./static/css/background_window.css}"/>
     <link rel="stylesheet" th:href="@{./static/css/login.css}"/>
-     
+      
 <link rel="stylesheet" th:href="@{/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css}"/>
-    
+      <script th:src='@{/static/js/overlapcheck.js}'></script>
   </head>
   <body>
     <div id="wrapper">
@@ -17,18 +17,21 @@
       <section>
         <article class="">
           <h1>로그인</h1>
-          <form class="login" action="main.html" method="post">
-            <input type="text" name="" value="" placeholder="아이디">
-            <input type="password" name="" value="" placeholder="비밀번호">
+          <form class="login" th:action="@{/login.do}" method="post">
+            <input type="text" id = "mbr_id" name="mbr_id" placeholder="아이디" required>
+            <input type="password" id = "mbr_pw" name="mbr_pw"  placeholder="비밀번호" required>
             <div class="forget">
               <a th:href="@{forget_id.do}">아이디 찾기 |</a>
               <a th:href="@{forget_pw.do}">비밀번호 찾기</a>
             </div>
-            <input type="submit" value="로그인">
+            <input type="submit" id = "submit" value="로그인" onclick="loginCheck()">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+    		 
             <div class="join">
               <a th:href="@{join.do}">회원가입</a>
             </div>
           </form>
+          
         </article>
       </section>
       <footer>

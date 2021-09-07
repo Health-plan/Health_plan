@@ -47,6 +47,19 @@ function registerCheck() {
 
 }
 
+function loginCheck()
+{
+	if ($.trim($('#mbr_id').val()) == '') {
+		alert("아이디를 입력해주세요.");
+		return false;
+	}
+	
+	if ($.trim($('#mbr_pw').val()) == '') {
+		alert("비밀번호를 입력해주세요.");
+		return false;
+	}
+}
+
 
 
 /* 아이디 중복 체크 : ajax 비동기처리 */

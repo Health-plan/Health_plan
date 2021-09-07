@@ -1,38 +1,46 @@
 package com.health.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.health.domain.MemberDAO;
+import com.health.domain.Account;
+import com.health.domain.MemberDAOImpl;
 import com.health.domain.MemberDTO;
 import com.health.mapper.MemberMapper;
 
 @Service
 
-public class MemberService {
+public class MemberService implements UserDetailsService{
 
+	
+	
 	@Autowired
 	MemberMapper memberMapper;
 	
 	
-	//MemberDAO memberDao;
-
+	@Autowired
+	MemberDAOImpl memberDao;
 	
+	// 로그인
+	public UserDetails loadUserByUsername(String mbr_id) throws UsernameNotFoundException {
+		
+		
+		Account account = memberDao.findById(mbr_id);
+		System.out.println(mbr_id + "|  memberservice에 findByID함수로 들어옴");
+		if( account == null ) {
+			System.out.println("## 계정정보가 존재하지 않습니다. ##");
+			throw new UsernameNotFoundException(mbr_id);
+		}
+		return account;
+		
+	
+	}
 
-//	public String now() throws Exception {
-//		return memberMapper.now();
-//	}
-//
-//	// 로그인
-//	public MemberDTO memberLogin(MemberDTO memberDto) throws Exception {
-//		return memberMapper.memberLogin(memberDto);
-//	}
-//
-//	// 유저체크
-//	public MemberDTO userCheck(MemberDTO memberDto) throws Exception {
-//		return memberMapper.userCheck(memberDto);
-//	}
 
 	// 아이디체크
 
@@ -50,20 +58,9 @@ public class MemberService {
 		
 	}
 	
+	
+	
 
-//	// 회원정보 수정 - 세션 가져오기
-//	public MemberDTO membermodifyGET(String mbr_id) throws Exception {
-//		return memberMapper.memberModifyGET(mbr_id);
-//	}
-//
-//	// 회원정보 수정
-//	public void memberModifyPOST(MemberDTO memberDto) throws Exception {
-//		memberMapper.memberModifyPOST(memberDto);
-//	}
-//
-//	// 회원 탈퇴
-//	public void memberDelete(MemberDTO memberDto) throws Exception {
-//		memberMapper.memberDelete(memberDto);
-//	}
+
 
 }

@@ -35,6 +35,35 @@ public class HealthPlannerController {
 		return "login.html";
 	}
 	
+
+	@PostMapping(value= "login.do")
+	public String postHealthPlannerLogin(String mbr_id) throws Exception
+    {
+		log.debug(mbr_id+"/로그인아이디/로그인버튼");
+		
+			
+		
+		return "redirect:/main.do";
+	}
+	
+//    // 로그인 결과 페이지
+//    @GetMapping("/login/result")
+//    public String dispLoginResult() {
+//        return "/loginSuccess";
+//    }
+//
+//    // 로그아웃 결과 페이지
+//    @GetMapping("/logout/result")
+//    public String dispLogout() {
+//        return "/logout";
+//    }
+//
+//    // 접근 거부 페이지
+//    @GetMapping("/denied")
+//    public String dispDenied() {
+//        return "/denied";
+//    }
+	
 	@GetMapping(value = "join.do")
 	public String openHealthPlannerJoin(Model model) {
 

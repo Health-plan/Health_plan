@@ -2,6 +2,7 @@ package com.health.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.health.domain.Account;
 import com.health.domain.MemberDTO;
 
 @Mapper
@@ -17,7 +18,8 @@ public interface MemberMapper {
 	  
 	  // 유저체크 
 	  public MemberDTO userCheck(MemberDTO memberDto) throws Exception;
-	  
+	  //spring security 로그인 아이디읽기
+	  public Account readAccount(String mbr_id);
   
 	  // 회원가입 
 	  public void memberRegister(MemberDTO memberDto) throws Exception;
