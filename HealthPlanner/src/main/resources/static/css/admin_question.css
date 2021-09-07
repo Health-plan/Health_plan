@@ -1,11 +1,13 @@
 .sort_select{
   float:right;
   height:30px;
+  margin:20px 0 0 0;
 }
 
 table,th,tr,td{
   border-collapse: collapse;
   text-align: center;
+  white-space:nowrap;
 }
 table{
   margin: 0 auto 20px;
@@ -17,8 +19,8 @@ tr{
 tr:last-of-type{
   border-bottom:1px solid #f0f0f0;
 }
-th:first-of-type{
-  width:90px;
+:is(th,td):first-of-type{
+	padding:0 0 0 15px;
 }
 th:nth-of-type(2){
   width:450px;
@@ -29,6 +31,7 @@ th:nth-of-type(3){
 th:nth-of-type(4){
   width:120px;
 }
+
 th:last-of-type{
   width:150px;
 }

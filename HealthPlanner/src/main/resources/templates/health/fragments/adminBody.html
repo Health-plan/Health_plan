@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<body th:fragment="admin-body">
+	    <div id="wrapper">
+	      <header>
+	        <div id="header">
+	          <div class="logo">
+	            <!-- 로고 -->
+	            <a th:href="@{main.html}"><img th:src="@{static/image/logo.png}" alt=""></a>
+	            <span class="title">
+	              관리자페이지
+	            </span>
+	          </div>
+	          <div class="profile">
+	            <div class="profile_img">
+	              <!-- 프로필사진 -->
+	              <a th:href="@{#}">
+	              	<img th:src="@{static/image/profile.png}" alt="">
+	              </a>
+	            </div>
+	            <div class="profile_id">
+	              <span>아이디값</span>
+	            </div>
+	            <div class="profile_menu">
+	              <!-- 햄버거 메뉴 -->
+	              <a th:href="@{#}"><img th:src="@{static/image/category.png}" alt=""></a>
+	            </div>
+	          </div>
+	        </div>
+	      </header>
+	      <nav>
+	        <div id="nav">
+	          <ul>
+	            <li><a th:href="@{#}">게시글 관리</a></li>
+	            <li><a th:href="@{#}">승급관리</a></li>
+	            <li><a th:href="@{#}">회원정보</a></li>
+	            <li><a th:href="@{#}">운동종목</a></li>
+	            <li><a th:href="@{#}">포인트관리</a></li>
+	          </ul>
+	        </div>
+	      </nav>
+	      <div id="contents">
+	        <aside id="side">
+	          <ul>
+	            <li class="main_category"><a th:href="@{#}">게시글 관리</a>
+	              <ul>
+	                <li><a th:href="@{#}">문의사항</a></li>
+	                <li><a th:href="@{#}">공지사항</a></li>
+	                <li><a th:href="@{#}">QnA</a></li>
+	              </ul>
+	            </li>
+	            <li class="main_category"><a th:href="@{#}">승급관리</a>
+	              <ul>
+	                <li><a th:href="@{#}">회원관리</a></li>
+	                <li><a th:href="@{#}">승급데이터 관리</a></li>
+	              </ul>
+	            </li>
+	            <li class="main_category"><a th:href="@{#}">회원정보</a>
+	              <ul>
+	                <li><a th:href="@{#}">회원조회</a></li>
+	                <li><a th:href="@{#}">탈퇴한회원</a></li>
+	              </ul>
+	            </li>
+	            <li class="main_category"><a th:href="@{#}">운동종목</a>
+	              <ul>
+	                <li><a th:href="@{#}">수정/추가/삭제</a></li>
+	              </ul>
+	            </li>
+	            <li class="main_category"><a th:href="@{#}">포인트관리</a>
+	              <ul>
+	                <li><a th:href="@{#}">조회</a></li>
+	                <li><a th:href="@{#}">적립/차감</a></li>
+	              </ul>
+	            </li>
+	          </ul>
+	        </aside>
+	        <section>
+	          <article class="main_contents">
+	  			<th:block layout:fragment="content"></th:block>
+	          </article>
+	        </section>
+	      </div>
+	      <footer>
+	        <ul>
+	        	<li>임의로 만든 푸터</li>
+	        </ul>
+	      </footer>
+	    </div>
+	    <script th:src="@{static/js/aside_resize.js}"></script>
+	</body>
+</html>

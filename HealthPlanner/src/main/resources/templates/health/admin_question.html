@@ -1,192 +1,66 @@
 <!DOCTYPE html>
-<html lang="ko" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="./css/header.css">
-    <link rel="stylesheet" href="./css/admin_window.css">
-    <link rel="stylesheet" href="./css/admin_question.css">
-
-    <title>관리자페이지</title>
-  </head>
-  <body>
-    <div id="wrapper">
-      <header>
-        <div id="header">
-          <div class="logo">
-            <!-- 로고 -->
-            <a href="main.html"><img src="./image/logo.png" alt=""></a>
-            <span class="title">
-              관리자페이지
-            </span>
-          </div>
-          <div class="profile">
-            <div class="profile_img">
-              <!-- 프로필사진 -->
-              <a href="#"><img src="./image/profile.png" alt</a>
-            </div>
-            <div class="profile_id">
-              <span>아이디값</span>
-            </div>
-            <div class="profile_menu">
-              <!-- 햄버거 메뉴 -->
-              <a href="#"><img src="./image/category.png" alt></a>
-            </div>
-          </div>
-        </div>
-      </header>
-      <nav>
-        <div id="nav">
-          <ul>
-            <li><a href="#">게시글 관리</a></li>
-            <li><a href="#">승급관리</a></li>
-            <li><a href="#">회원정보</a></li>
-            <li><a href="#">운동종목</a></li>
-            <li><a href="#">포인트관리</a></li>
-          </ul>
-        </div>
-      </nav>
-      <div id="contents">
-        <aside id="side">
-          <ul>
-            <li class="main_category"><a href="#">게시글 관리</a>
-              <ul>
-                <li><a href="#">문의사항</a></li>
-                <li><a href="#">공지사항</a></li>
-                <li><a href="#">QnA</a></li>
-              </ul>
-            </li>
-            <li class="main_category"><a href="#">승급관리</a>
-              <ul>
-                <li><a href="#">회원관리</a></li>
-                <li><a href="#">승급데이터 관리</a></li>
-              </ul>
-            </li>
-            <li class="main_category"><a href="#">회원정보</a>
-              <ul>
-                <li><a href="#">회원조회</a></li>
-                <li><a href="#">탈퇴한회원</a></li>
-              </ul>
-            </li>
-            <li class="main_category"><a href="#">운동종목</a>
-              <ul>
-                <li><a href="#">수정/추가/삭제</a></li>
-              </ul>
-            </li>
-            <li class="main_category"><a href="#">포인트관리</a>
-              <ul>
-                <li><a href="#">조회</a></li>
-                <li><a href="#">적립/차감</a></li>
-              </ul>
-            </li>
-          </ul>
-        </aside>
-        <section>
-          <article class="main_contents">
-            <div class="title">
-              <span class="main_title">게시글 관리</span>
-              <span class="sub_title">문의사항</span>
-                <select class="sort_select" name="">
-                  <option value="">답변대기중</option>
-                  <option value="">오래된순</option>
-                  <option value="">최신순</option>
-                </select>
-            </div>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/basic">
+	<th:block layout:fragment="title">
+		<title>게시글 관리</title>
+	</th:block>
+	
+	<th:block layout:fragment="add-css">
+		<link rel="stylesheet" type="text/css" th:href="@{../static/css/admin_question.css}">
+	</th:block>
+	
+	<th:block layout:fragment="content">
+		<div class="title">
+           <span class="main_title">게시글 관리</span>
+           <span class="sub_title">문의사항</span>
+           <select class="sort_select" name="">
+             <option value="">답변대기중</option>
+             <option value="">오래된순</option>
+             <option value="">최신순</option>
+           </select>
+         </div>
             <div class="contents">
-              <!-- 게시판 글 내용 -->
               <table class="contents_table">
-                <!-- db값 -->
-                <tr class="tr_title">
-                  <th>번호</th>
-                  <th>제목</th>
-                  <th>작성자</th>
-                  <th>작성일자</th>
-                  <th>답변여부</th>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><a href="admin_question_detail.html">햄버거는 맛있습니다.</a></td>
-                  <td>보라돌이</td>
-                  <td>2021/09/02</td>
-                  <td>답변 대기중</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td><a href="#">피자도 맛있네요</a></td>
-                  <td>뚜비</td>
-                  <td>2021/09/02</td>
-                  <td>답변 대기중</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td><a href="#">불고기는 또 어떻구요</a></td>
-                  <td>나나</td>
-                  <td>2021/09/02</td>
-                  <td>답변 대기중</td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td><a href="#">돈까스는 말할 필요도 없죠</a></td>
-                  <td>뽀</td>
-                  <td>2021/09/02</td>
-                  <td>답변 대기중</td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td><a href="#">가지볶음은 좀..</a></td>
-                  <td>호빵맨</td>
-                  <td>2021/09/02</td>
-                  <td>답변 대기중</td>
-                </tr>
-                <tr>
-                  <td>6</td>
-                  <td><a href="#">민트초코 선 넘네</a></td>
-                  <td>식빵맨</td>
-                  <td>2021/09/02</td>
-                  <td>답변 완료</td>
-                </tr>
-                <tr>
-                  <td>7</td>
-                  <td><a href="#">오늘 저녁은 뭘 먹을까</a></td>
-                  <td>카레빵맨</td>
-                  <td>2021/09/02</td>
-                  <td>답변 완료</td>
-                </tr>
-                <tr>
-                  <td>8</td>
-                  <td><a href="#">커피는 하루에 두 잔이죠</a></td>
-                  <td>세균맨</td>
-                  <td>2021/09/02</td>
-                  <td>답변 완료</td>
-                </tr>
-                <tr>
-                  <td>9</td>
-                  <td><a href="#">치킨 먹고 싶다</a></td>
-                  <td>빵아저씨</td>
-                  <td>2021/09/02</td>
-                  <td>답변 완료</td>
-                </tr>
+                <thead>
+	                <tr class = "table_title">
+	                  <th>번호</th>
+	                  <th>제목</th>
+	                  <th>분류</th>
+	                  <th>작성자</th>
+	                  <th>답변여부</th>
+	                  <th>작성일자</th>
+	                </tr>
+                </thead>
+                <tbody>
+                	<tr th:if="${not #lists.isEmpty(postList)}" th:each="row : ${postList}">
+   	                  <td scope="row" th:text="${row.postId}"></td>
+	                  <td>
+	                  	<a th:href="main.do<!--/*@{/adminQuestionDetail.do( idx=${row.postId} )*/-->" th:text="${row.title}"></a>
+	                  </td>
+	                  <td th:if="${row.boardSubType.equals(0)}">건의사항</td>
+	                  <td th:text="${row.mbrId}"></td>
+	                  
+	                  <td th:if="${row.answerState.equals(0)}">답변대기중</td>
+	                  <td th:unless="${row.answerState.equals(0)}">답변 완료</td>
+	                  <td th:text="${row.postDate}"></td>
+	                </tr>
+	                <tr th:unless="${not #lists.isEmpty( postList )}">
+	                	<td colspan="5">조회된 결과가 없습니다.</td>
+	                </tr>
+                </tbody>
               </table>
             </div>
-            <!-- 페이징 처리 따로 필요 -->
             <div class="paging">
-              <
+              &laquo;
               <a href="#">1</a>
               <a href="#">2</a>
               <a href="#">3</a>
               <a href="#">4</a>
               <a href="#">5</a>
-              >
-              <!-- 페이징처리 -->
-              <button class="delete_btn" type="button" name="button" onclick="alert">삭제</button>
+              &raquo;
             </div>
-          </article>
-        </section>
-      </div>
-      <footer>
-        .
-      </footer>
-    </div>
-    <script src="./js/aside_resize.js"></script>
-  </body>
+
+
+    	</th:block>
 </html>
