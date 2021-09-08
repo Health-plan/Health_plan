@@ -40,10 +40,7 @@ public class MemberDTO {
 	private String modifier;
 	//수정일자
 	private String modifyDate;
-<<<<<<< HEAD
 
-=======
->>>>>>> 5a9384c06bca335b724b6801ad0a9d2accbb5d47
 	
 	@Override
 	public String toString() {
@@ -51,11 +48,9 @@ public class MemberDTO {
 				+ ", mbrEmail=" + mbrEmail + ", mbrPwHint=" + mbrPwHint + ", mbrPwAnswer=" + mbrPwAnswer + ", mbrPhoto="
 				+ mbrPhoto + ", goalRegister=" + goalRegister + ", managementRank="
 				+ managementRank + ", secession=" + secession + ", registrant=" + registrant + ", registDate="
-<<<<<<< HEAD
+
 				+ registDate + ", modifier=" + modifier + ", modifyDate=" + modifyDate + "]";
-=======
-				+ registDate + ", modifier=" + modifier + ", modiyDate=" + modifyDate + "]";
->>>>>>> 5a9384c06bca335b724b6801ad0a9d2accbb5d47
+
 	}
 	
 
