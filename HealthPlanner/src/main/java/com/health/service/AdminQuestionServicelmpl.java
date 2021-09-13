@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.health.domain.PostDTO;
 import com.health.mapper.AdminQuestionMapper;
-import com.health.paging.Criteria;
+import com.health.paging.PaginationInfo;
 
 @Service
 public class AdminQuestionServicelmpl implements AdminQuestionService  {
@@ -32,13 +32,23 @@ public class AdminQuestionServicelmpl implements AdminQuestionService  {
 	}
 
 	@Override
-	public List<PostDTO> getPostList(Criteria criteria) {
+	public List<PostDTO> getPostList(PostDTO params) {
 		List<PostDTO> postList = Collections.emptyList();
 		
-		int postTotaclCount = adminQuestMapper.selectPostTotalCount(criteria);
+		int postTotalCount = adminQuestMapper.selectPostTotalCount(params);
 		
-		if(postTotaclCount > 0) {
-			postList = adminQuestMapper.selectPostList(criteria);
+		PaginationInfo paginationInfo = new PaginationInfo(params);
+		paginationInfo.setTotalRecordCount(postTotalCount);
+		
+		params.setPaginationInfo(paginationInfo);
+		
+		
+		if(postTotalCount > 0 && params.getPaginationInfo().getSortType() == 0) {
+			postList = adminQuestMapper.selectPostListLately(params);
+		} else if(postTotalCount > 0 && params.getPaginationInfo().getSortType() == 1) {
+			postList = adminQuestMapper.selectPostListOld(params);
+		} else if(postTotalCount > 0 && params.getPaginationInfo().getSortType() == 2) {
+			postList = adminQuestMapper.selectPostListAnswer(params);
 		}
 		
 		return postList;

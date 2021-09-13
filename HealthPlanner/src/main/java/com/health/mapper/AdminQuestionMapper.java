@@ -14,8 +14,10 @@ public interface AdminQuestionMapper {
 	//답변
 	public int answerPost(PostDTO params);
 	//게시글 리스트
-	public List<PostDTO> selectPostList(Criteria criteria);
+	public List<PostDTO> selectPostListLately(PostDTO params);
+	public List<PostDTO> selectPostListOld(PostDTO params);
+	public List<PostDTO> selectPostListAnswer(PostDTO params);
 	//페이징에 사용할 카운트
-	public int selectPostTotalCount(Criteria criteria);
+	public int selectPostTotalCount(PostDTO params);
 	
 }

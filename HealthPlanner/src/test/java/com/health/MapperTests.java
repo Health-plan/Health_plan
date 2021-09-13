@@ -57,10 +57,10 @@ class MapperTests {
 		}
 		
 		@Test
-		public void testSelectList(Criteria criteria) {
-			int postTotalCount = adminQuestionMapper.selectPostTotalCount(criteria);
+		public void testSelectList(PostDTO params) {
+			int postTotalCount = adminQuestionMapper.selectPostTotalCount(params);
 			if(postTotalCount > 0) {
-				List<PostDTO> postList = adminQuestionMapper.selectPostList(criteria);
+				List<PostDTO> postList = adminQuestionMapper.selectPostListLately(params);
 				if(CollectionUtils.isEmpty(postList)==false) {
 					for(PostDTO post : postList) {
 						System.out.println("==================");
@@ -72,5 +72,11 @@ class MapperTests {
 					}
 				}
 			}
+		}
+		
+		@Test
+		public void testMakeQueryString() {
+			PostDTO test = new PostDTO();
+			System.out.println(test.makeQueryString(1));
 		}
 }

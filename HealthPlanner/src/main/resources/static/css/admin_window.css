@@ -143,3 +143,19 @@ section{
   background-color: #505050;
   color:white;
 }
+
+footer{
+	position:absolute;
+	bottom:0;
+	left:50%;
+	text-align:center;
+}
+
+footer ul{
+	padding:0;
+}
+
+footer li{
+	list-style:none;
+	
+}

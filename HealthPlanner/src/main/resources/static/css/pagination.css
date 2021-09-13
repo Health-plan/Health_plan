@@ -1,0 +1,9 @@
+.text-center{
+	background:none;
+	text-align:center;
+}
+
+.pagination li{
+	display:inline-block;
+	font-size:20px;
+}

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<head th:fragment="admin-head">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		
+		<th:block layout:fragment="title"></th:block>
+		<th:block layout:fragment="add-css"></th:block>
+		<link rel="stylesheet" type="text/css" th:href="@{static/css/adminHeader.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{static/css/admin_window.css}">
+	</head>
+</html>

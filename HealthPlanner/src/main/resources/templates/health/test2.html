@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	>
+	<!-- layout:decorator="layout/testBasic" -->
+	<th:block layout:fragment="title">
+		<title>테스트 페이지입니다.</title>
+	</th:block>
+	
+	<body>
+
+			<label for="sort" class="float-end fs-6">정렬기준
+				<select class="form-select-sm" id="sort" onchange="sortChange()" name="sort" aria-label=".form-select-sm example">
+					<option value="" selected disabled>정렬</option>
+					<option value="0">답변대기중</option>
+					<option value="1">오래된순</option>
+					<option value="2">최신순</option>
+				</select>
+			</label>
+			
+
+	</body>
+</html>

@@ -7,60 +7,68 @@
 	</th:block>
 	
 	<th:block layout:fragment="add-css">
-		<link rel="stylesheet" type="text/css" th:href="@{../static/css/admin_question.css}">
+		<link rel="stylesheet" type="text/css"
+			th:href="@{../static/css/admin_question.css}">
+		<link rel="stylesheet" type="text/css"
+			th:href="@{../static/css/pagination.css}">	
 	</th:block>
 	
 	<th:block layout:fragment="content">
 		<div class="title">
-           <span class="main_title">게시글 관리</span>
-           <span class="sub_title">문의사항</span>
-           <select class="sort_select" name="">
-             <option value="">답변대기중</option>
-             <option value="">오래된순</option>
-             <option value="">최신순</option>
-           </select>
-         </div>
-            <div class="contents">
-              <table class="contents_table">
-                <thead>
-	                <tr class = "table_title">
-	                  <th>번호</th>
-	                  <th>제목</th>
-	                  <th>분류</th>
-	                  <th>작성자</th>
-	                  <th>답변여부</th>
-	                  <th>작성일자</th>
-	                </tr>
-                </thead>
-                <tbody>
-                	<tr th:if="${not #lists.isEmpty(postList)}" th:each="row : ${postList}">
-   	                  <td scope="row" th:text="${row.postId}"></td>
-	                  <td>
-	                  	<a th:href="main.do<!--/*@{/adminQuestionDetail.do( idx=${row.postId} )*/-->" th:text="${row.title}"></a>
-	                  </td>
-	                  <td th:if="${row.boardSubType.equals(0)}">건의사항</td>
-	                  <td th:text="${row.mbrId}"></td>
-	                  
-	                  <td th:if="${row.answerState.equals(0)}">답변대기중</td>
-	                  <td th:unless="${row.answerState.equals(0)}">답변 완료</td>
-	                  <td th:text="${row.postDate}"></td>
-	                </tr>
-	                <tr th:unless="${not #lists.isEmpty( postList )}">
-	                	<td colspan="5">조회된 결과가 없습니다.</td>
-	                </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="paging">
-              &laquo;
-              <a href="#">1</a>
-              <a href="#">2</a>
-              <a href="#">3</a>
-              <a href="#">4</a>
-              <a href="#">5</a>
-              &raquo;
-            </div>
-
-
-    	</th:block>
+			<span class="main_title">게시글 관리</span> <span class="sub_title">문의사항</span>
+			<label for="sort" class="sort_select">정렬
+				<select name="sort">
+					<option value="">답변대기중</option>
+					<option value="">오래된순</option>
+					<option value="">최신순</option>
+				</select>
+			</label>
+		</div> 
+		<div class="contents">
+			<table class="contents_table">
+				<thead>
+					<tr class="table_title">
+						<th>번호</th>
+						<th>제목</th>
+						<th>분류</th>
+						<th>작성자</th>
+						<th>답변여부</th>
+						<th>작성일자</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty(postList)}"
+						th:each="row : ${postList}">
+						<td scope="row" th:text="${row.postId}"></td>
+						<td><a
+							th:href="main.do<!--/*@{/adminQuestionDetail.do( idx=${row.postId} )*/-->"
+							th:text="${row.title}"></a></td>
+						<td th:if="${row.boardSubType.equals(0)}">건의사항</td>
+						<td th:text="${row.mbrId}"></td>
+	
+						<td th:if="${row.answerState.equals(0)}">답변대기중</td>
+						<td th:unless="${row.answerState.equals(0)}">답변 완료</td>
+						<td th:text="${row.postDate}"></td>
+					</tr>
+					<tr th:unless="${not #lists.isEmpty( postList )}">
+						<td colspan="5">조회된 결과가 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="page_navigation">
+			<th:block layout:fragment="paging">
+				<nav th:replace="fragments/common :: pagination"></nav>
+			</th:block>
+		</div>
+		<th:block layout:fragment="script">
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			function movePage(uri, queryString) {
+				location.href = uri + queryString;
+			}
+			/*]]>*/
+		</script>
+		</th:block>
+	</th:block>
 </html>
