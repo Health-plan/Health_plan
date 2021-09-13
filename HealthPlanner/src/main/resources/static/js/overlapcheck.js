@@ -47,30 +47,27 @@ function registerCheck() {
 
 }
 
-function loginCheck()
+/*function loginCheck()
 {
-	if ($.trim($('#mbr_id').val()) == '') {
-		alert("아이디를 입력해주세요.");
-		return false;
-	}
 	
-	if ($.trim($('#mbr_pw').val()) == '') {
-		alert("비밀번호를 입력해주세요.");
-		return false;
-	}
-}
+	const loginid = document.getElementById('mbr_id').value;
+	alert(loginid);
+	return loginid;
+	
 
+}*/
 
 
 /* 아이디 중복 체크 : ajax 비동기처리 */
 function idCheck() {
 
-	var mbr_id = $("#mbr_id").val();
-
+	var mbr_id = $('#mbr_id').val();
+	
 	if (mbr_id.search(/\s/) != -1) {
 		alert("아이디에는 공백이 들어갈 수 없습니다.");
 	} else {
 		if (mbr_id.trim().length != 0) {
+			
 			$.ajax({
 				async: true,
 				type: 'POST',
@@ -81,19 +78,19 @@ function idCheck() {
 				success: function(count) {
 					if (count > 0) {
 						alert("해당 아이디 존재");
-						$("#submit").attr("disabled", "disabled");
+						$('#submit').attr("disabled", "disabled");
 						window.location.reload();
 					} else {
 						alert("사용가능 아이디");
-						$("#submit").removeAttr("disabled");
+						$('#submit').removeAttr("disabled");
 					}
 				},
 				error: function(error) {
-					alert("123아이디를 입력해주세요.");
+					alert("1아이디를 입력해주세요.");
 				}
 			});
 		} else {
-			alert("456아이디를 입력해주세요.");
+			alert("아이디를 입력해주세요.");
 		}
 	}
 }

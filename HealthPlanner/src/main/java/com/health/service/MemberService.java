@@ -1,45 +1,46 @@
 package com.health.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
-import com.health.domain.Account;
-import com.health.domain.MemberDAOImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.health.domain.MemberDTO;
+import com.health.domain.UserDTO;
 import com.health.mapper.MemberMapper;
 
 @Service
 
-public class MemberService implements UserDetailsService{
+public class MemberService{
 
 	
 	
 	@Autowired
 	MemberMapper memberMapper;
 	
-	
-	@Autowired
-	MemberDAOImpl memberDao;
-	
-	// 로그인
-	public UserDetails loadUserByUsername(String mbr_id) throws UsernameNotFoundException {
+	public UserDTO readAccount(UserDTO userdto, HttpServletRequest req, RedirectAttributes rttr) throws Exception {
+		System.out.println(userdto + " memberservice에 readAccount함수로 들어옴");
+		HttpSession session = req.getSession();
 		
+		UserDTO login =memberMapper.readAccount(userdto);
 		
-		Account account = memberDao.findById(mbr_id);
-		System.out.println(mbr_id + "|  memberservice에 findByID함수로 들어옴");
-		if( account == null ) {
-			System.out.println("## 계정정보가 존재하지 않습니다. ##");
-			throw new UsernameNotFoundException(mbr_id);
-		}
-		return account;
+		 if(login == null) {
+			  session.setAttribute("member", null);
+			  rttr.addFlashAttribute("msg", false);
+			  
+			 } else {
+			  session.setAttribute("member", login);
+			  System.out.println("멤버세션값"+req.getSession().getAttribute("member"));
+			  
+			 }
 		
-	
+		System.out.println("member /" + session +"/?/"+ session.getAttribute("member"));
+		
+		return login;
 	}
+
 
 
 	// 아이디체크
