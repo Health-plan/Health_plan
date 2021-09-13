@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     
     <link rel="stylesheet" th:href="@{/static/css/main.css}"/>
-<link rel="stylesheet" th:href="@{/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css}"/>
     <th:block layout:fragment="title"></th:block>
     <title>메인페이지</title>
    
@@ -24,14 +23,22 @@
           </article>
           <article class="login">
             <h5><a href="">다음에 하기</a></h5>
-            <button class="login_btn" type="button"  name="button">
-              <a th:href="@{login.do}">로그인</a>
+            <button class="login_btn" type="button"  name="button" >
+          <th:block th:if="${nullsession == false}">
+            <a  th:href="@{login.do}" >로그인</a>  
+           </th:block>
+           <th:block th:unless="${nullsession == false}">
+            <a  th:href="@{/logout}" >로그아웃</a>  
+           </th:block>
+             
+              
             </button>
           </article>
         </section>
       </div>
       <footer class="footer">
         2021 ⓒ footer
+       
       </footer>
     </div>
   </body>

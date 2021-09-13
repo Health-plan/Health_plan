@@ -7,8 +7,7 @@
    
    <link rel="stylesheet" th:href="@{./static/css/background_window.css}"/>
     <link rel="stylesheet" th:href="@{./static/css/login.css}"/>
-      
-<link rel="stylesheet" th:href="@{/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css}"/>
+      <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
       <script th:src='@{/static/js/overlapcheck.js}'></script>
   </head>
   <body>
@@ -17,21 +16,22 @@
       <section>
         <article class="">
           <h1>로그인</h1>
-          <form class="login" th:action="@{/login.do}" method="post">
-            <input type="text" id = "mbr_id" name="mbr_id" placeholder="아이디" required>
-            <input type="password" id = "mbr_pw" name="mbr_pw"  placeholder="비밀번호" required>
+       
+          <form id="login" class="login" th:action="@{/login.do}" method="post" >
+            <input type="text" id = "mbr_id" name="mbrId" value="" placeholder="아이디" required>
+            <input type="password" id = "mbr_pw"  name="mbrPw" placeholder="비밀번호" required>
+            <p th:if="${msg == false}"  style="color:#f00;">로그인에 실패하셨습니다.</p>
             <div class="forget">
               <a th:href="@{forget_id.do}">아이디 찾기 |</a>
               <a th:href="@{forget_pw.do}">비밀번호 찾기</a>
             </div>
-            <input type="submit" id = "submit" value="로그인" onclick="loginCheck()">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-    		 
+            <input type="submit" id = "submit" value="로그인"  >
+            	
             <div class="join">
               <a th:href="@{join.do}">회원가입</a>
             </div>
-          </form>
-          
+          </form>   
+         
         </article>
       </section>
       <footer>

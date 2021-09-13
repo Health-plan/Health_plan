@@ -14,10 +14,10 @@
 		values(#{mbrId}, #{mbrPw}, #{mbrNm}, #{mbrBirth}, #{mbrEmail}, #{mbrPwHint}, #{mbrPwAnswer}, #{mbrNm} ,NOW())
 	</insert>
 	
-	<select id="readAccount" parameterType="String" resultType="com.health.domain.Account">
-	SELECT *
+	<select id="readAccount" parameterType="com.health.domain.UserDTO" resultType="com.health.domain.UserDTO">
+	SELECT mbr_id,mbr_pw
 	FROM members
-	WHERE mbr_id=#{mbr_id}
-	
+	WHERE mbr_id = #{mbrId}	
+	AND mbr_pw = #{mbrPw}	
 	</select>
 </mapper>

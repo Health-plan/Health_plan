@@ -1,5 +1,8 @@
 package com.health.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.health.domain.MemberDTO;
+import com.health.domain.UserDTO;
 import com.health.service.MemberService;
 
 
@@ -25,44 +30,55 @@ public class HealthPlannerController {
 	
 	
 	@GetMapping(value = "main.do")
-	public String openHealthPlannerMain(Model model) {
+	public String openHealthPlannerMain(HttpSession session, Model model) {
+		
+		Object loginInfo = session.getAttribute("member");
+		
+		if(loginInfo ==null)
+		{
+			System.out.println("session값null? " + loginInfo);
+			model.addAttribute("nullsession",false);
+		}
+		
 		return "main";
 	}
 	
 	@GetMapping(value = "login.do")
 	public String openHealthPlannerLogin(Model model) {
 
-		return "login.html";
+		return "login";
 	}
+	
 	
 
+	
 	@PostMapping(value= "login.do")
-	public String postHealthPlannerLogin(String mbr_id) throws Exception
+	public String ReadAccount( UserDTO userdto, HttpServletRequest req, RedirectAttributes rttr) throws Exception
     {
-		log.debug(mbr_id+"/로그인아이디/로그인버튼");
+		log.debug(userdto+"/로그인아이디/로그인버튼");
+		System.out.println(userdto+"/로그인아이디/로그인버튼");
 		
-			
 		
+		memberService.readAccount(userdto,req,rttr);
+		System.out.println(req.getSession().getAttribute("member")+"로그인성공여부");
+		if( req.getSession().getAttribute("member")==null)
+		{
+			return "redirect:/login.do";
+		}
+		else
+		{
+			return "redirect:/main.do";
+		}
+		
+	}
+	 
+	
+	@GetMapping(value="/logout")
+	public  String logout(HttpSession session) throws Exception
+	{	
+		session.invalidate();
 		return "redirect:/main.do";
 	}
-	
-//    // 로그인 결과 페이지
-//    @GetMapping("/login/result")
-//    public String dispLoginResult() {
-//        return "/loginSuccess";
-//    }
-//
-//    // 로그아웃 결과 페이지
-//    @GetMapping("/logout/result")
-//    public String dispLogout() {
-//        return "/logout";
-//    }
-//
-//    // 접근 거부 페이지
-//    @GetMapping("/denied")
-//    public String dispDenied() {
-//        return "/denied";
-//    }
 	
 	@GetMapping(value = "join.do")
 	public String openHealthPlannerJoin(Model model) {
@@ -76,7 +92,8 @@ public class HealthPlannerController {
     {
 		log.debug(memberDto+"/가입버튼");
 		memberService.memberRegister(memberDto);
-		return "redirect:/login.do";
+		
+		return "redirect:/main.do";
 	}
 	
 
@@ -85,7 +102,8 @@ public class HealthPlannerController {
 	public int IdCheck(@RequestBody String mbr_id) throws Exception
 	{
 		log.debug(mbr_id);
-
+		System.out.println(mbr_id);
+		
 		int count = 0;
 		if(mbr_id != null)
 		{
@@ -99,10 +117,7 @@ public class HealthPlannerController {
 	}
 	
 	
-	
-	   
-		
-	
+
 	
 	@GetMapping(value = "forget_id.do")
 	public String openHealthPlannerForgetId(Model model)
