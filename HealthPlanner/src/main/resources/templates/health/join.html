@@ -37,12 +37,7 @@ $(function() {
 	}
 	});
 });
-
-
-
-    
-
-    </script>
+</script>
 
   </head>
   <body>
@@ -76,11 +71,11 @@ $(function() {
              
      
             
-            <label>이메일 주소
-              <input class="email_id" id="mbr_email" type="email" name="mbrEmail" value="" required>
-              <div id="error_mail" class="result-email result-check"></div>
-              
-            </label>
+            <label class="email">이메일 주소
+              <input class="input-check-email" id="mbr_email" type="email" name="mbrEmail" value="" required>                
+            </label> 
+            <button type="button" class="email_check" name="button" onclick="emailCheck()")>중복확인</button>
+              <div  id="result-check"></div>  
             <label>비밀번호 찾기 질문
               <select id="pw_hint" class="pw_hint" name="mbrPwHint" >
                 <option value="1">내가 졸업한 초등학교 이름은?</option>
@@ -100,20 +95,27 @@ $(function() {
       </footer>
     </div>
     <script>
- function email_check( email ) {    
+ // email check function
+    function email_check( email ) {    
         var regex=/([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
         return (email != '' && email != 'undefined' && regex.test(email)); 
     }
 
-    $("input[type=email]").blur(function(){
+    // check when email input lost foucus
+    $(".input-check-email").blur(function(){
       var email = $(this).val();
+
+      // if value is empty then exit
       if( email == '' || email == 'undefined') return;
+
+      // valid check
       if(! email_check(email) ) {
-      	$(".result-email").text('이메일 형식으로 적어주세요');
+      	$("#result-check").text('이메일 형식이 아닙니다..');
         $(this).focus();
         return false;
-      }else {
-    	$(".result-email").text('');
+      }
+      else {
+      	$("#result-check").text('올바른 이메일 형식입니다.');
       }
     });
     </script>

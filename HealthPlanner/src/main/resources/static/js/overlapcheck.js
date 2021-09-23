@@ -95,4 +95,39 @@ function idCheck() {
 	}
 }
 
+function emailCheck() {
+
+	var mbr_email = $('#mbr_email').val();
+	
+	if (mbr_email.search(/\s/) != -1) {
+		alert("이메일에는 공백이 들어갈 수 없습니다.");
+	} else {
+		if (mbr_email.trim().length != 0) {
+			
+			$.ajax({
+				async: true,
+				type: 'POST',
+				data: mbr_email,
+				url: "emailCheck.do",
+				dataType: "json",
+				contentType: "application/json; charset=UTF-8",
+				success: function(emailcount) {
+					if (emailcount > 0) {
+						alert("해당 이메일 존재");
+						$('#submit').attr("disabled", "disabled");
+						window.location.reload();
+					} else {
+						alert("사용가능 이메일");
+						$('#submit').removeAttr("disabled");
+					}
+				},
+				error: function(error) {
+					alert("이메일을 입력해주세요.");
+				}
+			});
+		} else {
+			alert("이메일을 입력해주세요.");
+		}
+	}
+}
 

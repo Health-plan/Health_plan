@@ -11,8 +11,24 @@ section{
   width:67%;
 }
 
+.email{
+  display: inline-block;
+  width:72%;
+}
+
 .id_check{
   width:30.5%;
+  height:35px;
+  background: #3498db;
+  border:1px solid #eee;
+  border-radius: 5px;
+  color:white;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.email_check{
+  width:25.5%;
   height:35px;
   background: #3498db;
   border:1px solid #eee;
@@ -49,3 +65,14 @@ select{
   height:33px;
   margin:5px 0 5px;
 }
+
+#alert-success{
+	color:green;
+	position:absolute;
+}
+
+#alert-danger{
+	color:red;
+	position:absolute;
+}
+

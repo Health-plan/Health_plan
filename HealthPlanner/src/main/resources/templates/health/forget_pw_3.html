@@ -6,7 +6,33 @@
     <title>비밀번호 찾기</title>
     <link rel="stylesheet" th:href="@{/static/css/background_window.css}">
     <link rel="stylesheet" th:href="@{/static/css/forget_pw_3.css}">
+  <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+ 
+ <!--비밀번호 체크 jquery -->
+<script type="text/javascript">
+$(function() {
+	$("#alert-success").hide();
+	$("#alert-danger").hide();
+	$("input" ).keyup(function() {
+		var pwd1 = $("#newPw").val();
+		var pwd2 = $("#newPwCheck").val();
+		if (pwd1 != "" || pwd2 != "") {
+			if (pwd1 == pwd2) {
+			$("#alert-success").show();
+			$("#alert-danger").hide();
+			 $("#submit").removeAttr("disabled");
+			}else {
+			$("#alert-success").hide();
+			$("#alert-danger").show();
+			$("#submit").attr("disabled", "disabled");
+			
+		}
+	}
+	});
+});
+</script>
   </head>
+  
   <body>
     <div id="wrapper">
       <div class="empty"></div>
@@ -14,13 +40,18 @@
         <h1>비밀번호 변경</h1>
         <!-- 경로 :login.html-->
         <!-- 경로 변경 필요 -->
-        <form class="" action="login.html" method="post">
+        <form class="" th:action="@{forget_pw_3.do}" method="post">
+     <input type="hidden" th:value="${userId}"  name = "mbrId"></input>
+     <input type="hidden" th:value="${pwHint}"  name = "mbrPwHint"></input>
+     <input type="hidden" th:value="${pwAnswer}"  name = "mbrPwAnswer"></input>
           <label>새 비밀번호
-            <input type="password" name="" value="" placeholder="비밀번호 입력">
+            <input type="password" id = "newPw" name="mbrPw" value="" placeholder="비밀번호 입력">
           </label>
           <label>새 비밀번호 확인
-            <input type="password" name="" value="" placeholder="비밀번호 확인 입력">
+            <input type="password" id = "newPwCheck" name="" value="" placeholder="비밀번호 확인 입력">
           </label>
+          <div class="alert alert-success" id="alert-success">비밀번호가 일치합니다.</div>
+              <div class="alert alert-danger" id="alert-danger">비밀번호가 일치하지 않습니다.</div>
           <div class="btn_img">
             <img src="./image/button_off.png" alt="">
             <img src="./image/button_off.png" alt="">
@@ -28,7 +59,7 @@
           </div>
           <input type="button" class="cancel_btn" name="" value="이전" onclick="history.back()">
           <!-- 경고창으로 임시 생성 -->
-          <input type="submit" class="confirm_btn" name="" value="확인" onclick="alert('비밀번호가 변경되었습니다.')">
+          <input type="submit" id = "submit" class="confirm_btn" name="" value="확인" onclick="alert('비밀번호가 변경되었습니다.')">
         </form>
       </section>
     </div>
