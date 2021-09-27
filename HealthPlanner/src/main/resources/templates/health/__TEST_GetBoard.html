@@ -14,10 +14,12 @@
 			
 			<label for="sort" class="float-end fs-6">정렬기준
 				<select class="form-select-sm" id="sort" aria-label=".form-select-sm example" onchange="">
-					<option value="2" disabled selected>정렬</option>
-					<option value="0">답변대기중</option>
-					<option value="1">오래된순</option>
+					<option value="" disabled selected>정렬</option>
 					<option value="2">최신순</option>
+					<option value="1">오래된순</option>
+					<option value="0">답변대기중</option>
+					
+
 				</select>
 			</label>
 		</div>
@@ -63,39 +65,56 @@
 
 		<th:block layout:fragment="script">
 			<script th:inline="javascript">
-
-				var selectVal;
 				
-
+				//query string pasing 하는 메소드
+				function getQueryStringObject(){
+					var a = window.location.search.substr(1).split('&');
+					if(a == "") return {};
+					var b = {};
+					for(var i=0; i<a.length; ++i){
+						var p = a[i].split('=',2);
+						if(p.length == 1)
+							b[p[0]]="";
+						else
+							b[p[0]] = decodeURIComponent(p[1].replace(/\+/g," "));
+					}
+					return b;
+				}
+				
+				//sortType값(queryString에서 가져옴)
+				var qs = getQueryStringObject();
+				var sortType = qs.sortType
+				
+				//sortType 기본값 설정
+				if(sortType == null){
+					sortType = 2;
+				}
+				//select값 유지
+				document.getElementById("sort").value=sortType;
+				
 				
 				/*select value*/
 				$("#sort").change(function(){
 					selectVal = $(this).val();
 					$(document).ready(function(){
+						//select값이 있을때(option 선택 시) 페이지 이동
 						if($("#sort").val() != null){
-							location.href = "getBoard.do?currentPageNo=1&recordsPerPage=10&pageSize=10&sortType=" + selectVal;	
+							location.href = "getBoard.do?currentPageNo=1&recordsPerPage=10&pageSize=10&sortType=" + selectVal;
 						}
 					})
-				})	
-				
-				/*select 선택 시 페이지 이동*/
-				/*function movePageSort(){
-					location.href = "getBoard.do?currentPageNo=1&recordsPerPage=10&pageSize=10&sortType=" + selectVal;
-				}*/
-
+				})
 				
 				//페이징 uri 설정
 				/*<![CDATA[*/
-				function movePage(uri, queryString){d
-					location.href = uri + queryString;
+				function movePage(uri, queryString){
+					if(sortType == null)
+						location.href = uri + queryString;
+					else
+						location.href = uri + queryString + '&sortType=' + sortType;
 				}
 				/*]]>*/
 				
-				const urlParams = new URLSearchParams(window.location.search);
-				urlParams.set('sortType',selectVal);
-
 			</script>
-
 		</th:block>
 	</th:block>
 	</body>
