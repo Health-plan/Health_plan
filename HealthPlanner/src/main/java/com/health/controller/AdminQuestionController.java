@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.health.domain.PostDTO;
 import com.health.service.AdminQuestionService;
@@ -24,22 +25,43 @@ public class AdminQuestionController {
 			
 		return "admin_question";
 	}
+
 	
-	@GetMapping(value="test.do")
-	public String testpage(@ModelAttribute("params") PostDTO params, Model model) {
-		List<PostDTO> postList = adminQuestionService.getPostList(params);
+	// 게시판 GET
+	@GetMapping(value="getBoard.do")
+	public String sortTypeFirst(@ModelAttribute("params") PostDTO postDto, Model model) {
+		System.out.println("GetMapping getBoard.do 요청할 때 넘어온 params : " + postDto);
+		
+		List<PostDTO> postList = adminQuestionService.getPostList(postDto);
 		model.addAttribute("postList",postList);
 		
+		return "__TEST_GetBoard";
+	}
 		
-		model.addAttribute("sortType",params.getPaginationInfo().getSortType());
-		System.out.println(params.getPaginationInfo().getSortType());
+	
+	
+	// 게시판 POST
+	@GetMapping(value="postBoard.do")
+	public String testpage2(@ModelAttribute("params") PostDTO postDto, Model model) {
 		
-		return "test";
+		System.out.println("getmapping testList.do 요청할 때 넘어온 params : " + postDto);
 		
+		List<PostDTO> postList = adminQuestionService.getPostList(postDto);
+		model.addAttribute("postList",postList);
+		
+		return "__TEST_PostBoard";
 	}
 	
-	@GetMapping(value="test2.do")
-	public String testpage2(Model model) {
-		return "test2";
+	
+	@PostMapping(value="postSort.do")
+	public String sort2(@ModelAttribute("params") PostDTO postDto, Model model) {
+		
+		System.out.println("postmapping sort.do 요청할 떄 넘어온 params : " + postDto);
+		
+		List<PostDTO> postList = adminQuestionService.getPostList(postDto);
+		model.addAttribute("postList",postList);
+		
+		return "__TEST_PostBoard :: #listTest";
 	}
+
 }

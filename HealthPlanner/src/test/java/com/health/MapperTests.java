@@ -60,7 +60,7 @@ class MapperTests {
 		public void testSelectList(PostDTO params) {
 			int postTotalCount = adminQuestionMapper.selectPostTotalCount(params);
 			if(postTotalCount > 0) {
-				List<PostDTO> postList = adminQuestionMapper.selectPostListLately(params);
+				List<PostDTO> postList = adminQuestionMapper.selectPostList(params);
 				if(CollectionUtils.isEmpty(postList)==false) {
 					for(PostDTO post : postList) {
 						System.out.println("==================");

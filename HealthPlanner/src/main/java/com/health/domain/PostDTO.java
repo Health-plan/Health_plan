@@ -1,10 +1,10 @@
 package com.health.domain;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 
 public class PostDTO extends CommonDTO {
 	//게시글 식별자
@@ -40,8 +40,10 @@ public class PostDTO extends CommonDTO {
 		return "PostDTO [postId=" + postId + ", boardType=" + boardType + ", boardSubType=" + boardSubType + ", title="
 				+ title + ", postContents=" + postContents + ", answer=" + answer + ", answerState=" + answerState
 				+ ", available=" + available + ", views=" + views + ", mbrId=" + mbrId + ", postDate=" + postDate
-				+ ", modifier=" + modifier + ", modifyDate=" + modifyDate + "]";
+				+ ", modifier=" + modifier + ", modifyDate=" + modifyDate +  ", pageSize=" + super.getPageSize() + ", sortType = " + super.getSortType()  +  "]" ;
 	}
+	
+	
 
 	
 	

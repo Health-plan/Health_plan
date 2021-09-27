@@ -25,8 +25,6 @@ public class PaginationInfo {
 	
 	private boolean hasNextPage;
 	
-	private int sortType;
-	
 	public PaginationInfo(Criteria criteria) {
 		if(criteria.getCurrentPageNo()<1) {
 			criteria.setCurrentPageNo(1);
@@ -68,7 +66,7 @@ public class PaginationInfo {
 		/*SQL의 조건절에서 사용되는 첫 RNUM*/
 		firstRecordIndex = (criteria.getCurrentPageNo() - 1) * criteria.getRecordsPerPage();
 		
-		/*SQL읮 ㅗ건절에 사용되는 마지막 RNUM*/
+		/*SQL의 조건절에 사용되는 마지막 RNUM*/
 		lastRecordIndex = criteria.getCurrentPageNo() * criteria.getRecordsPerPage();
 		
 		/*이전 페이지 존재 여부*/

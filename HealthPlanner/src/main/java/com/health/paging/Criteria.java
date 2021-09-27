@@ -18,13 +18,14 @@ public class Criteria {
 	private int pageSize;
 	// 검색 키워드
 //	private String searchKeyword;
-	// 검색 유형
-//	private String searchType;
+	// 정렬 유형
+	private int sortType;
 	
 	public Criteria() {
 		this.currentPageNo = 1;
 		this.recordsPerPage = 10;
 		this.pageSize = 10;
+		this.sortType = 2;
 	}
 	
 	public int getStartPage() {
@@ -32,7 +33,7 @@ public class Criteria {
 	}
 	
 	public String makeQueryString(int pageNo) {
-		
+		//웹페이지 파라미터를 유지시켜주느느 클래스
 		UriComponents uriComponents = UriComponentsBuilder.newInstance()
 				.queryParam("currentPageNo", pageNo)
 				.queryParam("recordsPerPage",recordsPerPage)

@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.health.domain.PostDTO;
-import com.health.paging.Criteria;
 
 @Mapper
 public interface AdminQuestionMapper {
@@ -14,9 +13,7 @@ public interface AdminQuestionMapper {
 	//답변
 	public int answerPost(PostDTO params);
 	//게시글 리스트
-	public List<PostDTO> selectPostListLately(PostDTO params);
-	public List<PostDTO> selectPostListOld(PostDTO params);
-	public List<PostDTO> selectPostListAnswer(PostDTO params);
+	public List<PostDTO> selectPostList(PostDTO params);
 	//페이징에 사용할 카운트
 	public int selectPostTotalCount(PostDTO params);
 	

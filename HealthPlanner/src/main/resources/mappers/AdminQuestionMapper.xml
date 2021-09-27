@@ -45,49 +45,35 @@
 	</update>
 	
 	<!-- 목록 최신 -->
-	<select id="selectPostListLately" parameterType="PostDTO" resultType="PostDTO">
+	<select id="selectPostList" parameterType="PostDTO" resultType="PostDTO">
 		SELECT
 			<include refid="AdminQuestion"/>
 		FROM
 			post
 		WHERE
 			available = 0
-		ORDER BY
-			post_id DESC,
-			post_date DESC
+		<!-- 최신 -->
+		<choose>
+			<when test="sortType == 0">
+				ORDER BY
+				answer_state,
+				post_id DESC,
+				post_date DESC
+			</when>
+			<when test="sortType == 1">
+				ORDER BY
+				post_id ASC,
+				post_date DESC			
+			</when>
+			<otherwise>
+				ORDER BY
+				post_id DESC,
+				post_date DESC
+			</otherwise>
+		</choose>
 		LIMIT
 			#{paginationInfo.firstRecordIndex}, #{recordsPerPage}
 	</select>
-	<!-- 목록 오래된 -->
-	<select id="selectPostListOld" parameterType="PostDTO" resultType="PostDTO">
-		SELECT
-			<include refid="AdminQuestion"/>
-		FROM
-			post
-		WHERE
-			available = 0
-		ORDER BY
-			post_id ASC,
-			post_date DESC
-		LIMIT
-			#{paginationInfo.firstRecordIndex}, #{recordsPerPage}
-	</select>
-	<!-- 목록 답변여부 -->
-	<select id="selectPostListAnswer" parameterType="PostDTO" resultType="PostDTO">
-		SELECT
-			<include refid="AdminQuestion"/>
-		FROM
-			post
-		WHERE
-			available = 0
-		ORDER BY
-			answer_state,
-			post_id DESC,
-			post_date DESC
-		LIMIT
-			#{paginationInfo.firstRecordIndex}, #{recordsPerPage}
-	</select>
-	
 	
 	
 	<!-- 페이징 전처리 -->

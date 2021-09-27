@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="www.thymeleaf.org">
+<head>
+	<title>ajaxTest</title>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light " style="background-color: #F2D7D5;">
+	    <div class="container-fluid">
+	        <a class="navbar-brand" href="#">🌺</a>
+	        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+	                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+	            <span class="navbar-toggler-icon"></span>
+	        </button>
+	        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+	            <div class="navbar-nav">
+	                <a class="nav-link active" aria-current="page" href="#">Home</a>
+	                <a class="nav-link" href="#">Features</a>
+	            </div>
+	        </div>
+	    </div>
+	</nav>
+	
+	<div class="container">
+	    <div class="row mt-3">
+	        <div class="card text-center">
+	            <h5 class="card-header">Data transmission using ajax</h5>
+	            <div class="card-body">
+	                <h5 class="card-title">hello! 😀 </h5>
+	                <p class="card-text">
+	                    Enter the text you want to send and click the button.</p>
+	                
+	                <!--/* Ajax 사용할 부분 */-->    
+	                <form class="card-text">
+	                    <div class="col-12">
+	                        <div class="input-group mb-3">
+	                        
+                       	<!--/* 데이터 넘어가는 */-->
+	                            <input id="input" placeholder="Please enter text" type="text" class="form-control">
+	                            <!-- 메서드 부분  dataSend()메서드 호출 ajax 통신 후 -->
+	                            <button class="btn btn-outline-secondary" type="button" onclick="dataSend()">submit</button>
+	                        </div>
+	                    </div>
+	                    
+	                    <!--/* resultDiv 안에 데이터 update*/-->
+	                    <div id="resultDiv">
+	                        <p th:if="${msg}!=null" th:text="${msg}"></p>
+	                    </div>
+	                </form>
+	                
+	                <a href="#" class="btn" style="background-color: #EBDEF0">Go github</a>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<script>
+	function dataSend() {
+	    var data=$("#input").val();
+	    var messageDTO={
+	        result:data
+	    };
+	    $.ajax({
+	        url: "dataSend.do",
+	        data: messageDTO,
+	        type:"POST",
+	    }).done(function (fragment) {
+	        $("#resultDiv").replaceWith(fragment);
+	    });
+	}
+	</script>
+</body>
+</html>

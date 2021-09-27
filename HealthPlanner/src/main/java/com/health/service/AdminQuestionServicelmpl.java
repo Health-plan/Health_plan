@@ -41,17 +41,11 @@ public class AdminQuestionServicelmpl implements AdminQuestionService  {
 		paginationInfo.setTotalRecordCount(postTotalCount);
 		
 		params.setPaginationInfo(paginationInfo);
-		
-		
-		if(postTotalCount > 0 && params.getPaginationInfo().getSortType() == 0) {
-			postList = adminQuestMapper.selectPostListLately(params);
-		} else if(postTotalCount > 0 && params.getPaginationInfo().getSortType() == 1) {
-			postList = adminQuestMapper.selectPostListOld(params);
-		} else if(postTotalCount > 0 && params.getPaginationInfo().getSortType() == 2) {
-			postList = adminQuestMapper.selectPostListAnswer(params);
+			
+		if(postTotalCount > 0) {
+			postList = adminQuestMapper.selectPostList(params);
 		}
-		
 		return postList;
+	
 	}
-
 }
