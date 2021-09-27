@@ -6,3 +6,13 @@ section{
   margin-top:5px;
   text-align: center;
 }
+#alert-success{
+	color:green;
+	position:absolute;
+}
+
+#alert-danger{
+	color:red;
+	position:absolute;
+}
+

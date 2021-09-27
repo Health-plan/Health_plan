@@ -9,6 +9,14 @@
 		FROM members
 		WHERE mbr_id = #{mbrId}
 	</select>
+	
+	<select id="emailCheck" parameterType="String" resultType="integer">
+		SELECT
+		count(*)
+		FROM members
+		WHERE mbr_email = #{mbrEmail}
+	</select>
+	
 	<insert id="memberRegister" parameterType="com.health.domain.MemberDTO" >
 		insert into members(mbr_id, mbr_pw, mbr_nm, mbr_birth, mbr_email, mbr_pw_hint, mbr_pw_answer, registrant,regist_date)
 		values(#{mbrId}, #{mbrPw}, #{mbrNm}, #{mbrBirth}, #{mbrEmail}, #{mbrPwHint}, #{mbrPwAnswer}, #{mbrNm} ,NOW())
@@ -20,4 +28,39 @@
 	WHERE mbr_id = #{mbrId}	
 	AND mbr_pw = #{mbrPw}	
 	</select>
+	
+	<select id = "findId" parameterType="com.health.domain.MemberDTO" resultType="com.health.domain.MemberDTO">
+	SELECT mbr_id
+	FROM members
+	WHERE mbr_email = #{mbrEmail}
+	</select>
+	
+	<select id = "findPwhint" parameterType="com.health.domain.MemberDTO" resultType="com.health.domain.MemberDTO">
+	SELECT mbr_id ,mbr_pw_hint, mbr_pw_answer
+	FROM members
+	WHERE mbr_id = #{mbrId}
+	
+	</select>
+	
+	<select id = "inputPwHintAnswer" parameterType="com.health.domain.MemberDTO" resultType="com.health.domain.MemberDTO">
+	SELECT mbr_id ,mbr_pw_hint, mbr_pw_answer,mbr_pw 
+	FROM members
+	WHERE mbr_pw_hint = #{mbrPwHint}
+	AND mbr_pw_answer = #{mbrPwAnswer}
+	AND mbr_id = #{mbrId}
+	
+	</select>
+	
+	
+	<update id = "changeNewPw" parameterType="com.health.domain.MemberDTO" >
+	UPDATE members 
+	SET mbr_pw = #{mbrPw}
+	WHERE mbr_pw_hint = #{mbrPwHint}
+	AND mbr_pw_answer = #{mbrPwAnswer}
+	AND mbr_id = #{mbrId}
+	
+	</update>
+	
+	
+	
 </mapper>

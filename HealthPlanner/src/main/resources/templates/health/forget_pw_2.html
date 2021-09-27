@@ -14,15 +14,16 @@
         <h1>비밀번호 찾기</h1>
         <!-- 경로 : forget_id_2.html-->
         <!-- 경로 변경 필요 -->
-        <form class="" action="forget_pw_3.html" method="post">
+        <form class="" th:action="@{forget_pw_2.do}" method="post">
+        <input type="hidden" th:value="${userId}"  name = "mbrId"></input>
           <label>비밀번호 찾기 질문
-            <select class="" name="" value="" placeholder="">
-              <option value="">내가 졸업한 초등학교 이름은?</option>
-              <option value="">태어난 곳은?</option>
-              <option value="">나의 보물 1호는?</option>
+            <select class="" name="mbrPwHint" value="" placeholder="">
+              <option value="1">내가 졸업한 초등학교 이름은?</option>
+              <option value="2">태어난 곳은?</option>
+              <option value="3">나의 보물 1호는?</option>
             </select>
           </label>
-          <input type="text" name="" value="" placeholder="정답 입력">
+          <input type="text" name="mbrPwAnswer" value="" placeholder="정답 입력">
           <div class="btn_img">
             <img src="./image/button_off.png" alt="">
             <img src="./image/button_on.png" alt="">

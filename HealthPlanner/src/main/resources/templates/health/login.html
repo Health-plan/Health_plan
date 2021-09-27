@@ -20,7 +20,7 @@
           <form id="login" class="login" th:action="@{/login.do}" method="post" >
             <input type="text" id = "mbr_id" name="mbrId" value="" placeholder="아이디" required>
             <input type="password" id = "mbr_pw"  name="mbrPw" placeholder="비밀번호" required>
-            <p th:if="${msg == false}"  style="color:#f00;">로그인에 실패하셨습니다.</p>
+            <p th:if="${msg == false}"  style="color:#f00; position:absolute;">로그인에 실패하셨습니다.</p>
             <div class="forget">
               <a th:href="@{forget_id.do}">아이디 찾기 |</a>
               <a th:href="@{forget_pw.do}">비밀번호 찾기</a>

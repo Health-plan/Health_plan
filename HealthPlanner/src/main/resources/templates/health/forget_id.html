@@ -15,10 +15,12 @@
         <h1>아이디 찾기</h1>
         <!-- 경로 : forget_id_2.html-->
         <!-- 경로 변경 필요 -->
-        <form class="" action="forget_id_2.html" method="post">
+        <form class="" th:action="@{/forget_id.do}" method="post">
           <label>가입한 이메일 주소
-            <input type="email" name="" value="" placeholder="이메일주소">
+            <input type="email" name="mbrEmail" value="" placeholder="이메일주소" required>
           </label>
+          <p th:if="${emailForId == false}"  style="color:#f00; position:absolute;">없는 이메일입니다.</p>
+        
           <div class="btn_img">
             <img th:src="@{/static/image/button_on.png}" alt="">
             <img th:src="@{/static/image/button_off.png}" alt="">
