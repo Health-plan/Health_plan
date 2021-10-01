@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/testBasic">
+	layout:decorator="layout/basic">
 	<th:block layout:fragment="title">
-		<title>테스트 페이지입니다.</title>
+		<title>Get리스트페이지</title>
 	</th:block>
 	
 	<body>
@@ -27,7 +27,7 @@
 		<div class="table-responsive clearfix">
 			<table class="table table-hover text-center">
 				<thead>
-					<tr class="table_title">
+					<tr class="table_title bg-light">
 						<th>번호</th>
 						<th>제목</th>
 						<th>분류</th>
@@ -41,7 +41,7 @@
 						th:each="row : ${postList}">
 						<td scope="row" th:text="${row.postId}"></td>
 						<td><a
-							th:href="main.do<!--/*@{/adminQuestionDetail.do( idx=${row.postId} )*/-->"
+							th:href="@{BoardDetail.do( postId=${row.postId} )}"
 							th:text="${row.title}"></a></td>
 						<td th:if="${row.boardSubType.equals(0)}">건의사항</td>
 						<td th:text="${row.mbrId}"></td>
@@ -59,7 +59,7 @@
 
 		<div class="page_navigation">
 			<th:block layout:fragment="paging">
-				<nav th:replace="fragments/common :: pagination"></nav>
+				<nav th:replace="fragments/common_get :: pagination"></nav>
 			</th:block>
 		</div>
 

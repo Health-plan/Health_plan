@@ -20,8 +20,7 @@ public class AdminQuestionServicelmpl implements AdminQuestionService  {
 	public boolean adminQuestionAnswer(PostDTO params) {
 		int queryResult = 0;
 		
-		if(params.getAnswerState() == 0) 
-			queryResult = adminQuestMapper.answerPost(params);
+		queryResult = adminQuestMapper.answerPost(params);
 		
 		return (queryResult == 1)? true : false;
 	}

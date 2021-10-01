@@ -36,12 +36,11 @@
 		UPDATE post
 		SET
 			answer = #{answer},
-			answer_state = 1,
+			answer_state = '1',
 			modifier = #{modifier},
 			modify_date = now()
 		WHERE
 			post_id = #{postId}
-				
 	</update>
 	
 	<!-- 목록 최신 -->

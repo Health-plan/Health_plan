@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/basic">
+	<th:block layout:fragment="title">
+		<title>Get상세페이지</title>
+	</th:block>
+	<body>
+		<th:block layout:fragment="contents">
+			<div class="title">
+				<h4 class="main_title fw-bold mb-4 d-inline-block">게시글 관리</h4>
+				<h5 class="sub_title d-inline-block">문의사항</h5>
+			</div>
+			
+			<div class="table-responsive clearfix" id="writeAnswer">			
+				<table class="table text-center xw-100">
+					<thead>
+						<tr class="table_title bg-light">
+							<th>번호</th>
+							<th>제목</th>
+							<th>분류</th>
+							<th>작성자</th>
+							<th>답변여부</th>
+							<th>작성일자</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td scope="row" th:text="${post.postId}"></td>
+							<td	th:text="${post.title}"></td>
+							<td th:if="${post.boardSubType.equals(0)}">건의사항</td>
+							<td th:text="${post.mbrId}"></td>
+							<td th:if="${post.answerState.equals(0)}">답변대기중</td>
+							<td th:unless="${post.answerState.equals(0)}">답변 완료</td>
+							<td th:text="${post.postDate}" style="width:110px;"></td>
+						</tr>
+						<tr class="align-middle" style="height:400px;">
+							<td style="width:91.75px;">문의내용</td>
+							<td colspan="5" th:text="${post.postContents}"></td>
+						</tr>
+						
+						<!--/* <th:block th:if="${post.answerState} == 1">
+							<th:block th:if="(${writeContain} == 0) or (!${writeContain})">
+								<tr id="answerText" class="align-middle">
+									<td>답변내용</td>
+									<td colspan="5" th:text="${post.answer}"></td>
+								</tr>
+							</th:block>
+						</th:block> */-->
+						
+						<tr th:if="(${post.answerState}==1) and ((${wirteContain}==0) or (!${writeContain}))" class="align-middle">
+							<td>답변내용</td>
+							<td colspan="5" th:text="${post.answer}"></td>
+						</tr>
+						
+						<th:block th:if="${writeContain}==1" >
+							<tr id="answerContain" class="align-middle" >
+								<td>답변내용</td>
+								<td colspan="4" class="p-1">
+									<textarea id="coment" class="w-100 pt-2" rows="5" th:placeholder="${post.answer}"></textarea>
+								</td>
+								<td><button type="button" class="btn btn-secondary" onclick="answerRegist()">답변등록</button></td>
+							</tr>
+						</th:block>
+						
+					</tbody>
+				</table>
+				
+				<div id="btn" class="float-end" th:object="${post}">
+					<th:block th:if="${post.answerState.equals(1)}">
+						<button th:if="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-secondary mb-1 answerBtn" id="modify" onclick="test()">수정하기</button>
+						<button th:unless="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-secondary mb-1 answerBtn" id="modify" onclick="test()">취소</button>
+					</th:block>
+					<th:block th:unless="${post.answerState.equals(1)}">
+						<button th:if="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-secondary mb-1 answerBtn" id="answer" onclick="test()">답변하기</button>
+						<button th:unless="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-secondary mb-1 answerBtn" id="answer" onclick="test()">취소</button>
+					</th:block>
+					<button type="button" class="btn btn-light" onclick="history.back()">뒤로가기</button>
+					
+				</div>
+				
+			</div>
+			
+			
+			<th:block layout:fragment="script">
+				<script th:inline="javascript">
+					/*<![CDATA[*/
+						//답변입력란 활성화 부분
+						var writeAnswerValue = 0;
+						var postNumber = /*[[*{post.postId}]]*/
+						
+						function test(){
+							if(writeAnswerValue==0){
+								writeAnswerValue=1;
+							} else {
+								writeAnswerValue=0;
+							}
+							 $.ajax({
+							 	type:"POST",
+							 	url:"BoardDetailWrite.do",
+								dataType:'text',
+								/* contentType:"application/json; charset=UTF-8", */
+								data:{
+									writeContain:writeAnswerValue,
+									postId:postNumber
+								},
+								success: function(data) {
+									console.log("성공");
+								},
+								error: function(jqXHR, textStatus, errorThrown) {
+									console.log("ERROR : " + textStatus + " : " + errorThrown);
+								}
+							}).done(function(fragment){
+								$("#writeAnswer").replaceWith(fragment);
+							});
+						}
+						
+						//답변 수정&등록
+						function answerRegist(){
+							var coment = $("#coment").val();
+							
+							if((coment.length)<1){
+								alert("내용을 입력해주세요.")
+							} else {
+								if(writeAnswerValue==0){
+									writeAnswerValue=1;
+								} else {
+									writeAnswerValue=0;
+								}
+								$.ajax({
+									type:'POST',
+									url:"BoardDetailAnswer.do",
+									data:{
+										postId:postNumber,
+										answer:coment,
+										writeContain:writeAnswerValue
+									},
+									dataType:'text',
+									success:function(data){
+										console.log("성공");
+										console.log(coment);
+									},
+									error: function(jqXHR, textStatus, errorThrown){
+										alert("ERROR: " + textStatus + " : " + errorThrown);
+									}
+								}).done(function(fragment){
+									$("#writeAnswer").replaceWith(fragment);
+									alert("등록되었습니다.");
+									console.log(/*[[${post.answerState}]]*/);
+									console.log(/*[[${post.answer}]]*/);
+								});
+							}
+						}
+						
+					/*]]>*/
+				</script>
+			</th:block>
+		</th:block>
+	</body>
+	</html>
