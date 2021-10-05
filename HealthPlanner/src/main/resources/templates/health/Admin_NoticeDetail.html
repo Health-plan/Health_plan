@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="www.thymeleaf.org" xmlns:layout="www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/basic">
+	<th:block layout:fragment="title">
+		<title>상세페이지 - 공지</title>
+	</th:block>
+	<body>
+		<th:block layout:fragment="contents">
+			<!-- HEAD -->
+			<div class="title">
+				<h4 class="main_title fw-bold mb-4 d-inline-block">게시글 관리</h4>
+				<h5 class="sub_title d-inline-block">공지사항</h5>
+			</div>
+			
+			<!-- TABLE -->
+			<div class="table-responsive clearfix" id="writeAnswer">			
+				<table class="table text-center xw-100 text-nowrap">
+					<thead>
+						<tr class="table_title bg-light">
+							<th>분류</th>
+							<th>제목</th>
+							<th>작성자</th>
+							<th>작성일자</th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:if="${writeContain} != 1">
+							<tr>
+								<td th:if="${post.boardSubType.equals(1)}">분류1</td>
+								<td th:if="${post.boardSubType.equals(2)}">분류2</td>
+								<td th:if="${post.boardSubType.equals(3)}">분류3</td>
+								<td th:if="${post.boardSubType.equals(4)}">분류4</td>
+								<td	th:text="${post.title}" class="w-50"></td>
+								<td th:text="${post.mbrId}"></td>
+								<td th:text="${post.postDate}"></td>
+							</tr>
+						</th:block>
+						
+						<th:block th:unless="${writeContain} != 1">
+							<tr class="align-middle">
+								<td>
+									<select class="form-select w-50 m-auto" id="postType">
+										<option value="" disabled selected>구분</option>
+										<option value="1">분류1</option>
+										<option value="2">분류2</option>
+										<option value="3">분류3</option>
+										<option value="4">분류4</option>
+									</select>
+								</td>
+								<td><input type="text" class="form-control w-100" th:value="${post.title}" id="titleText"></td>
+								<td th:text="${post.mbrId}"></td>
+								<td th:text="${post.postDate}"></td>
+							</tr>
+						</th:block>
+						
+						<tr class="align-middle">
+							<td colspan="1">내용</td>
+							<td colspan="5" th:if="${writeContain} != 1"><textarea class="form-control border-0 bg-white h-100 text-center" disabled th:text="${post.postContents}" id="ContainText" style="resize:none;"></textarea></td>
+							<td colspan="5" th:unless="${writeContain} != 1"><textarea class="form-control" rows="14" th:text="${post.postContents}" id="ContainText"></textarea></td>
+						</tr>
+						
+						<th:block th:if="${post.answerState} == 1">
+							<th:block th:if="(${writeContain} == 0) or (!${writeContain})">
+								<tr id="answerText" class="align-middle">
+									<td>답변내용</td>
+									<td colspan="5" th:text="${post.answer}"></td>
+								</tr>
+							</th:block>
+						</th:block>
+						
+					</tbody>
+				</table>
+				
+				<!-- BUTTON -->
+				<div id="btn" class="float-end" th:object="${post}">
+					<th:block>
+						<button th:if="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-secondary answerBtn" id="modify" onclick="activeBtn()">수정</button>
+						<button th:unless="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-secondary answerBtn" id="modify" onclick="updateNotice()">등록</button>
+						<button th:if="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-secondary answerBtn" id="answer" onclick="deleteNotice('[[ ${post.postId} ]]')">삭제</button>
+						<button th:unless="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-secondary answerBtn" id="answer" onclick="activeBtn()">취소</button>							
+					</th:block>
+					
+					<button type="button" class="btn btn-light" onclick="history.back()">뒤로가기</button>
+				</div>
+				
+			</div>
+			<th:block layout:fragment="script">
+			<script th:inline="javascript">
+				let sideMenuIcon = document.getElementById('boardMgt');
+				sideMenuIcon.ariaExpanded = "true";
+				let sideMenuShow = document.getElementById('board-collapse');
+				sideMenuShow.className="collapse show";
+				
+				/*<![CDATA[*/
+					let writeAnswerValue=0;
+					let selectVal = $("#postType").val();
+					let postNumber = /*[[${post.postId}]]*/
+					
+					function activeBtn(){
+						if(writeAnswerValue==0){
+							writeAnswerValue=1;
+						} else {
+							writeAnswerValue=0;
+						}
+						$.ajax({
+							type:"POST",
+							url:"admin_NoticeWriteContain.do",
+							dataType:"text",
+							data:{
+								writeContain:writeAnswerValue,
+								postId:postNumber
+							},
+							success:function(data){
+								console.log("성공");
+							},
+							error:function(jqXHR, textStatus, errorThrown){
+								console.log("Error : "+ textStatus + " : "+ errorThrown);
+							}
+						}).done(function(fragment){
+							$("#writeAnswer").replaceWith(fragment);
+						});
+					}
+					
+					function updateNotice(){
+						if($("#postType").val() == null){
+							alert("분류를 선택해주세요.");
+							return false;
+						} else if($("#titleText").val().length < 1){
+							alert("제목을 입력해주세요.");
+							return false;
+						} else if($("#ContainText").val().length < 1){
+							alert("내용을 입력해주세요.");
+							return false;
+						} else if(confirm("등록하시겠습니까?") == false){
+							return false;
+						} else {
+							if(writeAnswerValue==0){
+								writeAnswerValue=1;
+							} else {
+								writeAnswerValue=0;
+							}
+							$.ajax({
+								type:'POST',
+								url:'admin_NoticeUpdate.do',
+								dataType:'text',
+								data:{
+									postId:postNumber,
+									writeContain:writeAnswerValue,
+									boardSubType:$("#postType").val(),
+									title:$("#titleText").val(),
+									postContents:$("#ContainText").val()
+								},
+								success:function(data){
+									console.log("성공");
+								},
+								error:function(jqXHR, textStatus, errorThrown){
+									console.log("Error: " + textStatus + " : " + errorThrown);
+								}
+							}).done(function(fragment){
+								$("#writeAnswer").replaceWith(fragment);
+								alert("수정되었습니다.")
+							})
+						}
+					}
+					
+					function deleteNotice(){
+						if(confirm("삭제하시겠습니까?")){
+							var uri = /*[[@{admin_NoticeDelete.do}]]*/;
+							var html = "";
+							
+							html += '<form name="dataForm" action="'+uri+'" method="post">';
+							html += '<input type="hidden" name="postId" value="'+postNumber+'"/>';
+							html += '</form>';
+							$("body").append(html);
+							document.dataForm.submit();
+						}
+					}
+					
+					
+					
+				/*]]>*/
+			</script>
+			</th:block>
+		</th:block>
+	</body>
+</html>

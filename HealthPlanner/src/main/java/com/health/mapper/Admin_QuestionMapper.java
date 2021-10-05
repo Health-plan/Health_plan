@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.health.domain.PostDTO;
 
 @Mapper
-public interface AdminQuestionMapper {
+public interface Admin_QuestionMapper {
 	//문의글 상세조회
 	public PostDTO adminSelectPostDetail(int postId);
 	//답변

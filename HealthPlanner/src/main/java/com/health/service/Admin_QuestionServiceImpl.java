@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.health.domain.PostDTO;
-import com.health.mapper.AdminQuestionMapper;
+import com.health.mapper.Admin_QuestionMapper;
 import com.health.paging.PaginationInfo;
 
 @Service
-public class AdminQuestionServicelmpl implements AdminQuestionService  {
+public class Admin_QuestionServiceImpl implements Admin_QuestionService  {
 	
 	@Autowired
-	private AdminQuestionMapper adminQuestMapper;
+	private Admin_QuestionMapper adminQuestMapper;
 	
 	@Override
 	public boolean adminQuestionAnswer(PostDTO params) {

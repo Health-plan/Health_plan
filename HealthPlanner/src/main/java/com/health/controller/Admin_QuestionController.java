@@ -12,18 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.health.domain.PostDTO;
-import com.health.service.AdminQuestionService;
+import com.health.service.Admin_QuestionService;
 
 @Controller
-public class AdminQuestionController {
+public class Admin_QuestionController {
 
 	@Autowired
-	private AdminQuestionService adminQuestionService;
+	private Admin_QuestionService adminQuestionService;
 
 	// 게시판 GET
 	@GetMapping(value="getBoard.do")
 	public String getBoard(@ModelAttribute("params") PostDTO postDto, Model model) {
-		System.out.println("GetMapping getBoard.do 요청할 때 넘어온 params : " + postDto);
 		
 		List<PostDTO> postList = adminQuestionService.getPostList(postDto);
 		model.addAttribute("postList",postList);
@@ -57,7 +56,6 @@ public class AdminQuestionController {
 		
 		//답변창 기능에 사용할 변수 정의
 		model.addAttribute("writeContain",writeContain);
-		System.out.println("값은" + writeContain);
 		
 		return "__TEST_BoardDetail :: #writeAnswer";
 	}
@@ -94,8 +92,6 @@ public class AdminQuestionController {
 	@GetMapping(value="postBoard.do")
 	public String testpage2(@ModelAttribute("params") PostDTO postDto, Model model) {
 		
-		System.out.println("getmapping testList.do 요청할 때 넘어온 params : " + postDto);
-		
 		List<PostDTO> postList = adminQuestionService.getPostList(postDto);
 		model.addAttribute("postList",postList);
 		
@@ -105,8 +101,6 @@ public class AdminQuestionController {
 	// 갱신(Post)
 	@PostMapping(value="postSort.do")
 	public String sort2(@ModelAttribute("params") PostDTO postDto, Model model) {
-		
-		System.out.println("postmapping sort.do 요청할 떄 넘어온 params : " + postDto);
 		
 		List<PostDTO> postList = adminQuestionService.getPostList(postDto);
 		model.addAttribute("postList",postList);

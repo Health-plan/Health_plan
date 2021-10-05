@@ -10,14 +10,14 @@ import org.springframework.util.CollectionUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.health.domain.PostDTO;
-import com.health.mapper.AdminQuestionMapper;
+import com.health.mapper.Admin_QuestionMapper;
 import com.health.paging.Criteria;
 
 @SpringBootTest
 class MapperTests {
 
 		@Autowired
-		private AdminQuestionMapper adminQuestionMapper;
+		private Admin_QuestionMapper adminQuestionMapper;
 		
 		@Test
 		public void testOfDetail() {

@@ -11,21 +11,21 @@
 			<ul class="list-unstyled ps-0">
 				<li class="mb-1">
 					<button class="btn btn-toggle align-items-center rounded collapsed"
-						data-bs-toggle="collapse" data-bs-target="#home-collapse"
-						aria-expanded="false">게시글관리</button>
-					<div class="collapse" id="home-collapse">
+						data-bs-toggle="collapse" data-bs-target="#board-collapse"
+						aria-expanded="false" id="boardMgt">게시글관리</button>
+					<div class="collapse" id="board-collapse">
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a th:href="@{getBoard.do}" class="link-dark rounded">문의사항</a></li>
-							<li><a href="#" class="link-dark rounded">공지사항</a></li>
+							<li><a th:href="@{admin_Notice.do}" class="link-dark rounded">공지사항</a></li>
 							<li><a href="#" class="link-dark rounded">QnA</a></li>
 						</ul>
 					</div>
 				</li>
 				<li class="mb-1">
 					<button class="btn btn-toggle align-items-center rounded"
-						data-bs-toggle="collapse" data-bs-target="#dashboard-collapse"
-						aria-expanded="false">승급관리</button>
-					<div class="collapse" id="dashboard-collapse">
+						data-bs-toggle="collapse" data-bs-target="#levelUp-collapse"
+						aria-expanded="false" id="levelUpMgt">승급관리</button>
+					<div class="collapse" id="levelUp-collapse">
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="#" class="link-dark rounded">회원관리</a></li>
 							<li><a href="#" class="link-dark rounded">승급데이터관리</a></li>
@@ -34,9 +34,9 @@
 				</li>
 				<li class="mb-1">
 					<button class="btn btn-toggle align-items-center rounded"
-						data-bs-toggle="collapse" data-bs-target="#orders-collapse"
-						aria-expanded="false">회원정보</button>
-					<div class="collapse" id="orders-collapse">
+						data-bs-toggle="collapse" data-bs-target="#members-collapse"
+						aria-expanded="false" id="membersMgt">회원정보</button>
+					<div class="collapse" id="members-collapse">
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="#" class="link-dark rounded">회원조회</a></li>
 							<li><a href="#" class="link-dark rounded">탈퇴한회원</a></li>
@@ -46,9 +46,9 @@
 				<!-- 라인추가 <li class="border-top my-3"></li> -->
 				<li class="mb-1">
 					<button class="btn btn-toggle align-items-center rounded collapsed"
-						data-bs-toggle="collapse" data-bs-target="#account-collapse"
-						aria-expanded="false">운동종목</button>
-					<div class="collapse" id="account-collapse">
+						data-bs-toggle="collapse" data-bs-target="#exercise-collapse"
+						aria-expanded="false" id="exerciseMgt">운동종목</button>
+					<div class="collapse" id="exercise-collapse">
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="#" class="link-dark rounded">수정/추가/삭제</a></li>
 						</ul>
@@ -56,9 +56,9 @@
 				</li>
 				<li class="mb-1">
 					<button class="btn btn-toggle align-items-center rounded"
-						data-bs-toggle="collapse" data-bs-target="#test-collapse"
-						aria-expanded="false">포인트관리</button>
-					<div class="collapse" id="test-collapse">
+						data-bs-toggle="collapse" data-bs-target="#point-collapse"
+						aria-expanded="false" id="pointMgt">포인트관리</button>
+					<div class="collapse" id="point-collapse">
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="#" class="link-dark rounded">조회</a></li>
 							<li><a href="#" class="link-dark rounded">적립/차감</a></li>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.health.mapper.AdminQuestionMapper">
+<mapper namespace="com.health.mapper.Admin_QuestionMapper">
 	
 	<sql id="AdminQuestion">
 		post_id,
@@ -51,6 +51,8 @@
 			post
 		WHERE
 			available = 0
+		AND
+			board_type = 3
 		<!-- 최신 -->
 		<choose>
 			<when test="sortType == 0">
@@ -83,6 +85,8 @@
 			post
 		WHERE
 			available = 0
+		AND
+			board_type = 3
 	</select>
 	
 	

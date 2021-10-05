@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/basic">
 	<th:block layout:fragment="title">
-		<title>Get리스트페이지</title>
+		<title>문의사항GET</title>
 	</th:block>
 	
 	<body>
@@ -25,7 +25,7 @@
 		</div>
 
 		<div class="table-responsive clearfix">
-			<table class="table table-hover text-center">
+			<table class="table table-hover text-center text-nowrap">
 				<thead>
 					<tr class="table_title bg-light">
 						<th>번호</th>
@@ -40,10 +40,13 @@
 					<tr th:if="${not #lists.isEmpty(postList)}"
 						th:each="row : ${postList}">
 						<td scope="row" th:text="${row.postId}"></td>
-						<td><a
+						<td class="w-50"><a
 							th:href="@{BoardDetail.do( postId=${row.postId} )}"
 							th:text="${row.title}"></a></td>
-						<td th:if="${row.boardSubType.equals(0)}">건의사항</td>
+						<td th:if="${row.boardSubType.equals(1)}">회원문의</td>
+						<td th:if="${row.boardSubType.equals(2)}">시스템문의</td>
+						<td th:if="${row.boardSubType.equals(3)}">포인트문의</td>
+						<td th:if="${row.boardSubType.equals(4)}">기타문의</td>
 						<td th:text="${row.mbrId}"></td>
 	
 						<td th:if="${row.answerState.equals(0)}">답변대기중</td>
@@ -65,14 +68,18 @@
 
 		<th:block layout:fragment="script">
 			<script th:inline="javascript">
+				let sideMenuIcon = document.getElementById('boardMgt');
+				sideMenuIcon.ariaExpanded = "true";
+				let sideMenuShow = document.getElementById('board-collapse');
+				sideMenuShow.className="collapse show";
 				
 				//query string pasing 하는 메소드
 				function getQueryStringObject(){
-					var a = window.location.search.substr(1).split('&');
+					let a = window.location.search.substr(1).split('&');
 					if(a == "") return {};
-					var b = {};
-					for(var i=0; i<a.length; ++i){
-						var p = a[i].split('=',2);
+					let b = {};
+					for(let i=0; i<a.length; ++i){
+						let p = a[i].split('=',2);
 						if(p.length == 1)
 							b[p[0]]="";
 						else
@@ -82,8 +89,8 @@
 				}
 				
 				//sortType값(queryString에서 가져옴)
-				var qs = getQueryStringObject();
-				var sortType = qs.sortType
+				let qs = getQueryStringObject();
+				let sortType = qs.sortType
 				
 				//sortType 기본값 설정
 				if(sortType == null){

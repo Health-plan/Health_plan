@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="www.thymeleaf.org" xmlns:layout="www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/basic">
+	<th:block layout:fragment="title">
+		<title>공지사항</title>	
+	</th:block>
+	
+	<body>	
+	<th:block layout:fragment="contents">
+		<div class="title">
+			<h4 class="main_title fw-bold mb-4 d-inline-block">게시글 관리</h4>
+			<h5 class="sub_title d-inline-block">공지사항</h5>
+		</div>
+		
+		<div class="table-responsive clearfix">
+			<table class="table table-hover text-center text-nowrap">
+				<thead>
+					<tr class="table_title bg-light">
+						<th>분류</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>작성일자</th>
+					</tr>
+				</thead>
+				<tbody id="listTest">
+					<tr th:if="${not #lists.isEmpty(postList)}"
+						th:each="row : ${postList}">
+						<td scope="row" th:if="${row.boardSubType.equals(1)}">운영정책</td>
+						<td th:if="${row.boardSubType.equals(2)}">시스템</td>
+						<td th:if="${row.boardSubType.equals(3)}">포인트문의</td>
+						<!-- 링크 바꾸기 -->
+						<td class="w-50"><a
+							th:href="@{admin_NoticeDetail.do( postId=${row.postId} )}"
+							th:text="${row.title}"></a></td>
+						<td th:text="${row.mbrId}"></td>
+						<td th:if="${row.modifyDate} == null" th:text="${row.postDate}"></td>
+						<td th:unless="${row.modifyDate} == null" th:text="${row.modifyDate}"></td>
+					</tr>
+					<tr th:unless="${not #lists.isEmpty( postList )}">
+						<td colspan="6">조회된 결과가 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="page_navigation">
+			<th:block layout:fragment="paging">
+				<nav th:replace="fragments/common_get :: pagination"></nav>
+			</th:block>
+		</div>
+		
+		<th:block layout:fragment="script">
+			<script th:inline="javascript">
+				let sideMenuIcon = document.getElementById('boardMgt');
+				sideMenuIcon.ariaExpanded = "true";
+				let sideMenuShow = document.getElementById('board-collapse');
+				sideMenuShow.className="collapse show";
+			
+			</script>
+		</th:block>
+	</th:block>
+	</body>
+</html>

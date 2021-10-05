@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/basic">
 	<th:block layout:fragment="title">
-		<title>테스트 페이지입니다.</title>
+		<title>문의사항POST</title>
 	</th:block>
 	
 	<body>
@@ -24,7 +24,7 @@
 		
 		<div id="listTest">
 			<div class="table-responsive clearfix">
-				<table class="table table-hover text-center">
+				<table class="table table-hover text-center text-nowrap">
 					<thead>
 						<tr class="table_title bg-light">
 							<th>번호</th>
@@ -39,10 +39,13 @@
 						<tr th:if="${not #lists.isEmpty(postList)}"
 							th:each="row : ${postList}">
 							<td scope="row" th:text="${row.postId}"></td>
-							<td><a
+							<td class="w-50"><a
 								th:href="@{BoardDetail.do(postId=${row.postId})}"
 								th:text="${row.title}"></a></td>
-							<td th:if="${row.boardSubType.equals(0)}">건의사항</td>
+							<td th:if="${row.boardSubType.equals(1)}">회원문의</td>
+							<td th:if="${row.boardSubType.equals(2)}">시스템문의</td>
+							<td th:if="${row.boardSubType.equals(3)}">포인트문의</td>
+							<td th:if="${row.boardSubType.equals(4)}">기타문의</td>
 							<td th:text="${row.mbrId}"></td>
 		
 							<td th:if="${row.answerState.equals(0)}">답변대기중</td>
@@ -65,12 +68,17 @@
 
 		<th:block layout:fragment="script">
 			<script th:inline="javascript">
-				var selectVal;
+				let sideMenuIcon = document.getElementById('boardMgt');
+				sideMenuIcon.ariaExpanded = "true";
+				let sideMenuShow = document.getElementById('board-collapse');
+				sideMenuShow.className="collapse show";
+				
+				let selectVal;
 				
 				//select box 선택 시 변경
 				function sortSelect(){
 					selectVal=$("#sort").val();
-					var Criteria = {
+					let Criteria = {
 						sortType:selectVal
 					};
 					$.ajax({
@@ -89,7 +97,7 @@
 				//페이징버튼 클릭 시
 				/*<![CDATA[*/
 				function movePage(PageNo){
-					var Critera = {
+					let Critera = {
 						currentPageNo:PageNo,
 						sortType:selectVal
 					};

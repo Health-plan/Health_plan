@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.health.mapper.Admin_NoticeMapper">
+	<sql id="AdminNotice">
+		post_id,
+		board_type,
+		board_sub_type,
+		title,
+		post_contents,
+		answer,
+		answer_state,
+		available,
+		views,
+		mbr_id,
+		post_date,
+		modifier,
+		modify_date
+	</sql>
+	
+	<!-- 상세보기 -->
+	<select id="selectNoticeDetail" parameterType="int" resultType="PostDTO">
+		SELECT
+			<include refid="AdminNotice"/>
+		FROM
+			post
+		WHERE
+			available = 0
+		AND
+			post_id = #{postId}
+	</select>
+	
+	<!-- 입력 -->
+	<insert id="insertNotice" parameterType="PostDTO">
+		INSERT INTO
+			post
+		VALUES(
+			post_id = #{postId},
+			board_type = 2,
+			board_sub_type = #{boardSubType},
+			title = #{title},
+			post_contents = #{postContents},
+			answer = null,
+			answer_state = null,
+			available = 0,
+			views = 0,
+			mbr_id = #{postId},
+			post_date = now(),
+			modifier = null,
+			modify_date = null
+		)
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="updateNotice" parameterType="PostDTO">
+		UPDATE
+			post
+		SET
+			board_sub_type = #{boardSubType},
+			title = #{title},
+			post_contents = #{postContents},
+			modifier = #{mbrId},
+			modify_date = now()
+		WHERE
+			post_id = #{postId}
+	</update>
+	
+	<!-- 삭제 -->
+	<update id="deleteNotice" parameterType="int">
+		UPDATE
+			post
+		SET
+			available = 1
+		WHERE
+			post_id = #{postId}
+	</update>
+	
+	<!-- 공지리스트 -->
+	<select id="selectPostList" parameterType="PostDTO" resultType="PostDTO">
+		SELECT
+			<include refid="AdminNotice"/>
+		FROM
+			post
+		WHERE
+			available = 0
+		AND
+			board_type = 2
+		ORDER BY
+			modify_date DESC,
+			post_date DESC
+		LIMIT
+			#{paginationInfo.firstRecordIndex}, #{recordsPerPage}
+	</select>
+	<!-- 리스트 전처리 -->
+	<select id="selectPostTotalCount" parameterType="PostDTO" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			post
+		WHERE
+			available = 0
+		AND
+			board_type = 2
+	</select>
+
+</mapper>

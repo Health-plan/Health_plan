@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.health.domain.PostDTO;
 
-public interface AdminQuestionService {
+public interface Admin_QuestionService {
 	
 	public boolean adminQuestionAnswer(PostDTO params);
 	
