@@ -260,8 +260,10 @@ public class HealthPlannerController {
 			System.out.println("들어오는 pw"+myloginSessions);
 			
 			String SessionId = myloginSessions.getMbrId();
+			String SessionPw = myloginSessions.getMbrPw();
 			String SessionNm = myloginSessions.getMbrNm();
 			String SessionEm = myloginSessions.getMbrEmail();
+			
 			
 			mbrdto.setMbrId(SessionId);
 			 MemberDTO pwCheck = memberService.mypagePasswordCheck(mbrdto);
@@ -281,6 +283,7 @@ public class HealthPlannerController {
 				System.out.println("session 0아닐때"+mbrdto+"///" +pwCheck);
 				System.out.println("세션아이디"+SessionId+"/타입" +SessionId.getClass().getName());			
 				model.addAttribute("userId",SessionId);
+				model.addAttribute("userPw",SessionPw);
 				model.addAttribute("userNm",SessionNm);
 				model.addAttribute("userEm",SessionEm);
 				return "mypage_main";							
@@ -288,15 +291,45 @@ public class HealthPlannerController {
 			
 		}
 		
+		@PostMapping(value = "mypage_pwchange.do")
+		public String mypagePwChange(HttpSession session,  MemberDTO mbrdto, Model model) throws Exception
+		{
+			
+			MemberDTO myloginSessions =  (MemberDTO)session.getAttribute("member");
+			
+			memberService.changeNewPwInMyPage(mbrdto);
+		
+			
+			System.out.println("마이페이지세션"+ myloginSessions);
+			
+			
+			if( myloginSessions ==null)
+			{
+				System.out.println("세션0일때"+mbrdto );
+				
+				return "redirect:/main.do";							
+			}
+			else
+			{
+				 
+				System.out.println("session 0아닐때"+mbrdto);
+		
+				return "redirect:/mypage.do";							
+			}
+			
+		}
 		
 		//마이페이지 - 비밀번호확인
 				@GetMapping(value = "mypage_graph.do")
 				public String openMypage_graph(HttpSession session, Model model) throws Exception
 				{
-					Object mypageSessionNull =session.getAttribute("member");
-					System.out.println("세션값 동일? "+mypageSessionNull);
-					if(mypageSessionNull != null)
+					MemberDTO myloginSessions =  (MemberDTO)session.getAttribute("member");
+					
+					System.out.println("세션값 동일? "+myloginSessions);
+					if(myloginSessions != null)
 					{
+						model.addAttribute("userNm",myloginSessions.getMbrNm());
+						
 						return "mypage_graph";
 					}
 					
@@ -328,7 +361,7 @@ public class HealthPlannerController {
 				public String openMypage_point(HttpSession session, Model model) throws Exception
 				{
 					Object mypageSessionNull =session.getAttribute("member");
-					System.out.println("세션값 동일? "+(String)mypageSessionNull);
+					
 					if(mypageSessionNull != null)
 					{
 						return "mypage_point";

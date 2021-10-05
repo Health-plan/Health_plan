@@ -3,7 +3,7 @@ package com.health.mapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.health.domain.MemberDTO;
-import com.health.domain.UserDTO;
+
 
 @Mapper
 public interface MemberMapper {
@@ -34,6 +34,8 @@ public interface MemberMapper {
 	  public MemberDTO findPwhint(MemberDTO mbrdto) throws Exception;
 	  public MemberDTO inputPwHintAnswer( MemberDTO mbrdto) throws Exception;
 	  public void changeNewPw(MemberDTO mbrdto) throws Exception;
+	  public void changeNewPwInMyPage(MemberDTO mbrdto) throws Exception;
+	  
 	  
 
 }

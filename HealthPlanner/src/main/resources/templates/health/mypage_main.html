@@ -6,6 +6,31 @@
     <title>마이페이지 - 개인정보변경</title>
     <link rel="stylesheet" th:href="@{/static/css/mypage_window.css}">
     <link rel="stylesheet" th:href="@{/static/css/mypage_main.css}">
+      <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+    <!--비밀번호 체크 jquery -->
+<script type="text/javascript">
+$(function() {
+	$("#alert-success").hide();
+	$("#alert-danger").hide();
+	$("input" ).keyup(function() {
+		var pwd1 = $("#newPw").val();
+		var pwd2 = $("#newPwCheck").val();
+		if (pwd1 != "" || pwd2 != "") {
+			if (pwd1 == pwd2) {
+			$("#alert-success").show();
+			$("#alert-danger").hide();
+			 $("#submit").removeAttr("disabled");
+			}else {
+			$("#alert-success").hide();
+			$("#alert-danger").show();
+			$("#submit").attr("disabled", "disabled");
+			
+		}
+	}
+	});
+});
+</script>
+    
   </head>
   <body>
     <div id="wrapper">
@@ -32,7 +57,7 @@
           </div>
           <article class="main_contain">
             <!-- input값을 주고 readonly로 수정할 수 없게 -->
-            <form class="main" action="index.html" method="post">
+            <form class="main" th:action="@{mypage_pwchange.do}" method="post">
               <label>이름
                 <input type="text" class="view" name="mbrNm" th:value="${userNm}" readonly/>
               </label>
@@ -41,15 +66,17 @@
                 <input type="text" class="view" name="mbrId" th:value="${userId}" readonly/>
               </label>
               <label>현재 비밀번호
-                <input type="password" name="" value="" placeholder="mypage_pass에서 전송된 값">
+                <input type="password"  name="" th:value="${userPw}" placeholder="mypage_pass에서 전송된 값">
               </label>
               <label>새 비밀번호
-                <input type="password" name="" value="" placeholder="변경할 비밀번호">
+                <input type="password" id = "newPw" name="mbrPw" value="" placeholder="변경할 비밀번호">
               </label>
               <label class="pw_check">새 비밀번호 확인
-                <input type="password" name="" value="" placeholder="변경할 비밀번호 확인">
+                <input type="password" id = "newPwCheck" name="" value="" placeholder="변경할 비밀번호 확인">
               </label>
-              <button type="button" name="button">변경</button>
+              <div class="alert alert-success" id="alert-success">비밀번호가 일치합니다.</div>
+              <div class="alert alert-danger" id="alert-danger">비밀번호가 일치하지 않습니다.</div>
+              <input type="submit" name="button" value= "변경">
               <label>E-Mail
                 <input type="text" class="view" name="mbrEmail" th:value="${userEm}" readonly/>
               </label>

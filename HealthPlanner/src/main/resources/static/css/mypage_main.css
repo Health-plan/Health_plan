@@ -39,3 +39,14 @@ button{
 input[type="submit"]{
   cursor:pointer;
 }
+
+#alert-success{
+	color:green;
+	position:absolute;
+}
+
+#alert-danger{
+	color:red;
+	position:absolute;
+}
+

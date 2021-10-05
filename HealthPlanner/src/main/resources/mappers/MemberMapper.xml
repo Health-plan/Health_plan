@@ -66,9 +66,14 @@
 	WHERE mbr_pw_hint = #{mbrPwHint}
 	AND mbr_pw_answer = #{mbrPwAnswer}
 	AND mbr_id = #{mbrId}
-	
 	</update>
 	
+	<update id = "changeNewPwInMyPage" parameterType="com.health.domain.MemberDTO" >
+	UPDATE members 
+	SET mbr_pw = #{mbrPw}
+	WHERE mbr_nm= #{mbrNm}
+	AND mbr_id = #{mbrId}
+	</update>
 	
 	
 </mapper>

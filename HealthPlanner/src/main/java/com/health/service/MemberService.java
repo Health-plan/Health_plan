@@ -118,7 +118,13 @@ public class MemberService{
 			memberMapper.changeNewPw(mbrdto);
 		}
 		
-		
+	//새비밀번호로 변경 - mypage
+		public void changeNewPwInMyPage(MemberDTO mbrdto) throws Exception
+		{
+			System.out.println(mbrdto + "memberservice에 changeNewPwInMyPage함수로 들어옴");
+			memberMapper.changeNewPwInMyPage(mbrdto);
+		}
+				
 
 
 
