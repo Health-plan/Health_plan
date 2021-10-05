@@ -29,7 +29,7 @@ public class MemberDTO {
 	private int goalRegister;
 
 	//관리등급
-	private int managementRank;
+	private String managementRank;
 	//탈퇴여부
 	private int secession;
 	//등록자

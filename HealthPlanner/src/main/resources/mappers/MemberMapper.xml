@@ -17,13 +17,21 @@
 		WHERE mbr_email = #{mbrEmail}
 	</select>
 	
+	<select id = "mypagePasswordCheck" parameterType="com.health.domain.MemberDTO" resultType="com.health.domain.MemberDTO">
+		SELECT	mbr_id, mbr_pw
+		FROM members
+		WHERE mbr_pw = #{mbrPw}
+		AND mbr_id = #{mbrId}
+		
+	</select>
+	
 	<insert id="memberRegister" parameterType="com.health.domain.MemberDTO" >
 		insert into members(mbr_id, mbr_pw, mbr_nm, mbr_birth, mbr_email, mbr_pw_hint, mbr_pw_answer, registrant,regist_date)
 		values(#{mbrId}, #{mbrPw}, #{mbrNm}, #{mbrBirth}, #{mbrEmail}, #{mbrPwHint}, #{mbrPwAnswer}, #{mbrNm} ,NOW())
 	</insert>
 	
-	<select id="readAccount" parameterType="com.health.domain.UserDTO" resultType="com.health.domain.UserDTO">
-	SELECT mbr_id,mbr_pw
+	<select id="readAccount" parameterType="com.health.domain.MemberDTO" resultType="com.health.domain.MemberDTO">
+	SELECT *
 	FROM members
 	WHERE mbr_id = #{mbrId}	
 	AND mbr_pw = #{mbrPw}	

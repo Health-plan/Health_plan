@@ -41,7 +41,7 @@ public class HealthPlannerController {
 			System.out.println("session값null? " + loginInfo);
 			model.addAttribute("nullsession",false);
 		}
-		
+		System.out.println("session값NOTnull? " + loginInfo);
 		return "main";
 	}
 	
@@ -55,7 +55,7 @@ public class HealthPlannerController {
 
 	
 	@PostMapping(value= "login.do")
-	public String ReadAccount( UserDTO userdto, HttpServletRequest req, RedirectAttributes rttr) throws Exception
+	public String ReadAccount( MemberDTO userdto, HttpServletRequest req, RedirectAttributes rttr) throws Exception
     {
 		log.debug(userdto+"/로그인아이디/로그인버튼");
 		System.out.println(userdto+"/로그인아이디/로그인버튼");
@@ -227,4 +227,113 @@ public class HealthPlannerController {
 		
 	}
 	
+	//마이페이지 - 비밀번호확인
+		@GetMapping(value = "mypage.do")
+		public String openMypagePass(HttpSession session, Model model) throws Exception
+		{
+			Object mypageSessionNull =session.getAttribute("member");
+			System.out.println("세션값 동일? "+mypageSessionNull);
+			if(mypageSessionNull != null)
+			{
+				return "mypage_pass";
+			}
+			
+			else 
+			{
+				return "redirect:/main.do";
+			}
+	
+		}
+	
+		
+		@PostMapping(value = "mypage.do")
+		public String mypagePwCheck(HttpSession session,  MemberDTO mbrdto, Model model) throws Exception
+		{
+			
+			MemberDTO myloginSessions =  (MemberDTO)session.getAttribute("member");
+			
+			System.out.println("들어오는 pw"+myloginSessions);
+			
+			String SessionId = myloginSessions.getMbrId();
+			String SessionNm = myloginSessions.getMbrNm();
+			String SessionEm = myloginSessions.getMbrEmail();
+			
+			mbrdto.setMbrId(SessionId);
+			 MemberDTO pwCheck = memberService.mypagePasswordCheck(mbrdto);
+			
+			System.out.println("마이페이지세션"+ myloginSessions);
+			
+			
+			if( myloginSessions ==null || pwCheck == null)
+			{
+				System.out.println("세션0일때"+mbrdto +"///\n" +pwCheck);
+				
+				return "redirect:/main.do";							
+			}
+			else
+			{
+				 
+				System.out.println("session 0아닐때"+mbrdto+"///" +pwCheck);
+				System.out.println("세션아이디"+SessionId+"/타입" +SessionId.getClass().getName());			
+				model.addAttribute("userId",SessionId);
+				model.addAttribute("userNm",SessionNm);
+				model.addAttribute("userEm",SessionEm);
+				return "mypage_main";							
+			}
+			
+		}
+		
+		
+		//마이페이지 - 비밀번호확인
+				@GetMapping(value = "mypage_graph.do")
+				public String openMypage_graph(HttpSession session, Model model) throws Exception
+				{
+					Object mypageSessionNull =session.getAttribute("member");
+					System.out.println("세션값 동일? "+mypageSessionNull);
+					if(mypageSessionNull != null)
+					{
+						return "mypage_graph";
+					}
+					
+					else 
+					{
+						return "redirect:/main.do";
+					}
+			
+				}
+				
+				@GetMapping(value = "mypage_body.do")
+				public String openMypage_body(HttpSession session, Model model) throws Exception
+				{
+					Object mypageSessionNull =session.getAttribute("member");
+					System.out.println("세션값 동일? "+mypageSessionNull);
+					if(mypageSessionNull != null)
+					{
+						return "mypage_body";
+					}
+					
+					else 
+					{
+						return "redirect:/main.do";
+					}
+			
+				}
+				
+				@GetMapping(value = "mypage_point.do")
+				public String openMypage_point(HttpSession session, Model model) throws Exception
+				{
+					Object mypageSessionNull =session.getAttribute("member");
+					System.out.println("세션값 동일? "+(String)mypageSessionNull);
+					if(mypageSessionNull != null)
+					{
+						return "mypage_point";
+					}
+					
+					else 
+					{
+						return "redirect:/main.do";
+					}
+			
+				}
+		
 }

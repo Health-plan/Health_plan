@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko" dir="ltr">
+<html lang="ko" dir="ltr" xmlns:th= "http://www.thymeleaf.org" xmlns:layout ="http://www.ultraq.net.nz/thymeleaf/layout">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>마이페이지 - 신체레벨</title>
-    <link rel="stylesheet" href="./css/mypage_window.css">
-    <link rel="stylesheet" href="./css/mypage_body.css">
+    <link rel="stylesheet" th:href="@{/static/css/mypage_window.css}">
+    <link rel="stylesheet" th:href="@{/static/css/mypage_body.css}">
   </head>
   <body>
     <div id="wrapper">
@@ -20,10 +20,10 @@
         <div class="contain">
           <aside class="info_list">
             <ul>
-              <li><a href="mypage_main.html">개인정보변경</a></li>
-              <li><a href="mypage_body.html">내 신체레벨</a></li>
-              <li><a href="mypage_graph.html">내 운동그래프</a></li>
-              <li><a href="mypage_point.html">내 포인트</a></li>
+                <li><a th:href="@{mypage.do}">개인정보변경</a></li>
+              <li><a th:href="@{mypage_body.do}">내 신체레벨</a></li>
+              <li><a th:href="@{mypage_graph.do}">내 운동그래프</a></li>
+              <li><a th:href="@{mypage_point.do}">내 포인트</a></li>
             </ul>
           </aside>
           <div class="length_line"></div>

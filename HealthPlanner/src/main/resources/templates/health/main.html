@@ -22,7 +22,12 @@
             <button class="start_btn" type="button" name="start" onclick="location.href='다음페이지'">START</button>
           </article>
           <article class="login">
+          	<th:block th:if="${nullsession == false}">
             <h5><a href="">다음에 하기</a></h5>
+            </th:block>
+            <th:block th:unless="${nullsession == false}">
+            <h5><a th:href="@{mypage.do}">마이 페이지</a></h5>
+            </th:block>
             <button class="login_btn" type="button"  name="button" >
           <th:block th:if="${nullsession == false}">
             <a  th:href="@{login.do}" >로그인</a>  

@@ -13,9 +13,11 @@ public interface MemberMapper {
 	// 이메일중복체크
 		public int emailCheck(String mbr_email) throws Exception;
 		 
+	// 마이페이지 비밀번호체크
+		public MemberDTO mypagePasswordCheck(MemberDTO mbr_pw) throws Exception;
 	
 	//spring security 로그인 아이디읽기
-	  public UserDTO readAccount(UserDTO userdto)throws Exception;
+	  public MemberDTO readAccount(MemberDTO userdto)throws Exception;
 
 	
 	  public String now() throws Exception;

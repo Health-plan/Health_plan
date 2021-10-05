@@ -20,11 +20,11 @@ public class MemberService{
 	@Autowired
 	MemberMapper memberMapper;
 	
-	public UserDTO readAccount(UserDTO userdto, HttpServletRequest req, RedirectAttributes rttr) throws Exception {
+	public MemberDTO readAccount(MemberDTO userdto, HttpServletRequest req, RedirectAttributes rttr) throws Exception {
 		System.out.println(userdto + " memberservice에 readAccount함수로 들어옴");
 		HttpSession session = req.getSession();
 		
-		UserDTO login =memberMapper.readAccount(userdto);
+		MemberDTO login =memberMapper.readAccount(userdto);
 		
 		 if(login == null) {
 			  session.setAttribute("member", null);
@@ -55,6 +55,12 @@ public class MemberService{
 		public int emailCheck(String mbr_email) throws Exception {
 			System.out.println(mbr_email + "memberservice에 idcheck함수로 들어옴");
 			return memberMapper.emailCheck(mbr_email);
+		}
+		// 마이페이지 비밀번호체크
+
+		public MemberDTO mypagePasswordCheck(MemberDTO mbr_pw) throws Exception {
+				System.out.println(mbr_pw + "memberservice에 mypagePasswordCheck함수로 들어옴");
+				return memberMapper.mypagePasswordCheck(mbr_pw);
 		}
 
 
