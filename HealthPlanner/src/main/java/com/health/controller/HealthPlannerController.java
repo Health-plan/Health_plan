@@ -244,7 +244,12 @@ public class HealthPlannerController {
 			}
 	
 		}
-	
+		
+		@GetMapping(value = "mypage_fail.do")
+		public String openHealthPlannerMypagePassFail(Model model)
+		{
+			return "mypage_pass";
+		}
 		
 		@PostMapping(value = "mypage.do")
 		public String mypagePwCheck(HttpSession session,  MemberDTO mbrdto, Model model) throws Exception
@@ -268,7 +273,7 @@ public class HealthPlannerController {
 			{
 				System.out.println("세션0일때"+mbrdto +"///\n" +pwCheck);
 				
-				return "redirect:/main.do";							
+				return "redirect:/mypage_fail.do";							
 			}
 			else
 			{
