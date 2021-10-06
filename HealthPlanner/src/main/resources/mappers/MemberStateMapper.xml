@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.health.mapper.MemberStateMapper">
+
+	<sql id="memberStateColumns">
+		  member_state_date
+		, mbr_id
+		, mbr_gender
+		, mbr_age
+		, mbr_height
+		, mbr_weight
+		, member_fatper
+		, average_rank
+		, goal_per
+		, registrant
+		, regist_date
+		, modifier
+		, modify_date
+	</sql>
+
+	<insert id="insertMemberState" parameterType="MemberStateDTO">
+		INSERT INTO member_state (
+			<include refid="memberStateColumns" />
+		) VALUES (
+			  member_state_date = now()
+			, mbr_id = 'admin'
+			, mbr_gender = #{mbrGender}
+			, mbr_age = #{mbrAge}
+			, mbr_height = #{mbrHeight}
+			, mbr_weight = #{mbrWeight}
+			, member_fatper = #{memberFatper}
+			, average_rank = #{averageRank}
+			, goal_per = #{goalPer}
+			, registrant = 'admin'
+			, regist_date = NOW()
+			, modifier = null
+			, modify_date = null
+		)
+	</insert>
+	
+	<select id="selectMemberStateDetail" parameterType="String" resultType="MemberStateDTO">
+		SELECT
+			<include refid="memberStateColumns" />
+		FROM
+			member_state
+		WHERE
+			mbr_id = #{mbrId}
+	</select>
+
+	<update id="updateMemberState" parameterType="MemberStateDTO">
+		UPDATE member_state
+		SET
+			   modifier = #{modifier} 
+			,  modify_date = #{modifyDate}
+
+	</update>
+	<update id="deleteMemberState" parameterType="String">
+		UPDATE member_state
+		SET
+			  modifier = "0"
+			, modify_date = NOW()
+		WHERE
+			member_state_date = #{memberStateDate}
+	</update>
+
+	<select id="selectMemberStateList" parameterType="MemberStateDTO" resultType="MemberStateDTO">
+		SELECT
+			<include refid="memberStateColumns" />
+		FROM
+			member_state
+<!-- 		WHERE
+			mbr_id != NULL
+		ORDER BY
+			member_state_date DESC,
+			regist_date DESC -->
+	</select>
+
+	<select id="selectMemberStateTotalCount" parameterType="MemberStateDTO" resultType="String">
+		SELECT
+			COUNT(*)
+		FROM
+			member_state
+		WHERE
+			modifier = "null"
+	</select>
+	
+
+</mapper>
