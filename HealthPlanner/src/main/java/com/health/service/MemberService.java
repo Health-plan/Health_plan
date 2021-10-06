@@ -26,12 +26,14 @@ public class MemberService{
 		
 		MemberDTO login =memberMapper.readAccount(userdto);
 		
+		
 		 if(login == null) {
 			  session.setAttribute("member", null);
 			  rttr.addFlashAttribute("msg", false);
 			  
 			 } else {
 			  session.setAttribute("member", login);
+			 
 			  System.out.println("멤버세션값"+req.getSession().getAttribute("member"));
 			  
 			 }
