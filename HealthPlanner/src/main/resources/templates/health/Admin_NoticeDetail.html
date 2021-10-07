@@ -13,11 +13,11 @@
 			
 			<!-- TABLE -->
 			<div class="table-responsive clearfix" id="writeAnswer">			
-				<table class="table text-center xw-100 text-nowrap">
+				<table class="table text-center text-nowrap">
 					<thead>
-						<tr class="table_title bg-light">
-							<th>분류</th>
-							<th>제목</th>
+						<tr class="bg-light">
+							<th class="border-end">분류</th>
+							<th scope="col">제목</th>
 							<th>작성자</th>
 							<th>작성일자</th>
 						</tr>
@@ -37,8 +37,8 @@
 						
 						<th:block th:unless="${writeContain} != 1">
 							<tr class="align-middle">
-								<td>
-									<select class="form-select w-50 m-auto" id="postType">
+								<td class="border-end">
+									<select class="form-select m-auto" id="postType">
 										<option value="" disabled selected>구분</option>
 										<option value="1">분류1</option>
 										<option value="2">분류2</option>
@@ -53,9 +53,13 @@
 						</th:block>
 						
 						<tr class="align-middle">
-							<td colspan="1">내용</td>
-							<td colspan="5" th:if="${writeContain} != 1"><textarea class="form-control border-0 bg-white h-100 text-center" disabled th:text="${post.postContents}" id="ContainText" style="resize:none;"></textarea></td>
-							<td colspan="5" th:unless="${writeContain} != 1"><textarea class="form-control" rows="14" th:text="${post.postContents}" id="ContainText"></textarea></td>
+							<td colspan="1" class="border-end">내용</td>
+							<td colspan="5" th:if="${writeContain} != 1">
+								<textarea class="form-control border-0 bg-white text-center h-100" rows=14 disabled th:text="${post.postContents}" id="ContainText" style="resize:none;"></textarea>
+							</td>
+							<td colspan="5" th:unless="${writeContain} != 1">
+								<textarea class="form-control" rows=14 th:text="${post.postContents}" id="ContainText"></textarea>
+							</td>
 						</tr>
 						
 						<th:block th:if="${post.answerState} == 1">
@@ -75,11 +79,12 @@
 					<th:block>
 						<button th:if="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-secondary answerBtn" id="modify" onclick="activeBtn()">수정</button>
 						<button th:unless="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-secondary answerBtn" id="modify" onclick="updateNotice()">등록</button>
-						<button th:if="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-secondary answerBtn" id="answer" onclick="deleteNotice('[[ ${post.postId} ]]')">삭제</button>
-						<button th:unless="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-secondary answerBtn" id="answer" onclick="activeBtn()">취소</button>							
+						<button th:if="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-secondary answerBtn" id="answer" th:onclick="deleteNotice('[[ *{postId} ]]')">삭제</button>
+						<button th:unless="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn answerBtn" id="answer" onclick="activeBtn()">취소</button>							
+						<button th:if="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-light" onclick="history.back()">뒤로가기</button>					
 					</th:block>
 					
-					<button type="button" class="btn btn-light" onclick="history.back()">뒤로가기</button>
+					
 				</div>
 				
 			</div>
@@ -124,7 +129,7 @@
 						if($("#postType").val() == null){
 							alert("분류를 선택해주세요.");
 							return false;
-						} else if($("#titleText").val().length < 1){
+						} else if($("#titleText").val().length <1){
 							alert("제목을 입력해주세요.");
 							return false;
 						} else if($("#ContainText").val().length < 1){
@@ -162,20 +167,19 @@
 						}
 					}
 					
-					function deleteNotice(){
+					function deleteNotice(postId){
 						if(confirm("삭제하시겠습니까?")){
-							var uri = /*[[@{admin_NoticeDelete.do}]]*/;
+							var uri = /*[[@{admin_NoticeDelete.do}]]*/null;
+							console.log(uri);
 							var html = "";
 							
 							html += '<form name="dataForm" action="'+uri+'" method="post">';
-							html += '<input type="hidden" name="postId" value="'+postNumber+'"/>';
+							html += '<input type="hidden" name="postId" value="'+postId+'">';
 							html += '</form>';
 							$("body").append(html);
 							document.dataForm.submit();
 						}
 					}
-					
-					
 					
 				/*]]>*/
 			</script>

@@ -13,7 +13,7 @@
 			</div>
 			
 			<div class="table-responsive clearfix" id="writeAnswer">			
-				<table class="table text-center xw-100 text-nowrap" >
+				<table class="table text-center text-nowrap" >
 					<thead>
 						<tr class="table_title bg-light">
 							<th>번호</th>
@@ -46,7 +46,7 @@
 							<th:block th:if="(${writeContain} == 0) or (!${writeContain})">
 								<tr id="answerText" class="align-middle">
 									<td>답변내용</td>
-									<td colspan="5" th:text="${post.answer}"></td>
+									<td colspan="5"><textarea class="form-control border-0 bg-white overflow-hidden" disabled th:text="${post.answer}" style="resize:none;" ></textarea></td>
 								</tr>
 							</th:block>
 						</th:block>

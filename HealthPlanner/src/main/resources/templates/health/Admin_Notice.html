@@ -14,7 +14,7 @@
 		<div class="table-responsive clearfix">
 			<table class="table table-hover text-center text-nowrap">
 				<thead>
-					<tr class="table_title bg-light">
+					<tr id="table_title" class="bg-light">
 						<th>분류</th>
 						<th>제목</th>
 						<th>작성자</th>
@@ -27,6 +27,7 @@
 						<td scope="row" th:if="${row.boardSubType.equals(1)}">운영정책</td>
 						<td th:if="${row.boardSubType.equals(2)}">시스템</td>
 						<td th:if="${row.boardSubType.equals(3)}">포인트문의</td>
+						<td th:if="${row.boardSubType.equals(4)}">기타</td>
 						<!-- 링크 바꾸기 -->
 						<td class="w-50"><a
 							th:href="@{admin_NoticeDetail.do( postId=${row.postId} )}"
@@ -42,10 +43,11 @@
 			</table>
 		</div>
 
-		<div class="page_navigation">
+		<div class="page_navigation position-relative">
 			<th:block layout:fragment="paging">
 				<nav th:replace="fragments/common_get :: pagination"></nav>
-			</th:block>
+				<button class="btn btn-secondary position-absolute top-0 end-0" th:onclick="'location.href=\' '+ @{admin_NoticeWrite.do}+' \''">글쓰기</button>			</th:block>
+			
 		</div>
 		
 		<th:block layout:fragment="script">

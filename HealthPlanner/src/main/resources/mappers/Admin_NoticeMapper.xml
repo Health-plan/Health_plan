@@ -34,19 +34,19 @@
 		INSERT INTO
 			post
 		VALUES(
-			post_id = #{postId},
-			board_type = 2,
-			board_sub_type = #{boardSubType},
-			title = #{title},
-			post_contents = #{postContents},
-			answer = null,
-			answer_state = null,
-			available = 0,
-			views = 0,
-			mbr_id = #{postId},
-			post_date = now(),
-			modifier = null,
-			modify_date = null
+			#{postId},
+			2,
+			#{boardSubType},
+			#{title},
+			#{postContents},
+			null,
+			null,
+			0,
+			0,
+			"123",
+			now(),
+			null,
+			null
 		)
 	</insert>
 	
@@ -69,7 +69,9 @@
 		UPDATE
 			post
 		SET
-			available = 1
+			available = 1,
+			modifier = #{mbrId},
+			modify_date = now()
 		WHERE
 			post_id = #{postId}
 	</update>
@@ -90,6 +92,7 @@
 		LIMIT
 			#{paginationInfo.firstRecordIndex}, #{recordsPerPage}
 	</select>
+	
 	<!-- 리스트 전처리 -->
 	<select id="selectPostTotalCount" parameterType="PostDTO" resultType="int">
 		SELECT

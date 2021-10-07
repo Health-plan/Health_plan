@@ -42,9 +42,12 @@ public class Admin_NoticeServiceImpl implements Admin_NoticeService{
 		int queryResult = 0;
 		
 		PostDTO post = adminNoticeMapper.selectNoticeDetail(postId);
+		System.out.println(post);
 		
-		if(post != null && post.getAvailable() != 0) {
+		//if조건문에서 0 비교할 때, int자료형의 경우 0을 쓰면 null과 같이 인식되므로 '0'을 써아햠
+		if(post != null && post.getAvailable() != '0') {
 			queryResult = adminNoticeMapper.deleteNotice(postId);
+			System.out.println("삭제메소드 값 : "+queryResult);
 		}
 	
 		return (queryResult == 1) ? true : false;
