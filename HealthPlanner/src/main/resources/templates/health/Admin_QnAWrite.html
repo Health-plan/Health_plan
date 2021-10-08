@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="www.thymeleaf.org" xmlns:layout="www.ultraq.net.nz/thymelaef/layout" layout:decorator="layout/basic">
+	<th:block layout:fragment="title">
+		<title>작성 - 공지</title>	
+	</th:block>
+	<body>
+		<th:block layout:fragment="contents">
+			<!-- HEAD -->
+			<div class="title">
+				<h4 class="main_title fw-bold mb-4 d-inline-block">게시글관리</h4>
+				<h5 class="sub_title d-inline-block">QnA</h5>
+			</div>
+		
+			<div class="table-responsive clearfix">
+				<form class="form-horizontal" th:action="@{admin_QnAWriting.do}" th:object="${post}" method="post" onsubmit="return writeQnA()">
+					<table class="table text-center text-nowrap">
+						<thead>
+							<tr id="table_title" class="bg-light">
+								<th class="border-end"></th>
+								<th class="border-end">분류</th>
+								<th colspan=8>제목</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="border-end"></td>
+								<td class="border-end">
+									<select class="form-select" id="postType" th:field="*{boardSubType}" name="boardSubType">
+										<option value=0 disabled selected>구분</option>
+										<option value=1>분류1</option>
+										<option value=2>분류2</option>
+										<option value=3>분류3</option>
+										<option value=4>분류4</option>
+									</select>
+								</td>
+								<td colspan=8><input class="form-control" id="title" th:field="*{title}" name="title"></td>
+							</tr>
+							<tr class="align-middle">
+								<td class="border-end">내용</td>
+								<td colspan=9><textarea class="form-control" id="contents" rows=14 th:field="*{postContents}" name="postContents"></textarea></td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<div id="btn" class="text-end">
+						<button type="submit" class="btn btn-secondary">등록</button>
+						<button class="btn" onclick="history.back()">취소</button>	
+					</div>
+				</form>
+			</div>
+		
+			<th:block layout:fragment="script">
+			<script th:inline="javascript">
+				let sideMenuIcon = document.getElementById('boardMgt');
+				sideMenuIcon.ariaExpanded = "true";
+				let sideMenuShow = document.getElementById('board-collapse');
+				sideMenuShow.className="collapse show";
+				
+				function writeQnA(){
+					if($("#postType").val() < 1){
+						alert("분류를 정해주세요.");
+						return false;
+					} else if($("#title").val().length < 1){
+						alert("제목을 입력해주세요.");
+						return false;
+					} else if($("#contents").val().length < 1){
+						alert("내용을 입력해주세요.");
+						return false;
+					} else if (confirm("등록하시겠습니까?")==false)
+						return false;
+				}
+			</script>
+			</th:block>
+		</th:block>
+	</body>
+</html>

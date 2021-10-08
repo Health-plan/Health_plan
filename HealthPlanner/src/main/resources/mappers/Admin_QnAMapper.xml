@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.health.mapper.Admin_NoticeMapper">
-	<sql id="AdminNotice">
+<mapper namespace="com.health.mapper.Admin_QnAMapper">
+	<sql id="AdminQnA">
 		post_id,
 		board_type,
 		board_sub_type,
@@ -18,9 +18,9 @@
 	</sql>
 	
 	<!-- 상세보기 -->
-	<select id="selectNoticeDetail" parameterType="int" resultType="PostDTO">
+	<select id="selectQnADetail" parameterType="int" resultType="PostDTO">
 		SELECT
-			<include refid="AdminNotice"/>
+			<include refid="AdminQnA"/>
 		FROM
 			post
 		WHERE
@@ -31,12 +31,12 @@
 	
 	<!-- 입력 -->
 	<!-- 아이디값 임의설정함 수정필요 -->
-	<insert id="insertNotice" parameterType="PostDTO">
+	<insert id="insertQnA" parameterType="PostDTO">
 		INSERT INTO
 			post
 		VALUES(
 			#{postId},
-			2,
+			1,
 			#{boardSubType},
 			#{title},
 			#{postContents},
@@ -52,7 +52,7 @@
 	</insert>
 	
 	<!-- 수정 -->
-	<update id="updateNotice" parameterType="PostDTO">
+	<update id="updateQnA" parameterType="PostDTO">
 		UPDATE
 			post
 		SET
@@ -66,7 +66,7 @@
 	</update>
 	
 	<!-- 삭제 -->
-	<update id="deleteNotice" parameterType="int">
+	<update id="deleteQnA" parameterType="int">
 		UPDATE
 			post
 		SET
@@ -80,13 +80,13 @@
 	<!-- 공지리스트 -->
 	<select id="selectPostList" parameterType="PostDTO" resultType="PostDTO">
 		SELECT
-			<include refid="AdminNotice"/>
+			<include refid="AdminQnA"/>
 		FROM
 			post
 		WHERE
 			available = 0
 		AND
-			board_type = 2
+			board_type = 1
 		ORDER BY
 			modify_date DESC,
 			post_date DESC
@@ -103,7 +103,7 @@
 		WHERE
 			available = 0
 		AND
-			board_type = 2
+			board_type = 1
 	</select>
 
 </mapper>
