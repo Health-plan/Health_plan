@@ -1,6 +1,6 @@
 package com.health.domain;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ public class MemberStateDTO {
 	private String mbrId;
 
 	/** 성별 */
-	private String mbrGender;
+	private int mbrGender;
 
 	/** 나이 */
 	private int mbrAge;
@@ -28,7 +28,17 @@ public class MemberStateDTO {
 	private int mbrWeight;
 
 	/** 체지방률 */
-	private int memberFatper;
+//	private long memberFatperCalculator() {
+//		if(mbrGender == 1) {
+//			return (long)mbrWeight - (((long)1.10 * (long)mbrWeight) - (128 *((long) mbrWeight*mbrWeight / (long) mbrHeight*mbrHeight)));
+//		} else if(mbrGender == 2) {
+//			return (long)mbrWeight - (((long)1.07 * (long)mbrWeight) - (128 *((long) mbrWeight*mbrWeight / (long) mbrHeight*mbrHeight)));
+//		} else {
+//			return 0;
+//		}
+//	}
+	
+	private BigDecimal memberFatper;
 
 	/** 종합 신체 등급 */
 	private String averageRank;

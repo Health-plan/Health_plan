@@ -23,34 +23,27 @@ public class MemberStateController {
 	//세션정보가져오기
 	
 	@GetMapping(value = "/memberstate/write.do")
-	public String openMemberStateWrite(@ModelAttribute(value="memberstate") MemberStateDTO memberState, MemberDTO member, Model model) {
-		System.out.println("이것은 memeberState값 : "+memberState);
-		System.out.println("이것은 memeber값 : "+member);
+	public String openMemberStateWrite(@ModelAttribute(value="memberState") MemberStateDTO memberState, MemberDTO member, Model model) {
 		
-		member.setMbrId("123");
-		member.setGoalRegister(1);
-		System.out.println("이것은 memeber값 : "+member);
-		
-		if (member.getMbrId() != null) {
-			if(member.getGoalRegister() == 0) {
-				memberState.setMbrId("123");
-				model.addAttribute("memberstate", memberState);
-				System.out.println("이것은 바뀐 memeber값 : "+memberState);
-			}
+		//memberDTO값 불러오는 메소드 필요
+		//일단 id값 임의 지정 후 작성 기능 테스트
+		if (member.getGoalRegister() == 0) {
+			
+			model.addAttribute("memberstate", memberState);
 		}
-//		else {
-//			MemberStateDTO memberstate = memberstateService.getMemberStateDetail(memberStateDate, "mbrId");
-//			if (memberstate == null) {
-//				return "redirect:/memberstate/list.do";
-//			}
-//			model.addAttribute("memberstate", memberstate);
-//		}
+		else {
+			return "redirect:main.do";
+		}
+		
 		return "member_state";
 	}
 	
 	@PostMapping(value = "/memberstate/register.do")
 	public String registerMemberState(final MemberStateDTO memberState) {
-		memberState.setMbrId("123");
+		memberState.setMbrId("qwerty123");
+		System.out.println("등록중인 데이터" + memberState);
+		
+		//일단 id값 임의 지정 후 작성 기능 테스트
 		try {
 			boolean isRegistered = memberstateService.registerMemberState(memberState);
 			if (isRegistered == false) {
@@ -59,10 +52,10 @@ public class MemberStateController {
 			}
 		} catch (DataAccessException e) {
 			// TODO => 데이터베이스 처리 과정에 문제가 발생하였다는 메시지를 전달
-			System.out.println("디비문제");
+			System.out.println("디비문제 :" + e);
 		} catch (Exception e) {
 			// TODO => 시스템에 문제가 발생하였다는 메시지를 전달
-			System.out.println("시스템문제");
+			System.out.println("시스템문제" + e);
 		}
 
 		return "redirect:/memberstate/list.do";

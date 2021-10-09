@@ -6,14 +6,14 @@
 
 	<th:block layout:fragment="content">
 		<div class="card-content">
-			<form class="form-horizontal" th:action="@{/memberstate/register.do}" th:object="${memberstate}" method="post" onsubmit="return registerMemberState(this)">
+			<form class="form-horizontal" th:action="@{/memberstate/register.do}" th:object="${memberState}" method="post" onsubmit="return registerMemberState(this)">
 				<!--/* update의 경우 서버로 전달할 게시글 번호 (PK) */-->
 				<input type="hidden" th:if="*{memberStateDate != null and memberStateDate > '0'}" th:field="*{memberStateDate}" />
 				<div class="form-group">
 					<label for="mbrGender" class="col-sm-2 control-label">성별</label>
 					<div class="col-xs-2">
-						<label><input th:field="*{mbrGender}" type="radio" class="form-control" value="1" />남자</label>
-						<label><input th:field="*{mbrGender}" type="radio" class="form-control" value="2"/>여자</label>
+						<label><input th:field="*{mbrGender}" type="radio" class="form-control" value=1 />남자</label>
+						<label><input th:field="*{mbrGender}" type="radio" class="form-control" value=2/>여자</label>
 					</div>
 				</div>
 				<div class="form-group">
@@ -36,6 +36,7 @@
 						<input type="text" th:field="*{mbrWeight}" class="form-control" placeholder="키" />
 					</div>
 				</div>
+				<input type="hidden" th:field="*{memberFatper}">
 				<div class="btn_wrap text-center">
 					<a th:href="@{/memberstate/list.do}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
 					<button type="submit" class="btn btn-primary waves-effect waves-light">저장하기</button>

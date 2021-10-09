@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.health.domain.MemberDTO;
 import com.health.domain.MemberStateDTO;
 import com.health.mapper.MemberStateMapper;
 
@@ -16,17 +17,18 @@ public class MemberStateServiceImpl implements MemberStateService {
 	private MemberStateMapper memberStateMapper;
 
 	@Override
-	public boolean registerMemberState(MemberStateDTO params) {
+	public boolean registerMemberState(MemberStateDTO member) {
 		int queryResult = 0;
 		
-		if (params.getMbrId() == null) {
-			queryResult = memberStateMapper.insertMemberState(params);
-			System.out.println("insert메소드값 : "+ queryResult);
+		if(member.getMbrId() != null) {
+			queryResult = memberStateMapper.insertMemberState(member);
+//		} else {
+//			queryResult = memberStateMapper.updateMemberState(state);
+//			System.out.println("update메소드값 : "+ queryResult);
+//		}
 		} else {
-			queryResult = memberStateMapper.updateMemberState(params);
-			System.out.println("update메소드값 : "+ queryResult);
+			System.out.println("Register 메소드 제대로 실행 안 됨");
 		}
-
 		return (queryResult == 1) ? true : false;
 	}
 
