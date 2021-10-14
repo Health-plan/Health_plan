@@ -14,7 +14,6 @@
 		, average_rank
 		, goal_per
 		, registrant
-		, regist_date
 		, modifier
 		, modify_date
 		, title
@@ -30,19 +29,10 @@
 			, #{mbrAge}
 			, #{mbrHeight}
 			, #{mbrWeight}
-			, 
-			<choose>
-				<when test="mbrGender == 1">
-					mbr_weight - ((1.10 * mbr_weight) - (128 *( (mbr_weight*mbr_weight) / (mbr_height*mbr_height))))
-				</when>
-				<when test="mbrGender == 2">
-					mbr_weight - ((1.07 * mbr_weight) - (128 *( (mbr_weight*mbr_weight) / (mbr_height*mbr_height))))
-				</when>
-			</choose>
+			, #{memberFatper}
 			, #{averageRank}
 			, #{goalPer}
 			, #{mbrId}
-			, NOW()
 			, null
 			, null
 			, #{title}

@@ -27,7 +27,7 @@ public interface MemberMapper {
 	  // 회원가입 
 	  public void memberRegister(MemberDTO memberDto) throws Exception;
 	  
-	 //아이디 찾
+	 //아이디 찾기
 	  public MemberDTO findId(MemberDTO mbrdto) throws Exception;
 	  
 	  //비밀번호찾기 - hint-answer

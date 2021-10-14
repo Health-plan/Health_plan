@@ -31,17 +31,7 @@ public class MemberStateDTO {
 	private int mbrWeight;
 
 	/** 체지방률 */
-//	private long memberFatperCalculator() {
-//		if(mbrGender == 1) {
-//			return (long)mbrWeight - (((long)1.10 * (long)mbrWeight) - (128 *((long) mbrWeight*mbrWeight / (long) mbrHeight*mbrHeight)));
-//		} else if(mbrGender == 2) {
-//			return (long)mbrWeight - (((long)1.07 * (long)mbrWeight) - (128 *((long) mbrWeight*mbrWeight / (long) mbrHeight*mbrHeight)));
-//		} else {
-//			return 0;
-//		}
-//	}
-	
-	private BigDecimal memberFatper;
+	private int memberFatper;
 
 	/** 종합 신체 등급 */
 	private String averageRank;
@@ -51,9 +41,6 @@ public class MemberStateDTO {
 
 	/** 등록자 */
 	private String registrant;
-
-	/** 등록일자 */
-	private String registDate;
 	
 	/** 수정자 */
 	private String modifier;
@@ -66,7 +53,7 @@ public class MemberStateDTO {
 		return "MemberStateDTO [memberStateDate=" + memberStateDate + ", mbrId=" + mbrId + ", title=" + title 
 				+", mbrGender=" + mbrGender	+ ", mbrAge=" + mbrAge + ", mbrHeight=" + mbrHeight + ", mbrWeight="
 				+ mbrWeight + ", memberFatper=" + memberFatper + ", averageRank=" + averageRank + ", goalPer="
-				+ goalPer + ", registrant=" + registrant + ", registDate=" + registDate + ", modifier=" + modifier
+				+ goalPer + ", registrant=" + registrant + ", modifier=" + modifier
 				+ ", modifyDate=" + modifyDate + "]";
 	}
 	

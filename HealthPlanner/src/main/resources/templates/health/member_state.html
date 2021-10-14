@@ -42,6 +42,17 @@
 						<input type="text" th:field="*{mbrWeight}" class="form-control" placeholder="몸무게" />
 					</div>
 				</div>
+				
+				<div class="form-group">
+					<label for="memberFatper" class="col-sm-2 control-label">체지방률</label>
+					<div class="col-xs-2">
+						<label><input th:field="*{memberFatper}" type="radio" class="form-control" value=10/>마름</label>
+						<label><input th:field="*{memberFatper}" type="radio" class="form-control" value=20/>보통</label>
+						<label><input th:field="*{memberFatper}" type="radio" class="form-control" value=30/>통통</label>
+						<label><input th:field="*{memberFatper}" type="radio" class="form-control" value=40/>뚱뚱</label>
+					</div>
+				</div>
+				
 				<input type="hidden" th:field="*{memberFatper}">
 				<div class="btn_wrap text-center">
 					<a th:href="@{/memberstate/list.do}" class="btn btn-default waves-effect waves-light">뒤로가기</a>

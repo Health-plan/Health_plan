@@ -1,5 +1,7 @@
 package com.health.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,15 +55,12 @@ public class MemberStateController {
 		try {
 			boolean isRegistered = memberstateService.registerMemberState(memberState);
 			if (isRegistered == false) {
-				// TODO => 게시글 등록에 실패하였다는 메시지를 전달
-				System.out.println("1번 실패");
+				return showMessageWithRedirect("게시글 등록에 실패하였습니다.", "/memberstate/list.do", Method.GET, null, model);
 			}
 		} catch (DataAccessException e) {
-			// TODO => 데이터베이스 처리 과정에 문제가 발생하였다는 메시지를 전달
-			System.out.println("디비문제 :" + e);
+			return showMessageWithRedirect("데이터베이스 처리 과정에 문제가 발생하였습니다.", "/memberstate/list.do", Method.GET, null, model);
 		} catch (Exception e) {
-			// TODO => 시스템에 문제가 발생하였다는 메시지를 전달
-			System.out.println("시스템문제" + e);
+			return showMessageWithRedirect("시스템에 문제가 발생하였습니다.", "/memberstate/list.do", Method.GET, null, model);
 		}
 
 		return "redirect:/memberstate/list.do";
@@ -89,7 +88,7 @@ public class MemberStateController {
 		}
 
 		MemberStateDTO memberstate = memberstateService.getMemberStateDetail(mbrId);
-		if (memberstate == null || "1".equals(memberstate.getModifyDate())) {
+		if (memberstate == null) {
 			// TODO => 없는 게시글이거나, 이미 삭제된 게시글이라는 메시지를 전달하고, 게시글 리스트로 리다이렉트
 			return "redirect:/memberstate/list.do";
 		}
@@ -99,14 +98,14 @@ public class MemberStateController {
 	}
 	
 	@PostMapping(value = "/memberstate/delete.do")
-	public String deleteBoard(@RequestParam(value = "memberStateDate", required = false)String memberStateDate) {
-		if (memberStateDate == null) {
+	public String deleteBoard(@RequestParam(value = "mbrId", required = false)String mbrId) {
+		if (mbrId == null) {
 			// TODO => 올바르지 않은 접근이라는 메시지를 전달하고, 게시글 리스트로 리다이렉트
 			return "redirect:/memberstate/list.do";
 		}
 
 		try {
-			boolean isDeleted = memberstateService.deleteMemberState(memberStateDate,"mbrId");
+			boolean isDeleted = memberstateService.deleteMemberState(mbrId, mbrId);
 			if (isDeleted == false) {
 				// TODO => 게시글 삭제에 실패하였다는 메시지를 전달
 			}

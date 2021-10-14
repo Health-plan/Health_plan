@@ -15,38 +15,53 @@
 				</div>
 
 				<div class="form-group">
-					<label for="inp-type-2" class="col-sm-2 control-label">이름</label>
+					<label for="inp-type-5" class="col-sm-2 control-label">성별</label>
 					<div class="col-sm-10">
-						<p class="form-control" th:text="*{writer}"></p>
+						<p class="form-control" th:text="*{mbrGender}"></p>
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label for="inp-type-5" class="col-sm-2 control-label">내용</label>
+					<label for="inp-type-5" class="col-sm-2 control-label">나이</label>
 					<div class="col-sm-10">
-						<p class="form-control" th:text="*{content}"></p>
+						<p class="form-control" th:text="*{mbrAge}"></p>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="inp-type-5" class="col-sm-2 control-label">키</label>
+					<div class="col-sm-10">
+						<p class="form-control" th:text="*{mbrHeight}"></p>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="inp-type-5" class="col-sm-2 control-label">몸무게</label>
+					<div class="col-sm-10">
+						<p class="form-control" th:text="*{mbrWeight}"></p>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="inp-type-5" class="col-sm-2 control-label">체지방률</label>
+					<div class="col-sm-10">
+						<p class="form-control" th:text="*{memberFatper}"></p>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label for="inp-type-5" class="col-sm-2 control-label">등록일</label>
 					<div class="col-sm-10">
-						<p class="form-control" th:text="*{#temporals.format( registDate 'yyyy-MM-dd' )}"></p>
+						<p class="form-control" th:text="*{#temporals.format( memberStateDate, 'yyyy-MM-dd' )}"></p>
 					</div>
 				</div>
 
-				<div class="form-group">
-					<label for="inp-type-5" class="col-sm-2 control-label">조회 수</label>
-					<div class="col-sm-10">
-						<p class="form-control" th:text="*{viewCnt}"></p>
-					</div>
-				</div>
 			</form>
 
 			<div class="btn_wrap text-center">
 				<a th:href="@{/memberstate/list.do}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
-				<a th:href="@{/memberstate/write.do( memberStateDate=${memberstate.memberStateDate} )}" class="btn btn-primary waves-effect waves-light">수정하기</a>
-				<button type="button" class="btn btn-danger waves-effect waves-light" th:onclick="deleteMemberState([[ ${memberstate.memberStateDate} ]])">삭제하기</button>
+				<a th:href="@{/memberstate/write.do( mbrId=${memberstate.mbrId} )}" class="btn btn-primary waves-effect waves-light">수정하기</a>
+				<button type="button" class="btn btn-danger waves-effect waves-light" th:onclick="deleteMemberState([[ ${memberstate.mbrId} ]])">삭제하기</button>
 			</div>
 		</div>
 		<!-- /.card-content -->
@@ -86,4 +101,28 @@
 		</div>
 		<!-- /.box-content -->
 	</th:block>
+	<th:block layout:fragment="script">
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+
+			function deleteBoard(mbrId) {
+
+				if (confirm(mbrId + "번 게시글을 삭제할까요?")) {
+					var uri = /*[[ @{/memberstate/delete.do} ]]*/;
+					var html = "";
+
+					html += '<form name="dataForm" action="'+uri+'" method="post">';
+						html += '<input type="hidden" name="mbrId" value="'+mbrId+'" />';
+					html += '</form>';
+
+					$("body").append(html);
+					document.dataForm.submit();
+				}
+			}
+			/*[- end of function -]*/
+
+			/*]]>*/
+		</script>
+	</th:block>
+</html>
 </html>

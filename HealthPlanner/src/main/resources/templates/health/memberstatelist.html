@@ -26,14 +26,15 @@
 				</thead>
 				<tbody>
 					<tr th:if="${not #lists.isEmpty( memberstateList )}" th:each="row : ${memberstateList}">
+						<!-- <td th:text="${row.title}"></td> -->
 						<td class="text-left">
-							<a th:href="@{/memberstate/view.do( memberstate=${row.memberstate} )}" th:text="${row.title}"></a>
+							<a th:href="@{/memberstate/view.do( mbrId=${row.mbrId} )}" th:text="${row.title}"></a>
 						</td>
-						<td scope="row" th:text="${#strings.equals( row.registDate, 'yyyy-mm-dd' ) ? '등록일' : row.memberStateDate}"></td>
+						<td th:text="${row.registrant}"></td>
 						<td class="text-left">
 							<a th:href="@{/memberstate/view.do( memberStateDate=${row.memberStateDate} )}" th:text="${row.memberStateDate}"></a>
 						</td>
-						<td th:text="${row.registrant}"></td>
+						
 						<td th:text="${row.modifyDate}"></td>
 					</tr>
 					<tr th:unless="${not #lists.isEmpty( memberstateList )}">
