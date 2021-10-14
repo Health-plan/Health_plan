@@ -14,6 +14,9 @@ public class MemberStateDTO {
 
 	/** 아이디(FK) */
 	private String mbrId;
+	
+	/** 제목 */
+	private String title;
 
 	/** 성별 */
 	private int mbrGender;
@@ -60,10 +63,11 @@ public class MemberStateDTO {
 
 	@Override
 	public String toString() {
-		return "MemberStateDTO [memberStateDate=" + memberStateDate + ", mbrId=" + mbrId + ", mbrGender=" + mbrGender
-				+ ", mbrAge=" + mbrAge + ", mbrHeight=" + mbrHeight + ", mbrWeight=" + mbrWeight + ", memberFatper="
-				+ memberFatper + ", averageRank=" + averageRank + ", goalPer=" + goalPer + ", registrant=" + registrant
-				+ ", registDate=" + registDate + ", modifier=" + modifier + ", modifyDate=" + modifyDate + "]";
+		return "MemberStateDTO [memberStateDate=" + memberStateDate + ", mbrId=" + mbrId + ", title=" + title 
+				+", mbrGender=" + mbrGender	+ ", mbrAge=" + mbrAge + ", mbrHeight=" + mbrHeight + ", mbrWeight="
+				+ mbrWeight + ", memberFatper=" + memberFatper + ", averageRank=" + averageRank + ", goalPer="
+				+ goalPer + ", registrant=" + registrant + ", registDate=" + registDate + ", modifier=" + modifier
+				+ ", modifyDate=" + modifyDate + "]";
 	}
 	
 	

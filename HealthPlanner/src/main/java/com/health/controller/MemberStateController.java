@@ -2,6 +2,9 @@ package com.health.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
@@ -25,11 +28,12 @@ public class MemberStateController {
 	@GetMapping(value = "/memberstate/write.do")
 	public String openMemberStateWrite(@ModelAttribute(value="memberState") MemberStateDTO memberState, MemberDTO member, Model model) {
 		
+		System.out.println("memberState : "+memberState);
 		//memberDTO값 불러오는 메소드 필요
 		//일단 id값 임의 지정 후 작성 기능 테스트
 		if (member.getGoalRegister() == 0) {
 			
-			model.addAttribute("memberstate", memberState);
+			model.addAttribute("memberstate", memberState);		
 		}
 		else {
 			return "redirect:main.do";
@@ -39,8 +43,10 @@ public class MemberStateController {
 	}
 	
 	@PostMapping(value = "/memberstate/register.do")
-	public String registerMemberState(final MemberStateDTO memberState) {
-		memberState.setMbrId("qwerty123");
+	public String registerMemberState(final MemberStateDTO memberState, HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		MemberDTO dto = (MemberDTO)session.getAttribute("member");
+		memberState.setMbrId(dto.getMbrId());
 		System.out.println("등록중인 데이터" + memberState);
 		
 		//일단 id값 임의 지정 후 작성 기능 테스트

@@ -18,20 +18,22 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th>일자</th>
+						<th>제목</th>
 						<th>아이디</th>
-						<th>등록일</th>
-						<th>수정일</th>
+						<th>등록일자</th>
+						<th>수정일자</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:if="${not #lists.isEmpty( memberstateList )}" th:each="row : ${memberstateList}">
+						<td class="text-left">
+							<a th:href="@{/memberstate/view.do( memberstate=${row.memberstate} )}" th:text="${row.title}"></a>
+						</td>
 						<td scope="row" th:text="${#strings.equals( row.registDate, 'yyyy-mm-dd' ) ? '등록일' : row.memberStateDate}"></td>
 						<td class="text-left">
 							<a th:href="@{/memberstate/view.do( memberStateDate=${row.memberStateDate} )}" th:text="${row.memberStateDate}"></a>
 						</td>
 						<td th:text="${row.registrant}"></td>
-						<td th:text="${row.registDate}"></td>
 						<td th:text="${row.modifyDate}"></td>
 					</tr>
 					<tr th:unless="${not #lists.isEmpty( memberstateList )}">
@@ -41,7 +43,7 @@
 			</table>
 
 			<div class="btn_wrap text-right">
-				<a th:href="@{/memberstate/write.do}" class="btn btn-primary waves-effect waves-light">Write</a>
+				<a th:href="@{/memberstate/write.do}" class="btn btn-primary waves-effect waves-light">작성하기</a>
 			</div>
 
 			<th:block layout:fragment="paging">

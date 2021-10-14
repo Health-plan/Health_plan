@@ -33,7 +33,7 @@ public class MemberService{
 			  
 			 } else {
 			  session.setAttribute("member", login);
-			 
+			  System.out.println("member : " + session.getAttribute("member"));
 			  System.out.println("멤버세션값"+req.getSession().getAttribute("member"));
 			  
 			 }

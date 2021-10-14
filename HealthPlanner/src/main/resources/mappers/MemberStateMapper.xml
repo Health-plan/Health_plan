@@ -17,6 +17,7 @@
 		, regist_date
 		, modifier
 		, modify_date
+		, title
 	</sql>
 
 	<insert id="insertMemberState" parameterType="MemberStateDTO">
@@ -44,6 +45,7 @@
 			, NOW()
 			, null
 			, null
+			, #{title}
 		)
 	</insert>
 	
