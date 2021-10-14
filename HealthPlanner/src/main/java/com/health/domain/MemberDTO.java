@@ -41,13 +41,6 @@ public class MemberDTO {
 	//수정일자
 	private String modifyDate;
 
-	////mbr_point_record
-	private int pointId;
-	private String pointKind;
-	//// point_police
-	private int pointValue;
-	private String pointContents;
-	private String pointCategory;
 	
 	@Override
 	public String toString() {
@@ -55,8 +48,8 @@ public class MemberDTO {
 				+ ", mbrEmail=" + mbrEmail + ", mbrPwHint=" + mbrPwHint + ", mbrPwAnswer=" + mbrPwAnswer + ", mbrPhoto="
 				+ mbrPhoto + ", goalRegister=" + goalRegister + ", managementRank=" + managementRank + ", secession="
 				+ secession + ", registrant=" + registrant + ", registDate=" + registDate + ", modifier=" + modifier
-				+ ", modifyDate=" + modifyDate + ", pointId=" + pointId + ", pointKind=" + pointKind + ", pointValue="
-				+ pointValue + ", pointContents=" + pointContents + ", pointCategory=" + pointCategory + "]";
+				+ ", modifyDate=" + modifyDate + 
+				"]";
 	}
 	
 	

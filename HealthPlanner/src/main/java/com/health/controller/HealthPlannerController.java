@@ -343,10 +343,11 @@ public class HealthPlannerController {
 				@GetMapping(value = "mypage_body.do")
 				public String openMypage_body(HttpSession session, Model model) throws Exception
 				{
-					Object mypageSessionNull =session.getAttribute("member");
-					System.out.println("세션값 동일? "+mypageSessionNull);
-					if(mypageSessionNull != null)
+					MemberDTO myloginSessions =  (MemberDTO)session.getAttribute("member");
+					System.out.println("세션값 동일? "+myloginSessions);
+					if(myloginSessions != null)
 					{
+						model.addAttribute("userNm",myloginSessions.getMbrNm());
 						return "mypage_body";
 					}
 					
@@ -360,10 +361,12 @@ public class HealthPlannerController {
 				@GetMapping(value = "mypage_point.do")
 				public String openMypage_point(HttpSession session, Model model) throws Exception
 				{
-					Object mypageSessionNull =session.getAttribute("member");
+					MemberDTO myloginSessions =  (MemberDTO)session.getAttribute("member");
 					
-					if(mypageSessionNull != null)
+					if(myloginSessions != null)
 					{
+						model.addAttribute("pointValue",myloginSessions.getPointValue());
+						model.addAttribute("userNm",myloginSessions.getMbrNm());
 						return "mypage_point";
 					}
 					
