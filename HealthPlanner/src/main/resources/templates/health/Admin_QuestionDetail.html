@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/basic">
+<th:block layout:fragment="title">
+	<title>상세페이지</title>
+</th:block>
+<body>
+	<th:block layout:fragment="contents">
+		<div class="title">
+			<h4 class="main_title fw-bold mb-4 d-inline-block">게시글 관리</h4>
+			<h5 class="sub_title d-inline-block">문의사항</h5>
+		</div>
+
+		<div class="table-responsive clearfix">
+			<form th:action="@{admin_QuestionDetailAnswer.do}" method="post" th:object="${post}">
+				<input type="hidden" th:field="*{postId}" name="postId" th:value="${postId}">
+				<table class="table text-center text-nowrap">
+					<thead>
+						<tr class="table_title bg-light">
+							<th scope="col">번호</th>
+							<th scope="col">제목</th>
+							<th scope="col">분류</th>
+							<th scope="col">작성자</th>
+							<th scope="col">답변여부</th>
+							<th scope="col">작성일자</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row" th:text="${post.postId}"></th>
+							<td th:text="${post.title}" class="w-50"></td>
+							<td th:if="${post.boardSubType.equals(1)}">회원문의</td>
+							<td th:if="${post.boardSubType.equals(2)}">시스템문의</td>
+							<td th:if="${post.boardSubType.equals(3)}">포인트문의</td>
+							<td th:if="${post.boardSubType.equals(4)}">기타문의</td>
+							<td th:text="${post.mbrId}"></td>
+							<td th:if="${post.answerState.equals(0)}">답변 대기중</td>
+							<td th:unless="${post.answerState.equals(0)}">답변 완료</td>
+							<td th:text="${post.postDate}" width=""></td>
+						</tr>
+						<tr class="align-middle" style="height: 400px;">
+							<th scope="row">문의내용</th>
+							<td colspan="5" th:text="${post.postContents}"></td>
+						</tr>
+
+						<!-- 답변란 -->
+						<th:block>
+							<!-- 답변이 있는 경우 -->
+							<tr th:if="${post.answerState} == 1" id="answerText" class="align-middle" >
+								<th scope="row">답변내용</th>
+								<!-- 버튼 클릭 시 활성화 -->
+								<td colspan="5" id="answerTextarea">
+									<!-- 답변영역 --> <textarea
+										class="form-control border-0 bg-white overflow-hidden pb-2"
+										disabled th:text="${post.answer}" th:field="*{answer}"
+										style="resize: none;" name="answer" id="adminAnswer"></textarea>
+								</td>
+								<td id="writeBtn" style="display:none"><button type="submit" class="btn btn-secondary" onclick="return alertMsg()">답변등록</button></td>
+							</tr>
+
+							<!-- 답변이 없는 경우 -->
+							<!-- 버튼 클릭 시 활성화 -->
+							<tr th:unless="${post.answerState} == 1" id="answerText" class="align-middle" style="display:none" >
+								<th scope="row" class="">답변내용</th>
+								<td colspan="4" id="answerTextarea">
+									<!-- 답변영역 --> 
+									<textarea class="form-control" th:text="${post.answer}" th:field="*{answer}" style="resize: none;" name="answer" id="adminAnswer"></textarea>
+								</td>
+								<td><button type="submit" class="btn btn-secondary" onclick="return alertMsg()">답변등록</button></td>
+							</tr>
+						</th:block>
+
+
+					</tbody>
+				</table>
+
+				<div id="btn" class="float-end mb-2">
+					<!-- 답변여부에 따른 버튼 -->
+					<button th:if="${post.answerState.equals(1)}" type="button" class="btn btn-secondary answerBtn" id="answerBtn" onclick="answerToggleSwitch()">수정하기</button>
+					<button th:unless="${post.answerState.equals(1)}" type="button" class="btn btn-secondary answerBtn" id="answerBtn" onclick="answerToggleSwitch()">답변하기</button>
+					
+					<!-- postId값으로 이전 페이지구간으로 이동할 수 있도록 href 설정 -->
+					<button type="button" class="btn btn-light" th:onclick="backPage([[${#session.getAttribute('currentPageNo')}]],[[${#session.getAttribute('sortType')}]])">뒤로가기</button>
+				</div>
+
+			</form>
+		</div>
+
+
+		<th:block layout:fragment="script">
+			<script th:inline="javascript">
+				/*<![CDATA[*/
+				//사이드메뉴 현재 영역 기본값 - 펼치기 
+				let sideMenuIcon = document.getElementById('boardMgt');
+				sideMenuIcon.ariaExpanded = "true";
+				let sideMenuShow = document.getElementById('board-collapse');
+				sideMenuShow.className = "collapse show";
+
+				//답변입력란 활성화 부분				
+				function answerToggleSwitch(){
+					let editBtn = document.getElementById("editBtn");
+					let answerBtn = document.getElementById("answerBtn");
+					let answerText = document.getElementById("answerText");
+					let postAnswerState = /*[[${post.answerState}]]*/null;
+					let answerTextarea = document.getElementById("answerTextarea");
+					let adminAnswer = document.getElementById("adminAnswer");
+					let writeBtn = document.getElementById("writeBtn");
+					let oldAnswer = /*[[${post.answer}]]*/null;
+					
+					//답변이 없는 경우
+					if(postAnswerState != 1){
+						//입력창 안 보일때
+						if(answerText.style.display == "none"){
+							answerText.style.display="table-row";
+							document.getElementById("answerBtn").innerText="취소";
+						//입력창 보일때
+						} else {
+							answerText.style.display="none";
+							document.getElementById("answerBtn").innerText="답변하기";
+						}
+					//답변이 있는 경우
+					} else {
+						//입력창 안 보일때
+						if(writeBtn.style.display == "none"){
+							answerTextarea.colSpan=4;
+							adminAnswer.disabled = false;
+							adminAnswer.className = "form-control";
+							writeBtn.style.display="table-cell";
+							document.getElementById("answerBtn").innerText="취소";
+						//입력창 보일때
+						} else {
+							answerTextarea.colSpan=5;
+							adminAnswer.disabled = true;
+							adminAnswer.className = "form-control border-0 bg-white overflow-hidden pb-2";
+							adminAnswer.value = oldAnswer;
+							writeBtn.style.display="none";
+							document.getElementById("answerBtn").innerText="수정하기";
+						}
+					}
+				}
+				
+				//이전페이지로 돌아가기
+				function backPage(cpn,st){
+					let uri = /*[[@{admin_Question.do}]]*/null;
+					if(cpn != null && st != null){
+						location.href= uri + "?currentPageNo=" + cpn + "&sortType=" + st ;
+					} else {
+						location.href = uri;
+					}
+				}
+				
+				function alertMsg(){
+					if(!confirm('등록하시겠습니까?')){
+						return false;
+					}
+				}
+			
+				/*]]>*/
+			</script>
+		</th:block>
+	</th:block>
+</body>
+</html>

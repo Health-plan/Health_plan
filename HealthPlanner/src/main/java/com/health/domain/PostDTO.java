@@ -40,7 +40,7 @@ public class PostDTO extends CommonDTO {
 		return "PostDTO [postId=" + postId + ", boardType=" + boardType + ", boardSubType=" + boardSubType + ", title="
 				+ title + ", postContents=" + postContents + ", answer=" + answer + ", answerState=" + answerState
 				+ ", available=" + available + ", views=" + views + ", mbrId=" + mbrId + ", postDate=" + postDate
-				+ ", modifier=" + modifier + ", modifyDate=" + modifyDate +  ", pageSize=" + super.getPageSize() + ", sortType = " + super.getSortType()  +  "]" ;
+				+ ", modifier=" + modifier + ", modifyDate=" + modifyDate + ",\n currentPageNo=" + super.getCurrentPageNo() + ", pageSize=" + super.getPageSize() + ", sortType = " + super.getSortType()  +  "]" ;
 	}
 	
 	
