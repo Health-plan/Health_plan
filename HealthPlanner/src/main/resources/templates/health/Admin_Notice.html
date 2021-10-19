@@ -26,7 +26,7 @@
 						th:each="row : ${postList}">
 						<td scope="row" th:if="${row.boardSubType.equals(1)}">운영정책</td>
 						<td th:if="${row.boardSubType.equals(2)}">시스템</td>
-						<td th:if="${row.boardSubType.equals(3)}">포인트문의</td>
+						<td th:if="${row.boardSubType.equals(3)}">포인트</td>
 						<td th:if="${row.boardSubType.equals(4)}">기타</td>
 						<!-- 링크 바꾸기 -->
 						<td class="w-50"><a

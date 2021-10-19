@@ -13,7 +13,7 @@
 		</div>
 
 		<div class="table-responsive clearfix">
-			<form th:action="@{admin_QuestionDetailAnswer.do}" method="post" th:object="${post}">
+			<form th:action="@{admin_QuestionDetailAnswer.do}" method="post" th:object="${post}" onsubmit="return formCheck()">
 				<input type="hidden" th:field="*{postId}" name="postId" th:value="${postId}">
 				<table class="table text-center text-nowrap">
 					<thead>
@@ -39,9 +39,10 @@
 							<td th:unless="${post.answerState.equals(0)}">답변 완료</td>
 							<td th:text="${post.postDate}" width=""></td>
 						</tr>
-						<tr class="align-middle" style="height: 400px;">
+						<tr class="align-middle" id="Question" >
 							<th scope="row">문의내용</th>
-							<td colspan="5" th:text="${post.postContents}"></td>
+							<td colspan="5"><textarea th:text="${post.postContents}" class="form-control border-0 bg-white" readonly disabled></textarea></td>
+							
 						</tr>
 
 						<!-- 답변란 -->
@@ -52,11 +53,10 @@
 								<!-- 버튼 클릭 시 활성화 -->
 								<td colspan="5" id="answerTextarea">
 									<!-- 답변영역 --> <textarea
-										class="form-control border-0 bg-white overflow-hidden pb-2"
-										disabled th:text="${post.answer}" th:field="*{answer}"
-										style="resize: none;" name="answer" id="adminAnswer"></textarea>
+										class="form-control border-0 bg-white pb-2" disabled th:text="${post.answer}" th:field="*{answer}"
+										name="answer" id="adminAnswer"></textarea>
 								</td>
-								<td id="writeBtn" style="display:none"><button type="submit" class="btn btn-secondary" onclick="return alertMsg()">답변등록</button></td>
+								<td id="writeBtn" style="display:none"><button type="submit" class="btn btn-secondary">답변등록</button></td>
 							</tr>
 
 							<!-- 답변이 없는 경우 -->
@@ -67,7 +67,7 @@
 									<!-- 답변영역 --> 
 									<textarea class="form-control" th:text="${post.answer}" th:field="*{answer}" style="resize: none;" name="answer" id="adminAnswer"></textarea>
 								</td>
-								<td><button type="submit" class="btn btn-secondary" onclick="return alertMsg()">답변등록</button></td>
+								<td><button type="submit" class="btn btn-secondary">답변등록</button></td>
 							</tr>
 						</th:block>
 
@@ -81,7 +81,7 @@
 					<button th:unless="${post.answerState.equals(1)}" type="button" class="btn btn-secondary answerBtn" id="answerBtn" onclick="answerToggleSwitch()">답변하기</button>
 					
 					<!-- postId값으로 이전 페이지구간으로 이동할 수 있도록 href 설정 -->
-					<button type="button" class="btn btn-light" th:onclick="backPage([[${#session.getAttribute('currentPageNo')}]],[[${#session.getAttribute('sortType')}]])">뒤로가기</button>
+					<button type="button" class="btn btn-light" onclick="backPage()">뒤로가기</button>
 				</div>
 
 			</form>
@@ -141,21 +141,47 @@
 				}
 				
 				//이전페이지로 돌아가기
-				function backPage(cpn,st){
+				function backPage(){
 					let uri = /*[[@{admin_Question.do}]]*/null;
-					if(cpn != null && st != null){
+					let cpn = "[[${session.currentPageNo}]]";
+					let st = "[[${session.sortType}]]";
+					console.log(cpn);
+					console.log(st);
+					if(cpn == null && st == null){
 						location.href= uri + "?currentPageNo=" + cpn + "&sortType=" + st ;
 					} else {
 						location.href = uri;
 					}
 				}
 				
-				function alertMsg(){
+				//유효성 검사
+				function formCheck(){
+					var answer = document.forms[0].answer.value;
+					if(answer == null || answer == "" || answer.match(/^(\s+)$/ig) != null){
+						alert("내용을 입력해주세요.");
+						document.forms[0].answer.focus();
+						return false;
+					}
+					
 					if(!confirm('등록하시겠습니까?')){
 						return false;
 					}
 				}
-			
+				
+				//문의내용 영역 height 조정
+				var qs = document.getElementById("Question");
+				qs.style.height = "200px";
+				if(qs.scrollHeight >= qs.style.height){
+					qs.style.height = qs.scrollHeight + "px";
+				}
+				
+				//답변내용 영역 height 조정
+				var tx = document.getElementsByTagName("textarea");
+				for(let i=0; i<tx.length; i++){
+					tx[i].setAttribute("style","height:" + (tx[i].scrollHeight) + "px; resize:none;");
+				}
+				
+
 				/*]]>*/
 			</script>
 		</th:block>

@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.health.constant.Method;
 import com.health.domain.PostDTO;
 import com.health.service.Admin_NoticeService;
+import com.health.util.UiUtils;
 
 //관리자페이지 - 공지사항
 @Controller
-public class Admin_NoticeController {
+public class Admin_NoticeController extends UiUtils {
 
 	@Autowired
 	private Admin_NoticeService adminNoticeService;
@@ -108,13 +110,16 @@ public class Admin_NoticeController {
 			boolean isInserted = adminNoticeService.writeNotice(post);
 			if(isInserted == false) {
 				System.out.println("메소드 오류 : " + isInserted);
+				return showMessageWithRedirect("메서드 오류입니다..", "admin_Notice.do", Method.GET, null, model);
 			}
 		} catch (DataAccessException e) {
 			System.out.println("데이터베이스 예외 : " + e);
+			return showMessageWithRedirect("데이터베이스 오류입니다..","admin_Notice.do", Method.GET, null, model);
 		} catch(Exception e) {
 			System.out.println("시스템 예외 : " + e);
+			return showMessageWithRedirect("시스템 오류입니다..", "admin_Notice.do", Method.GET, null, model);
 		}
 		
-		return "redirect:admin_Notice.do";
+		return showMessageWithRedirect("게시글 답변이 등록되었습니다.", "admin_Notice.do?postId="+ post.getPostId(), Method.GET, null, model);
 	}
 }

@@ -11,17 +11,27 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-@Configuration
 @PropertySource("classpath:/application.properties")
+@EnableTransactionManagement // 어노테이션 기반 트랜잭션 활성화
+@Configuration
 public class DBConfiguration {
 
 	@Autowired
 	private ApplicationContext applicationContext;
-
+	
+	@Bean
+	//스프링에서 제공해주는 트랜잭션 매니저(transactionManager())를 빈으로 등록
+	public PlatformTransactionManager transactionManager() throws Exception {
+		return new DataSourceTransactionManager(dataSource());
+	}
+	
 	@Bean
 	@ConfigurationProperties(prefix = "spring.datasource.hikari")
 	public HikariConfig hikariConfig() {

@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.health.constant.Method;
 import com.health.domain.PostDTO;
 import com.health.service.Admin_QuestionService;
+import com.health.util.UiUtils;
 
 //Admin_Question Page
 @Controller
-public class Admin_QuestionController {
+public class Admin_QuestionController extends UiUtils{
 
 	@Autowired
 	private Admin_QuestionService adminQuestionService;
@@ -77,13 +79,17 @@ public class Admin_QuestionController {
 			boolean isUpdated =	adminQuestionService.adminQuestionAnswer(post);
 			if(isUpdated == false) {
 				System.out.println("메소드 문제");
+				return showMessageWithRedirect("게시글 등록에 실패하였습니다.", "admin_Question.do", Method.GET, null, model);
 			}
 		} catch(DataAccessException e){
 			System.out.println("DB 오류 : " + e);
+			return showMessageWithRedirect("데이터베이스 처리 과정에 문제가 발생하였습니다.", "admin_Question.do", Method.GET, null, model);
 		} catch(Exception e) {
 			System.out.println("시스템 오류 : " + e);
+			return showMessageWithRedirect("시스템에 문제가 발생했습니다.", "admin_Question.do", Method.GET, null, model);
 		} 
 		
-		return "redirect:admin_QuestionDetail.do?postId=" + post.getPostId();
+		return showMessageWithRedirect("게시글 답변이 등록되었습니다.", "admin_QuestionDetail.do?postId="+ post.getPostId(), Method.GET, null, model);
+		
 	}
 }

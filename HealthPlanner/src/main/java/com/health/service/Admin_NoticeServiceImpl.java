@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.health.domain.PostDTO;
 import com.health.mapper.Admin_NoticeMapper;
 import com.health.paging.PaginationInfo;
 
 @Service
+@Transactional
 public class Admin_NoticeServiceImpl implements Admin_NoticeService{
 	
 	@Autowired
@@ -32,6 +34,9 @@ public class Admin_NoticeServiceImpl implements Admin_NoticeService{
 		} else {
 			queryResult = adminNoticeMapper.updateNotice(params);
 		}
+		
+		params = null;
+		System.out.println(params.getTitle());
 		
 		return (queryResult == 1) ? true : false;
 	};

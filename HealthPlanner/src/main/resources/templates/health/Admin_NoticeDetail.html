@@ -20,18 +20,24 @@
 							<th scope="col">제목</th>
 							<th>작성자</th>
 							<th>작성일자</th>
+							<th th:if="${post.modifyDate} != null">수정일자</th>
 						</tr>
 					</thead>
 					<tbody>
 						<th:block th:if="${writeContain} != 1">
 							<tr>
-								<td th:if="${post.boardSubType.equals(1)}">분류1</td>
-								<td th:if="${post.boardSubType.equals(2)}">분류2</td>
-								<td th:if="${post.boardSubType.equals(3)}">분류3</td>
-								<td th:if="${post.boardSubType.equals(4)}">분류4</td>
+								<th:block th:switch="${post.boardSubType}">
+									<td th:case="1">운영정책</td>
+									<td th:case="2">시스템</td>
+									<td th:case="3">포인트</td>
+									<td th:case="4">기타</td>
+								</th:block>
 								<td	th:text="${post.title}" class="w-50"></td>
 								<td th:text="${post.mbrId}"></td>
 								<td th:text="${post.postDate}"></td>
+								<th:block th:if="${post.modifyDate} != null">
+									<td th:text="${post.modifyDate}"></td>
+								</th:block>
 							</tr>
 						</th:block>
 						

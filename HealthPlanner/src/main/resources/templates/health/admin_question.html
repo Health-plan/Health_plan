@@ -13,7 +13,7 @@
 			<h5 class="sub_title d-inline-block">문의사항</h5>
 			
 			<label for="sort" class="float-end fs-6">정렬기준
-				<select class="form-select-sm" id="sort" aria-label=".form-select-sm example" onchange="">
+				<select class="form-select d-inline-block w-auto" id="sort" aria-label=".form-select-sm example">
 					<option value="" disabled selected>정렬</option>
 					<option value="2">최신순</option>
 					<option value="1">오래된순</option>
@@ -30,7 +30,7 @@
 					<tr class="bg-light">
 						<th>번호</th>
 						<th>제목</th>
-						<th>분류</th>
+						<th>문의분류</th>
 						<th>작성자</th>
 						<th>답변여부</th>
 						<th>작성일자</th>
@@ -43,10 +43,12 @@
 						<td class="w-50"><a
 							th:href="@{admin_QuestionDetail.do( postId=${row.postId} )}"
 							th:text="${row.title}"></a></td>
-						<td th:if="${row.boardSubType.equals(1)}">회원문의</td>
-						<td th:if="${row.boardSubType.equals(2)}">시스템문의</td>
-						<td th:if="${row.boardSubType.equals(3)}">포인트문의</td>
-						<td th:if="${row.boardSubType.equals(4)}">기타문의</td>
+						<th:block th:switch="${row.boardSubType}">
+							<td th:case="1">회원</td>
+							<td th:case="2">시스템</td>
+							<td th:case="3">포인트</td>
+							<td th:case="4">기타</td>
+						</th:block>
 						<td th:text="${row.mbrId}"></td>
 						<td th:if="${row.answerState.equals(0)}">답변대기중</td>
 						<td th:unless="${row.answerState.equals(0)}">답변 완료</td>
@@ -64,6 +66,26 @@
 				<nav th:replace="fragments/common_get :: pagination"></nav>
 			</th:block>
 		</div>
+		
+		<div class="search">	
+			<th:block layout:fragment="search">
+				<form action="#" method="get" id="searchForm" class="text-center" role="form">
+					<input type="hidden" name="currentPageNo" value="1">
+					<input type="hidden" name="recordsPerPage" th:value="${params.recordsPerPage}">
+					<input type="hidden" name="pageSize" th:value="${params.pageSize}">
+					<select class="form-select d-inline-block w-auto">
+						<option value="" disabled selected>분류</option>
+						<option value="">제목</option>
+						<option value="">작성자</option>
+						<option value="">내용</option>
+					</select>
+					<input type="search" class="form-control w-25 d-inline-block" placeholder="검색어를 입력해주세요" aria-label="Search">
+					<button type="submit" class="btn btn-secondary mb-1">검색</button>
+				</form>
+			</th:block>
+		</div>
+		
+		
 
 		<th:block layout:fragment="script">
 			<script th:inline="javascript">
