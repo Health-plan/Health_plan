@@ -32,7 +32,7 @@
 	</select>
 	
 	<!-- 답변 -->
-	<update id="answerPost" parameterType="PostDTO">
+	<update id="updatePost" parameterType="PostDTO">
 		UPDATE post
 		SET
 			answer = #{answer},
@@ -53,6 +53,7 @@
 			available = 0
 		AND
 			board_type = 3
+		<include refid="CommonMapper.search"/>
 		<!-- 최신 -->
 		<choose>
 			<when test="sortType == 0">
@@ -72,8 +73,7 @@
 				post_date DESC
 			</otherwise>
 		</choose>
-		LIMIT
-			#{paginationInfo.firstRecordIndex}, #{recordsPerPage}
+		<include refid="CommonMapper.paging"/>
 	</select>
 	
 	
@@ -87,6 +87,7 @@
 			available = 0
 		AND
 			board_type = 3
+		<include refid="CommonMapper.search"/>
 	</select>
 	
 	

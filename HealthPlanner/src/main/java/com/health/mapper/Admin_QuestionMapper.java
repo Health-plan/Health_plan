@@ -11,7 +11,7 @@ public interface Admin_QuestionMapper {
 	//문의글 상세조회
 	public PostDTO adminSelectPostDetail(int postId);
 	//답변
-	public int answerPost(PostDTO params);
+	public int updatePost(PostDTO params);
 	//게시글 리스트
 	public List<PostDTO> selectPostList(PostDTO params);
 	//페이징에 사용할 카운트

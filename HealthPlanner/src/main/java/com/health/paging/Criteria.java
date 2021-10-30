@@ -17,7 +17,9 @@ public class Criteria {
 	// 화면 하단에 출력할 페이지 사이즈
 	private int pageSize;
 	// 검색 키워드
-//	private String searchKeyword;
+	private String searchKeyword;
+	// 검색 유형
+	private String searchType;
 	// 정렬 유형
 	private int sortType;
 	
@@ -33,11 +35,15 @@ public class Criteria {
 	}
 	
 	public String makeQueryString(int pageNo) {
-		//웹페이지 파라미터를 유지시켜주느느 클래스
+		//웹페이지 파라미터를 유지시켜주는 클래스
+		//UriComponents - URI를 동적으로 생성해주는 클래스
 		UriComponents uriComponents = UriComponentsBuilder.newInstance()
 				.queryParam("currentPageNo", pageNo)
 				.queryParam("recordsPerPage",recordsPerPage)
 				.queryParam("pageSize",pageSize)
+				.queryParam("sortType", sortType)
+				.queryParam("searchType", searchType)
+				.queryParam("searchKeyword", searchKeyword)
 				.build()
 				.encode();
 		

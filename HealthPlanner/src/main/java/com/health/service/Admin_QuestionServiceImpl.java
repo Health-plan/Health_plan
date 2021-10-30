@@ -20,7 +20,7 @@ public class Admin_QuestionServiceImpl implements Admin_QuestionService  {
 	public boolean adminQuestionAnswer(PostDTO params) {
 		int queryResult = 0;
 		
-		queryResult = adminQuestMapper.answerPost(params);
+		queryResult = adminQuestMapper.updatePost(params);
 		
 		return (queryResult == 1)? true : false;
 	}

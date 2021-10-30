@@ -41,7 +41,7 @@ class MapperTests {
 			params.setModifier("관리자");
 			params.setPostId((int)1);
 			
-			int result = adminQuestionMapper.answerPost(params);
+			int result = adminQuestionMapper.updatePost(params);
 			if(result == 1) {
 				PostDTO post = adminQuestionMapper.adminSelectPostDetail((int)1);
 				try {

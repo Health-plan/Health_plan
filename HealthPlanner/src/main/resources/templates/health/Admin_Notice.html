@@ -45,7 +45,7 @@
 
 		<div class="page_navigation position-relative">
 			<th:block layout:fragment="paging">
-				<nav th:replace="fragments/common_get :: pagination"></nav>
+				<nav th:replace="fragments/common_Question :: pagination"></nav>
 				<button class="btn btn-secondary position-absolute top-0 end-0" th:onclick="'location.href=\' '+ @{admin_NoticeWrite.do}+' \''">글쓰기</button>			</th:block>
 			
 		</div>

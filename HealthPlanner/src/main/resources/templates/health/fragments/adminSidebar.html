@@ -3,7 +3,7 @@
 
 	<th:block th:fragment="adminSidebar">
 		<div th:framgent="adminSidebar" class="flex-shrink-0 p-3 bg-white">
-			<a th:href="@{admin_Question.do}"
+			<a th:href="@{admin.do}"
 				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
 				<!-- <img class="me-2" th:src="@{../static/image/logo.png}" aria-label="HealthPlanner" width="60"> -->
 			<span class="fs-4 fw-semibold">관리자페이지</span>
@@ -15,7 +15,7 @@
 						aria-expanded="false" id="boardMgt">게시글관리</button>
 					<div class="collapse" id="board-collapse">
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a th:href="@{admin_Question.do}" class="link-dark rounded">문의사항</a></li>
+							<li><a th:href="@{admin.do}" class="link-dark rounded">문의사항</a></li>
 							<li><a th:href="@{admin_Notice.do}" class="link-dark rounded">공지사항</a></li>
 							<li><a th:href="@{admin_QnA.do}" class="link-dark rounded">QnA</a></li>
 						</ul>
