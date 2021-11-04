@@ -365,7 +365,7 @@ public class HealthPlannerController {
 					
 					if(myloginSessions != null)
 					{
-						model.addAttribute("pointValue",myloginSessions.getPointValue());
+						//model.addAttribute("pointValue",myloginSessions.getPointValue());
 						model.addAttribute("userNm",myloginSessions.getMbrNm());
 						return "mypage_point";
 					}
