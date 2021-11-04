@@ -18,7 +18,7 @@ import com.health.domain.MemberDTO;
 import com.health.domain.UserDTO;
 import com.health.service.MemberService;
 
-import oracle.jdbc.proxy.annotation.Post;
+//import oracle.jdbc.proxy.annotation.Post;
 
 
 @Controller
@@ -365,7 +365,7 @@ public class HealthPlannerController {
 					
 					if(myloginSessions != null)
 					{
-						model.addAttribute("pointValue",myloginSessions.getPointValue());
+						//model.addAttribute("pointValue",myloginSessions.getPointValue());
 						model.addAttribute("userNm",myloginSessions.getMbrNm());
 						return "mypage_point";
 					}

@@ -1,7 +1,5 @@
 package com.health.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +14,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.health.constant.Method;
 import com.health.domain.MemberDTO;
 import com.health.domain.MemberStateDTO;
 import com.health.service.MemberStateService;
+import com.health.util.UiUtils;
 
 @Controller
 public class MemberStateController {
@@ -45,7 +45,7 @@ public class MemberStateController {
 	}
 	
 	@PostMapping(value = "/memberstate/register.do")
-	public String registerMemberState(final MemberStateDTO memberState, HttpServletRequest req) {
+	public String registerMemberState(final MemberStateDTO memberState, HttpServletRequest req, Model model) {
 		HttpSession session = req.getSession();
 		MemberDTO dto = (MemberDTO)session.getAttribute("member");
 		memberState.setMbrId(dto.getMbrId());

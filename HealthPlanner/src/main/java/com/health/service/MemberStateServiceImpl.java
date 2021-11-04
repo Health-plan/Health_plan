@@ -5,12 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.health.domain.MemberDTO;
 import com.health.domain.MemberStateDTO;
 import com.health.mapper.MemberStateMapper;
 
 @Service
+@Transactional
 public class MemberStateServiceImpl implements MemberStateService {
 
 	@Autowired
