@@ -18,7 +18,7 @@ import com.health.domain.MemberDTO;
 import com.health.domain.UserDTO;
 import com.health.service.MemberService;
 
-import oracle.jdbc.proxy.annotation.Post;
+//import oracle.jdbc.proxy.annotation.Post;
 
 
 @Controller

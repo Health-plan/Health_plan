@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.health.mapper.Admin_LevelupTestMapper">
+	<sql id="LevelupTestDTO">		
+		test_date,
+		mbr_id,
+		exercise_id,
+		evaluation_result,
+		appraiser,
+		running_weight,
+		running_time,
+		video_url,
+		registrant,
+		modifier,
+		modify_date
+	</sql>
+	
+	<!-- 상세보기 -->
+	<select id="selectLevelupDetail" parameterType="LevelupTestDTO" resultType="LevelupTestDTO">
+		SELECT
+			<include refid="LevelupTestDTO"/>
+		FROM
+			levelup_test
+		WHERE
+			test_date = #{testDate}
+		AND
+			mbr_id = #{mbrId}
+		AND
+			exercise_id = #{exerciseId}
+	</select>
+	
+	<!-- 결과 -->
+	<update id="updateLevelupTest" parameterType="LevelupTestDTO">
+		UPDATE
+			levelup_test
+		SET
+			evaluation_result = 1,
+			appraiser = #{},
+			running_weight = #{runningWeight},
+			running_time = #{runningTime},
+			modifier = #{modifier},
+			modify_date = #{modifyDate}
+	</update>
+	
+	<!-- 리스트 -->
+	<select id="selectLevelupTest"></select>
+	
+	<!-- 리스트 전처리 -->
+	<select id="selectLevelupTestTotalCount">
+		SELECT
+			COUNT(*)
+		FROM
+			levelup_test
+	</select>
+	
+</mapper>
