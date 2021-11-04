@@ -34,10 +34,7 @@ public class Admin_NoticeServiceImpl implements Admin_NoticeService{
 		} else {
 			queryResult = adminNoticeMapper.updateNotice(params);
 		}
-		
-		params = null;
-		System.out.println(params.getTitle());
-		
+
 		return (queryResult == 1) ? true : false;
 	};
 	
