@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="CommonMapper">
 
-	<!-- MySQL 페이징 -->
+	<!-- 페이징 -->
 	<sql id="paging">
 		LIMIT
 			#{paginationInfo.firstRecordIndex},#{recordsPerPage}
 	</sql>
 	
-	<!-- MySQL 검색 -->
+	<!-- 검색(Admin_question)-->
 	<sql id="search">
 		<!-- 검색 키워드가 있을 때 -->
 		<if test="searchKeyword != null and searchKeyword != ''">

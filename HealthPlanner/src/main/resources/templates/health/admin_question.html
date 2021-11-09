@@ -36,7 +36,7 @@
 						<th>작성일자</th>
 					</tr>
 				</thead>
-				<tbody id="listTest">
+				<tbody>
 					<tr th:if="${not #lists.isEmpty(postList)}"
 						th:each="row : ${postList}">
 						<td scope="row" th:text="${row.postId}"></td>
@@ -63,13 +63,13 @@
 
 		<div class="page_navigation">
 			<th:block layout:fragment="paging">
-				<nav th:replace="fragments/common_Question :: pagination"></nav>
+				<nav th:replace="fragments/common :: pagination"></nav>
 			</th:block>
 		</div>
 		
 		<div class="search">
 			<th:block layout:fragment="search">
-				<div th:replace="fragments/common_Question :: search"></div>
+				<div th:replace="fragments/common :: search"></div>
 			</th:block>
 		</div>
 		

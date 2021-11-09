@@ -11,7 +11,6 @@ import com.health.domain.MemberStateDTO;
 import com.health.mapper.MemberStateMapper;
 
 @Service
-@Transactional
 public class MemberStateServiceImpl implements MemberStateService {
 
 	@Autowired
