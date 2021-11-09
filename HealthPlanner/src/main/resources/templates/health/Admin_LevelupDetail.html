@@ -11,79 +11,103 @@
 			<h4 class="main_title fw-bold mb-4 d-inline-block">승급관리</h4>
 			<h5 class="sub_title d-inline-block">회원관리</h5>
 		</div>
-
-		<div class="table-responsive clearfix">
-			<table class="table table-hover text-center text-nowrap">
-				<thead>
-					<tr class="bg-light">
-						<th scope="col">아이디</th>
-						<th scope="col">등급</th>
-						<th scope="col">상태</th>
-						<th scope="col">종목</th>
-						<th scope="col">승급신청일자</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:object="${levelup}">
-						<td scope="row" th:text="*{mbrId}"></td>
-						<td th:text="등급미정"></td>
-						<th:block th:switch="*{evaluationResult}">
-							<td th:case="0">승인대기중</td>
-							<td th:case="1">실패</td>
-							<td th:case="2">성공</td>
-						</th:block>
-						<td th:text="*{exerciseId}"></td>
-						<td th:text="*{testDate}" class="writtenDate"></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		
-		<h5 class="fw-bold text-secondary mt-3 mb-4">승급데이터 확인</h5>
-		<div class="d-flex justify-content-evenly">
-			<div>
-				<iframe id="iframeUrl" width="560" height="315"
-					th:src="${levelup.videoUrl}"
-					title="YouTube video player" frameborder="0"
-					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-					allowfullscreen></iframe>
-			</div>
-			<div>
-				<h5 class="fw-bold text-secondary mt-3 mb-4">사용자입력정보</h5>
-				<!-- 데이터 따로 받아서 처리 필요 -->
-				<div>
-					<div class="">무게</div>
-					<h2 th:text="${levelup.runningWeight} + kg" class="mb-4 fw-bold"></h2>
-				</div>
-				<div>
-					<div>횟수</div>
-					<h2 th:text="${levelup.runningTime} + 회" class="fw-bold"></h2>
+		<div>
+			<form th:action="@{admin_levelupUpdate.do}" method="post" th:object="${levelup}" onsubmit="return formCheck();">
+				<input type="hidden" name="testDate" th:value="*{testDate}">
+				<input type="hidden" name="mbrId" th:value="*{mbrId}">
+				<input type="hidden" name="exerciseId" th:value="*{exerciseId}">
+				<div class="table-responsive clearfix">
+					<table class="table table-hover text-center text-nowrap">
+						<thead>
+							<tr class="bg-light">
+								<th scope="col">아이디</th>
+								<th scope="col">등급</th>
+								<th scope="col">상태</th>
+								<th scope="col">종목</th>
+								<th scope="col">승급신청일자</th>
+								<th scope="col">승인일자</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td scope="row" th:text="*{mbrId}"></td>
+								<td th:text="등급미정"></td>
+								<th:block th:switch="*{evaluationResult}">
+									<td th:case="0">승인대기중</td>
+									<td th:case="1">실패</td>
+									<td th:case="2">성공</td>
+								</th:block>
+								<td th:text="*{exerciseId}"></td>
+								<td th:text="*{testDate}" class="writtenDate"></td>
+								<td th:if="*{modifyDate} != null" th:text="*{modifyDate}" class="testDate"></td>
+								<td th:unless="*{modifyDate} != null" th:text="'-'" class="testDate"></td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 				
-			</div>
-			<div>
-				<h5 class="fw-bold text-secondary mt-3 mb-4">관리자확인정보</h5>
-				<div>
-					<div class="mb-1">무게(kg)</div>
-					<input type="number" th:placeholder="${levelup.runningWeight}" class="form-control mb-4 w-50" pattern="\d*">
+				<h5 class="fw-bold text-secondary mt-3 mb-4">승급데이터 확인</h5>
+				<div class="d-flex justify-content-evenly">
+					<div>
+						<iframe id="iframeUrl" width="560" height="315"
+							th:src="${levelup.videoUrl}"
+							title="YouTube video player" frameborder="0"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							allowfullscreen></iframe>
+					</div>
+					<div>
+						<h5 class="fw-bold text-secondary mt-3 mb-4">사용자입력정보</h5>
+						<!-- 데이터 따로 받아서 처리 필요 -->
+						<div>
+							<div class="">무게</div>
+							<h2 th:text="${levelup.runningWeight} + kg" class="mb-4 fw-bold"></h2>
+						</div>
+						<div>
+							<div>횟수</div>
+							<h2 th:text="${levelup.runningTime} + 회" class="fw-bold"></h2>
+						</div>
+						
+					</div>
+					<div>
+						<h5 class="fw-bold text-secondary mt-3 mb-4">관리자확인정보</h5>
+						<div>
+							<div class="mb-1">무게(kg)</div>
+							<input type="number" th:value="${levelup.runningWeight}" class="form-control mb-4 w-50" pattern="\d*" name="runningWeight" id="weightCheck">
+						</div>
+						<div>
+							<div class="mb-1">횟수</div>
+							<input type="number" th:value="${levelup.runningTime}" class="form-control w-50" pattern="\d*" name="runningTime" id="timeCheck">
+						</div>	
+					</div>
 				</div>
-				<div>
-					<div class="mb-1">횟수</div>
-					<input type="number" th:placeholder="${levelup.runningTime}" class="form-control w-50" pattern="\d*">
-				</div>	
-			</div>
+				<div class="float-end">
+					<button class="btn btn-light" style="width:100px" onclick="history.back()">뒤로가기</button>
+					<button type="submit" class="btn btn-danger" style="width:100px" value="1" name="evaluationResult">불합격</button>
+					<button type="submit" class="btn btn-primary" style="width:100px" value="2" name="evaluationResult">합격</button>
+				</div>
+			</form>
 		</div>
-		<div class="float-end">
-			<button class="btn btn-light" style="width:100px" onclick="history.back()">취소</button>
-			<button class="btn btn-secondary" style="width:100px" onclick="">등록</button>
-		</div>
-		
-
 
 		<th:block layout:fragment="script">
 			<script th:inline="javascript">
 				/*<![CDATA[*/
-					
+					//유효성 검사
+					function formCheck(){
+						var weightCheck = document.getElementById("weightCheck");
+						var timeCheck = document.getElementById("timeCheck");
+						if(!confirm('등록하시겠습니까?')){
+							return false;
+						} else {
+							if(weightCheck.value <= 0){
+								alert('무게를 입력해주세요.');
+								return false;
+							}
+							if(timeCheck.value <= 0){
+								alert('횟수를 입력해주세요.');
+								return false;
+							}
+						}
+					}
 				/*]]>*/
 			</script>
 		</th:block>

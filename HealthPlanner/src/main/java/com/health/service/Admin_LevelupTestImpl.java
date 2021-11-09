@@ -23,7 +23,11 @@ public class Admin_LevelupTestImpl implements Admin_LevelupTest{
 	
 	public boolean confirmTest(LevelupTestDTO params) {
 		
-		return false;
+		int queryResult = 0;
+		
+		queryResult = adminLevelupTestMapper.updateLevelupTest(params);
+		
+		return (queryResult == 1) ? true : false;
 	};
 	
 	public List<LevelupTestDTO> getTestList(LevelupTestDTO params){

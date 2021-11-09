@@ -129,10 +129,11 @@
 				}
 			
 				//당일 작성일자 시간으로 변경
-				let nowDate = /*[[${nowDate}]]*/null;
+				let nowDate = /*[[${nowDate}]]*/null; //controller 사용
 				let writtenDate = document.getElementsByClassName('writtenDate');
+				let recordsPerPage = /*[[${params.recordsPerPage}]]*/null;
 				
-				for(var i=0; i<10; i++){
+				for(var i=0; i<recordsPerPage; i++){
 					if(writtenDate[i].innerText.substr(0,10) == nowDate){
 						writtenDate[i].innerText=writtenDate[i].innerText.substring(11,16);
 					} else {
@@ -140,6 +141,7 @@
 					}
 				}
 				
+				//검색 유효성
 				function searchQuestion(form){
 					try{
 					if(isEmpty(form.searchKeyword.value) == true){

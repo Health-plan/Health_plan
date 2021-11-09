@@ -32,6 +32,7 @@
 							<th scope="col">상태</th>
 							<th scope="col">종목</th>
 							<th scope="col">승급신청일자</th>
+							<th scope="col">승인일자</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -49,8 +50,9 @@
 								<td scope="row" th:case="2">성공</td>
 							</th:block>
 							<td scope="row" th:text="${row.exerciseId}"></td>
-							<td scope="row" th:text="${row.testDate}" class="writtenDate"></td>
-							
+							<td scope="row" th:text="${row.testDate}" class="testDate"></td>
+							<td scope="row" th:if="${row.modifyDate} != null" th:text="${row.modifyDate}" class="testDate"></td>
+							<td scope="row" th:unless="${row.modifyDate} != null" th:text="'-'" class="testDate"></td>
 						</tr>
 						
 						<tr th:unless="${not #lists.isEmpty( levelup )}">
@@ -73,15 +75,35 @@
 			</div>
 			<th:block layout:fragment="script">
 				<script th:inline="javascript">
+				/*<![CDATA[*/
 					let sideMenuIcon = document.getElementById('levelUpMgt');
 					sideMenuIcon.ariaExpanded = "true";
 					let sideMenuShow = document.getElementById('levelUp-collapse');
 					sideMenuShow.className="collapse show";
 					
-				/*<![CDATA[*/
-				function movePage(uri, queryString){
-					location.href= uri + queryString;
-				}
+					//페이징 경로
+					function movePage(uri, queryString){
+						location.href= uri + queryString;
+					}
+					
+					//당일 작성일자 시간으로 변경
+					var now = new Date();
+					var nowYear = now.getFullYear();
+					var nowMonth = ('0' + (now.getMonth()+1)).slice(-2);
+					var nowDate = ('0' + now.getDate()).slice(-2);
+					var nowDay = nowYear + '-' + nowMonth + '-' + nowDate;
+					var recordsPerPage = /*[[${params.recordsPerPage}]]*/null;
+					var testDate = document.getElementsByClassName('testDate');
+					for(var i=0; i<(recordsPerPage*2); i++){
+						if(testDate[i].innerText.substr(0,10) == nowDay){
+							testDate[i].innerText = testDate[i].innerText.substr(11);
+						} else {
+							testDate[i].innerText = testDate[i].innerText.substr(0,10);
+						}
+					}
+					
+					console.log(testDate[1].innerText.substr(0,10));
+					
 					
 				/*]]>*/
 				</script>

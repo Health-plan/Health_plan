@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.health.domain.LevelupTestDTO;
@@ -24,8 +26,6 @@ public class Admin_levelupController {
 		
 		List<LevelupTestDTO> levelup = adminLevelupTest.getTestList(params);
 		model.addAttribute("levelup",levelup);
-		
-		System.out.println(params.getCurrentPageNo());
 		
 		return "Admin_Levelup";
 	}
@@ -50,6 +50,30 @@ public class Admin_levelupController {
 			model.addAttribute("levelup",levelup);
 			
 			return "Admin_LevelupDetail";	
+	}
+	
+	@PostMapping(value="admin_levelupUpdate.do")
+	public String levelupUpdate(@ModelAttribute(value="params")LevelupTestDTO params,
+			@RequestParam(value="testDate", required=false) String testDate,
+			@RequestParam(value="mbrId",required=false)String mbrId,
+			@RequestParam(value="exerciseId", required=false)int exerciseId, Model model) {
+		if(testDate == null || mbrId == null || exerciseId == 0) {
+			return "redirect:admin_levelup.do";
+		}
+		try {
+			boolean isUpdate = adminLevelupTest.confirmTest(params);
+			if(isUpdate == false) {
+				System.out.println("메소드문제");
+			}
+			
+		} catch(DataAccessException e) {
+			System.out.println("디비 에러 : " + e);
+		}
+		catch(Exception e) {
+			System.out.println("시스템 에러 : " + e);
+		}
+		
+		return "redirect:admin_levelup.do";
 	}
 
 }
