@@ -34,8 +34,8 @@
 								<td th:text="등급미정"></td>
 								<th:block th:switch="*{evaluationResult}">
 									<td th:case="0">승인대기중</td>
-									<td th:case="1">실패</td>
-									<td th:case="2">성공</td>
+									<td th:case="1">불합격</td>
+									<td th:case="2">합격</td>
 								</th:block>
 								<td th:text="*{exerciseId}"></td>
 								<td th:text="*{testDate}" class="writtenDate"></td>
@@ -91,6 +91,11 @@
 		<th:block layout:fragment="script">
 			<script th:inline="javascript">
 				/*<![CDATA[*/
+					let sideMenuIcon = document.getElementById('levelUpMgt');
+					sideMenuIcon.ariaExpanded = "true";
+					let sideMenuShow = document.getElementById('levelUp-collapse');
+					sideMenuShow.className="collapse show";
+					
 					//유효성 검사
 					function formCheck(){
 						var weightCheck = document.getElementById("weightCheck");

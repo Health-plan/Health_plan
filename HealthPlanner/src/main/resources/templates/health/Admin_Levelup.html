@@ -11,13 +11,11 @@
 				<h4 class="main_title fw-bold mb-4 d-inline-block">승급관리</h4>
 				<h5 class="sub_title d-inline-block">회원관리</h5>
 				<label for="sort" class="float-end fs-6">정렬기준
-					<select class="form-select d-inline-block w-auto" id="sort" aria-label=".form-select-sm example">
+					<select class="form-select d-inline-block w-auto" id="sortType" aria-label=".form-select-sm example">
 						<option value="" disabled selected>정렬</option>
-						<option value="2">최신순</option>
-						<option value="1">오래된순</option>
-						<option value="0">답변대기중</option>
-						
-	
+						<option value="2">상태</option>
+						<option value="1">승인일자</option>
+						<option value="0">신청일자</option>
 					</select>
 				</label>
 			</div>
@@ -26,7 +24,6 @@
 				<table class="table table-hover text-center text-nowrap">
 					<thead>
 						<tr class="bg-light">
-							<th scope="col">번호</th>
 							<th scope="col">아이디</th>
 							<th scope="col">등급</th>
 							<th scope="col">상태</th>
@@ -37,17 +34,14 @@
 					</thead>
 					<tbody>
 						<tr th:if="${not #lists.isEmpty( levelup )}"
-							th:each="row, i : ${levelup}" style="cursor:pointer;"
+							th:each="row : ${levelup}" style="cursor:pointer;"
 							th:onclick="'location.href=\''+@{admin_levelupDetail.do(testDate=${row.testDate},mbrId=${row.mbrId},exerciseId=${row.exerciseId})}+'\''">
-							
-							<!-- for문 사용해서 1~10까지 뽑기<td scope="row" th:text="*{(correntPageNo*10) + i}></td> -->
-							<td scope="row" th:text="(${params.currentPageNo}-1)*10 + ${i.count}"></td>
 							<td scope="row" th:text="${row.mbrId}"></td>
 							<td th:text="등급미정"></td>
 							<th:block th:switch="${row.evaluationResult}">
 								<td scope="row" th:case="0">승인대기중</td>
-								<td scope="row" th:case="1">실패</td>
-								<td scope="row" th:case="2">성공</td>
+								<td scope="row" th:case="1">불합격</td>
+								<td scope="row" th:case="2">합격</td>
 							</th:block>
 							<td scope="row" th:text="${row.exerciseId}"></td>
 							<td scope="row" th:text="${row.testDate}" class="testDate"></td>
@@ -70,7 +64,7 @@
 			
 			<div class="search">
 				<th:block layout:fragment="search">
-					<!-- <div th:replace="fragments/common_Question :: search"></div> -->
+					<div th:replace="fragments/common :: search_levelup"></div>
 				</th:block>
 			</div>
 			<th:block layout:fragment="script">
@@ -83,8 +77,14 @@
 					
 					//페이징 경로
 					function movePage(uri, queryString){
-						location.href= uri + queryString;
+						location.href=uri + queryString
 					}
+					
+					//select 선택
+					var sortType = document.getElementById("sortType");
+					sortType.addEventListener('change', function sortTypeMovePage(){
+						location.href="admin_levelup.do?sortType=" + sortType.value;
+					})
 					
 					//당일 작성일자 시간으로 변경
 					var now = new Date();

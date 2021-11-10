@@ -52,21 +52,36 @@
 	<!-- 리스트 -->
 	<select id="selectLevelupTestList" parameterType="LevelupTestDTO" resultType="LevelupTestDTO">
 		SELECT
-			*
+			<include refid="LevelupTestDTO"/>
 		FROM
 			levelup_test
+		<include refid="CommonMapper.search_levelup"/>
 		ORDER BY
-			test_date DESC
-		LIMIT
-			#{paginationInfo.firstRecordIndex},#{recordsPerPage}
+		<choose>
+			<when test="sortType == 0">
+				modify_date DESC,
+				evaluation_result
+			</when>		
+			<when test="sortType == 1">
+				test_date DESC,
+				evaluation_result
+			</when>			
+			<otherwise>
+				evaluation_result,
+				modify_date DESC,
+				test_date DESC
+			</otherwise>
+		</choose>
+		<include refid="CommonMapper.paging"/>
 	</select>
 	
-	<!-- 리스트 전처리 -->
+	<!-- 페이징 전처리 -->
 	<select id="selectLevelupTestTotalCount" parameterType="LevelupTestDTO" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM
 			levelup_test
+		<include refid="CommonMapper.search_levelup"/>
 	</select>
 	
 </mapper>

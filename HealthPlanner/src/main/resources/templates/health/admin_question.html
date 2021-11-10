@@ -69,7 +69,7 @@
 		
 		<div class="search">
 			<th:block layout:fragment="search">
-				<div th:replace="fragments/common :: search"></div>
+				<div th:replace="fragments/common :: search_Question"></div>
 			</th:block>
 		</div>
 		
@@ -100,10 +100,6 @@
 				let qs = getQueryStringObject();
 				let sortType = qs.sortType
 				
-				//sortType 기본값 설정
-				if(sortType == null){
-					sortType = 2;
-				}
 				//select값 유지
 				document.getElementById("sort").value=sortType;
 				
@@ -114,7 +110,7 @@
 					$(document).ready(function(){
 						//select값이 있을때(option 선택 시) 페이지 이동
 						if($("#sort").val() != null){
-							location.href = "admin.do?currentPageNo=1&recordsPerPage=10&pageSize=10&sortType=" + selectVal;
+							location.href = "admin.do?sortType=" + selectVal;
 						}
 					})
 				})
@@ -122,10 +118,7 @@
 				//페이징 uri 설정
 				/*<![CDATA[*/
 				function movePage(uri, queryString){
-					if(sortType == null)
-						location.href = uri + queryString;
-					else
-						location.href = uri + queryString + '&sortType=' + sortType;
+					location.href = uri + queryString;
 				}
 			
 				//당일 작성일자 시간으로 변경
