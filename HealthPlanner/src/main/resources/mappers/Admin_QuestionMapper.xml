@@ -53,7 +53,7 @@
 			available = 0
 		AND
 			board_type = 3
-		<include refid="CommonMapper.search"/>
+		<include refid="CommonMapper.searchQuestion"/>
 		<!-- 최신 -->
 		<choose>
 			<when test="sortType == 0">
@@ -87,7 +87,7 @@
 			available = 0
 		AND
 			board_type = 3
-		<include refid="CommonMapper.search"/>
+		<include refid="CommonMapper.searchQuestion"/>
 	</select>
 	
 	

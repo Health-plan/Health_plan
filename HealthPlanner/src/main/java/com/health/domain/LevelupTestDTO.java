@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 
-public class LevelupTestDTO {
+public class LevelupTestDTO extends CommonDTO{
 	//신청일시
 	private String testDate;
 	//아이디
@@ -31,5 +31,5 @@ public class LevelupTestDTO {
 	private String modifier;
 	//수정일시
 	private String modifyDate;
-
+	
 }

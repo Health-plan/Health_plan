@@ -18,7 +18,6 @@ import com.health.constant.Method;
 import com.health.domain.MemberDTO;
 import com.health.domain.MemberStateDTO;
 import com.health.service.MemberStateService;
-import com.health.util.UiUtils;
 
 @Controller
 public class MemberStateController {
@@ -62,12 +61,9 @@ public class MemberStateController {
 		} catch (Exception e) {
 			//return showMessageWithRedirect("시스템에 문제가 발생하였습니다.", "/memberstate/list.do", Method.GET, null, model);
 		}
-
-		return "redirect:/memberstate/list.do";
+		return showMessageWithRedirect("게시글이 등록되었습니다.", "/memberstate/list.do", Method.GET, null, model);
 	}
-	
-	
-	
+
 	@GetMapping(value = "/memberstate/list.do")
 	public String openMemberStateList(Model model,String mbrId,MemberDTO member) {
 		member.setGoalRegister(1);

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.health.mapper.Admin_LevelupTestMapper">
+	<sql id="LevelupTestDTO">		
+		test_date,
+		mbr_id,
+		exercise_id,
+		evaluation_result,
+		appraiser,
+		running_weight,
+		running_time,
+		video_url,
+		registrant,
+		modifier,
+		modify_date
+	</sql>
+	
+	<!-- 상세보기 -->
+	<select id="selectLevelupDetail" parameterType="HashMap" resultType="LevelupTestDTO">
+		SELECT
+			<include refid="LevelupTestDTO"/>
+		FROM
+			levelup_test
+		WHERE
+			test_date = #{testDate}
+		AND
+			mbr_id = #{mbrId}
+		AND
+			exercise_id = #{exerciseId}
+	</select>
+	
+	<!-- 결과입력 -->
+	<update id="updateLevelupTest" parameterType="LevelupTestDTO">
+		UPDATE
+			levelup_test
+		SET
+		<!-- 현재 관리자명은 'admin'으로 설정 -->
+			evaluation_result = #{evaluationResult},
+			appraiser = 'admin',
+			running_weight = #{runningWeight},
+			running_time = #{runningTime},
+			modifier = 'admin',
+			modify_date = now()
+		WHERE
+			test_date = #{testDate}
+		AND
+			mbr_id = #{mbrId}
+		AND
+			exercise_id = #{exerciseId}
+	</update>
+	
+	<!-- 리스트 -->
+	<select id="selectLevelupTestList" parameterType="LevelupTestDTO" resultType="LevelupTestDTO">
+		SELECT
+			<include refid="LevelupTestDTO"/>
+		FROM
+			levelup_test
+		<include refid="CommonMapper.search_levelup"/>
+		ORDER BY
+		<choose>
+			<when test="sortType == 0">
+				modify_date DESC,
+				evaluation_result
+			</when>		
+			<when test="sortType == 1">
+				test_date DESC,
+				evaluation_result
+			</when>			
+			<otherwise>
+				evaluation_result,
+				modify_date DESC,
+				test_date DESC
+			</otherwise>
+		</choose>
+		<include refid="CommonMapper.paging"/>
+	</select>
+	
+	<!-- 페이징 전처리 -->
+	<select id="selectLevelupTestTotalCount" parameterType="LevelupTestDTO" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			levelup_test
+		<include refid="CommonMapper.search_levelup"/>
+	</select>
+	
+</mapper>

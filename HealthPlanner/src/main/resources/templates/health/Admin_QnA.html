@@ -45,7 +45,7 @@
 
 		<div class="page_navigation position-relative">
 			<th:block layout:fragment="paging">
-				<nav th:replace="fragments/common_Question :: pagination"></nav>
+				<nav th:replace="fragments/common :: pagination"></nav>
 				<button class="btn btn-secondary position-absolute top-0 end-0" th:onclick="'location.href=\' '+ @{admin_QnAWrite.do}+' \''">글쓰기</button>			</th:block>
 			
 		</div>
@@ -56,7 +56,10 @@
 				sideMenuIcon.ariaExpanded = "true";
 				let sideMenuShow = document.getElementById('board-collapse');
 				sideMenuShow.className="collapse show";
-			
+				
+				function movePage(uri, queryString){
+					location.href= uri + queryString;
+				}
 			</script>
 		</th:block>
 	</th:block>
