@@ -32,7 +32,10 @@
           </div>
           <article class="main_contain">
             <!-- input값을 주고 readonly로 수정할 수 없게 -->
-            <label>이름
+            <label class="userInfo">
+            <img class="userPhotos"  src="https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927">
+            </label>
+            <label class="userInfo">이름
               <input type="text" class="view" name="mbrNm" th:value="${userNm}" readonly/>
             </label>
             <hr>
@@ -49,24 +52,7 @@
                   <td>포인트값</td>
                   <td>날짜값</td>
                 </tr>
-                <tr>
-                  <td>포인트 변동내용</td>
-                  <!-- + 파란색 , - 빨간색 -->
-                  <td>포인트값</td>
-                  <td>날짜값</td>
-                </tr>
-                <tr>
-                  <td>포인트 변동내용</td>
-                  <!-- + 파란색 , - 빨간색 -->
-                  <td>포인트값</td>
-                  <td>날짜값</td>
-                </tr>
-                <tr>
-                  <td>포인트 변동내용</td>
-                  <!-- + 파란색 , - 빨간색 -->
-                  <td>포인트값</td>
-                  <td>날짜값</td>
-                </tr>
+                
               </table>
               <div class="more">
                 <button class="more_btn" type="button" name="button">더보기</button>

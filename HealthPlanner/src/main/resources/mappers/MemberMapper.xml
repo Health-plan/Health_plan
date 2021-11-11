@@ -75,7 +75,14 @@
 	AND mbr_id = #{mbrId}
 	</update>
 	
-	
+	<select id="pointContentsList" parameterType="com.health.domain.MemberDTO" resultType="com.health.domain.PointDTO">
+	SELECT m.mbr_id, mpr.point_id,mpr.point_date,pp.point_value,pp.point_contents,pp.point_category
+	FROM members as m
+    right JOIN mbr_point_record as mpr ON m.mbr_id = mpr.mbr_id
+    JOIN point_police as pp ON mpr.point_id = pp.point_id
+	WHERE m.mbr_id = #{mbrId}
+    ORDER BY mpr.point_date;
+	</select>
 	
 	
 </mapper>

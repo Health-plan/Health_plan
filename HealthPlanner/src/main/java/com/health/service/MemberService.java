@@ -1,5 +1,7 @@
 package com.health.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.health.domain.MemberDTO;
+import com.health.domain.PointDTO;
 import com.health.domain.UserDTO;
 import com.health.mapper.MemberMapper;
 
@@ -127,6 +130,15 @@ public class MemberService{
 			memberMapper.changeNewPwInMyPage(mbrdto);
 		}
 				
+		
+		//포인트 리스트 출력
+		 public List<PointDTO> pointContentsList(MemberDTO mbrdto) throws Exception
+		 {
+			 List<PointDTO> pList= memberMapper.pointContentsList(mbrdto);
+			 System.out.println(mbrdto + "포인트리스트에 pointcontentstlist함수로 들어옴");
+				
+				return pList;
+		 }
 
 
 

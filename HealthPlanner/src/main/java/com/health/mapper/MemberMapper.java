@@ -1,8 +1,11 @@
 package com.health.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.health.domain.MemberDTO;
+import com.health.domain.PointDTO;
 
 
 @Mapper
@@ -36,6 +39,6 @@ public interface MemberMapper {
 	  public void changeNewPw(MemberDTO mbrdto) throws Exception;
 	  public void changeNewPwInMyPage(MemberDTO mbrdto) throws Exception;
 	  
-	  
+	  public List<PointDTO> pointContentsList(MemberDTO mbrdto) throws Exception;
 
 }

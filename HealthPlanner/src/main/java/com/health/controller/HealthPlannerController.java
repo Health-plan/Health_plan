@@ -1,5 +1,7 @@
 package com.health.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.health.domain.MemberDTO;
+import com.health.domain.PointDTO;
 import com.health.domain.UserDTO;
 import com.health.service.MemberService;
 
@@ -263,7 +266,7 @@ public class HealthPlannerController {
 			String SessionPw = myloginSessions.getMbrPw();
 			String SessionNm = myloginSessions.getMbrNm();
 			String SessionEm = myloginSessions.getMbrEmail();
-			
+			String SessionPt = myloginSessions.getMbrPhoto();
 			
 			mbrdto.setMbrId(SessionId);
 			 MemberDTO pwCheck = memberService.mypagePasswordCheck(mbrdto);
@@ -281,11 +284,13 @@ public class HealthPlannerController {
 			{
 				 
 				System.out.println("session 0아닐때"+mbrdto+"///" +pwCheck);
+				System.out.println("session정보"+SessionEm+"//\\" +SessionPt);
 				System.out.println("세션아이디"+SessionId+"/타입" +SessionId.getClass().getName());			
 				model.addAttribute("userId",SessionId);
 				model.addAttribute("userPw",SessionPw);
 				model.addAttribute("userNm",SessionNm);
 				model.addAttribute("userEm",SessionEm);
+				model.addAttribute("userPhoto", SessionPt);
 				return "mypage_main";							
 			}
 			
@@ -358,15 +363,19 @@ public class HealthPlannerController {
 			
 				}
 				
+			
+				
 				@GetMapping(value = "mypage_point.do")
 				public String openMypage_point(HttpSession session, Model model) throws Exception
 				{
 					MemberDTO myloginSessions =  (MemberDTO)session.getAttribute("member");
-					
+					List<PointDTO> pointList = memberService.pointContentsList(myloginSessions);
 					if(myloginSessions != null)
 					{
 						//model.addAttribute("pointValue",myloginSessions.getPointValue());
 						model.addAttribute("userNm",myloginSessions.getMbrNm());
+						model.addAttribute("pointList", pointList);
+						System.out.println("포인트 리스트 들어오는지?? "+pointList);
 						return "mypage_point";
 					}
 					

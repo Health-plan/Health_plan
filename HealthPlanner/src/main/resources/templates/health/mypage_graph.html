@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko" dir="ltr" xmlns:th= "http://www.thymeleaf.org" xmlns:layout ="http://www.ultraq.net.nz/thymeleaf/layout">
   <head>
+  <!-- 제이쿼리 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" type="text/javascript"></script>
+<!-- chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>마이페이지 - 운동그래프</title>
@@ -32,7 +36,10 @@
           </div>
           <article class="main_contain">
             <!-- input값을 주고 readonly로 수정할 수 없게 -->
-            <label>이름
+           <label class="userInfo">
+            <img class="userPhotos"  src="https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927">
+            </label>
+            <label class="userInfo">이름
               <input type="text" class="view" name="mbrNm" th:value="${userNm}" readonly/>
             </label>
             <hr>
@@ -56,12 +63,71 @@
                 <option value="">12</option>
               </select>월
             </div>
-          </article>
+            <div style="width: 600px; height: 600px;">
+        <!--차트가 그려질 부분-->
+		<canvas id="myChart"></canvas>
         </div>
+          </article>
+            
+        </div>
+      
       </section>
       <footer>
         <br>
       </footer>
     </div>
+    
+    <script type="text/javascript">
+            var context = document
+                .getElementById('myChart')
+                .getContext('2d');
+            var myChart = new Chart(context, {
+                type: 'line', // 차트의 형태
+                data: { // 차트에 들어갈 데이터
+                    labels: [
+                        //x 축
+                        '1주','2주','3주','4주'],
+                    datasets: [
+                        { //데이터
+                            label: '신체레벨', //차트 제목
+                            fill: true, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+                            data: [
+                                5,11,15,20 //x축 label에 대응되는 데이터 값
+                            ],
+                            backgroundColor: [
+                                //색상
+                                'rgba(255, 99, 132, 0.2)'
+                            ],
+                            borderColor: [
+                                //경계선 색상
+                                'rgba(255, 99, 132, 1)'
+                            ],
+                            borderWidth: 2 //경계선 굵기
+                        },
+                        {
+                            label: 'test2',
+                            fill: false,
+                            data: [
+                                8, 34, 12, 24
+                            ],
+                            backgroundColor: 'rgb(157, 109, 12)',
+                            borderColor: 'rgb(157, 109, 12)'
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [ 
+                            {
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }
+                        ]
+                    }
+                }
+            });
+        </script>
+    
   </body>
 </html>
