@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.health.mapper.Admin_LevelupTestMapper">
+	
+	<resultMap type="LevelupTestDTO" id="selectLevelupTestListResult">
+		
+		<id column="mbr_id" property="mbrId"/>
+		<id column="exercise_id" property="exerciseId"/>
+		<id column="test_date" property="testDate"/>
+		<result column="modify_date" property="modifyDate"/>
+		<result column="evaluation_result" property="evaluationResult"/>
+		<result column="appraiser" property="appraiser"/>
+		<result column="running_weight" property="runningWeight"/>
+		<result column="running_time" property="runningTime"/>
+		<result column="video_url" property="videoUrl"/>
+		
+		<association javaType="LevelPointDTO" property="levelPointDTO">
+			<result column="level_nm" property="levelNm"></result>
+		</association>
+		<association javaType="ExerciseDbDTO" property="exerciseDbDTO">
+			<result column="now_level_nm" property="levelNm"/>
+		</association>
+		
+	</resultMap>
+	
 	<sql id="LevelupTestDTO">		
 		test_date,
 		mbr_id,
@@ -16,17 +38,43 @@
 	</sql>
 	
 	<!-- 상세보기 -->
-	<select id="selectLevelupDetail" parameterType="HashMap" resultType="LevelupTestDTO">
+	<select id="selectLevelupDetail" parameterType="map" resultMap="selectLevelupTestListResult">
 		SELECT
-			<include refid="LevelupTestDTO"/>
+			lvt.mbr_id,
+		    	levels.level_nm,
+		    	levels.now_level_nm,
+			lvt.evaluation_result,
+			lvt.exercise_id,
+			lvt.appraiser,
+			lvt.running_weight,
+			lvt.running_time,
+			lvt.video_url,
+			lvt.test_date,
+		    	lvt.modify_date
 		FROM
-			levelup_test
+			levelup_test as lvt
+		JOIN
+		    (SELECT	b.mbr_id, a.level_id, a.level_nm, b.now_level_id, b.level_nm as now_level_nm
+				FROM levelpoint AS a
+				JOIN (select b.mbr_id, max(a.level_id) as level_id, b.level_id as now_level_id, b.level_nm
+						FROM exercise_part_level as a
+						JOIN (SELECT a.*, b.mbr_weight, c.level_id
+								FROM exercise_db as a
+								JOIN member_state as b
+								JOIN levelpoint as c
+								ON a.level_nm = c.level_nm) as b
+						<![CDATA[
+						WHERE a.exercise_id = b.exercise_id and a.body_weight <= b.mbr_weight and a.exercise_time <= b.exercise_time) AS b
+						]]>
+				ON a.level_id = b.level_id) as levels
+		
 		WHERE
-			test_date = #{testDate}
+			lvt.test_date = #{testDate}
 		AND
-			mbr_id = #{mbrId}
+			lvt.mbr_id = #{mbrId}
 		AND
-			exercise_id = #{exerciseId}
+			lvt.exercise_id = #{exerciseId}
+		
 	</select>
 	
 	<!-- 결과입력 -->
@@ -50,11 +98,30 @@
 	</update>
 	
 	<!-- 리스트 -->
-	<select id="selectLevelupTestList" parameterType="LevelupTestDTO" resultType="LevelupTestDTO">
+	<select id="selectLevelupTestList" parameterType="LevelupTestDTO" resultMap="selectLevelupTestListResult">
 		SELECT
-			<include refid="LevelupTestDTO"/>
+			lvt.mbr_id,
+		    levels.level_nm,
+		    levels.now_level_nm,
+			lvt.evaluation_result,
+			lvt.exercise_id,
+			lvt.test_date,
+		    lvt.modify_date
 		FROM
-			levelup_test
+			levelup_test as lvt
+		JOIN
+		    (SELECT	b.mbr_id, a.level_id, a.level_nm, b.now_level_id, b.level_nm as now_level_nm
+				FROM levelpoint AS a
+				JOIN (select b.mbr_id, max(a.level_id) as level_id, b.level_id as now_level_id, b.level_nm
+						from exercise_part_level as a
+						join (SELECT a.*, b.mbr_weight, c.level_id
+								FROM exercise_db as a
+								JOIN member_state as b
+								JOIN levelpoint as c
+								ON a.level_nm = c.level_nm
+		                        ) as b
+						<![CDATA[where a.exercise_id = b.exercise_id and a.body_weight <= b.mbr_weight and a.exercise_time <= b.exercise_time) AS b]]>
+				ON a.level_id = b.level_id) as levels
 		<include refid="CommonMapper.search_levelup"/>
 		ORDER BY
 		<choose>

@@ -21,7 +21,8 @@
 						<thead>
 							<tr class="bg-light">
 								<th scope="col">아이디</th>
-								<th scope="col">등급</th>
+								<th scope="col">현재등급</th>
+								<th scope="col">심사등급</th>
 								<th scope="col">상태</th>
 								<th scope="col">종목</th>
 								<th scope="col">승급신청일자</th>
@@ -31,9 +32,10 @@
 						<tbody>
 							<tr>
 								<td scope="row" th:text="*{mbrId}"></td>
-								<td th:text="등급미정"></td>
+								<td th:text="*{exerciseDbDTO.levelNm}"></td>
+								<td th:text="*{levelPointDTO.levelNm}"></td>
 								<th:block th:switch="*{evaluationResult}">
-									<td th:case="0">승인대기중</td>
+									<td th:case="0">심사대기중</td>
 									<td th:case="1">불합격</td>
 									<td th:case="2">합격</td>
 								</th:block>

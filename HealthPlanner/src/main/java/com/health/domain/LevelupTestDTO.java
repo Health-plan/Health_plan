@@ -32,4 +32,7 @@ public class LevelupTestDTO extends CommonDTO{
 	//수정일시
 	private String modifyDate;
 	
+	private ExerciseDbDTO exerciseDbDTO;
+	private LevelPointDTO levelPointDTO;
+	
 }

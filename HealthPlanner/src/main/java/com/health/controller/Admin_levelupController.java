@@ -1,5 +1,6 @@
 package com.health.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,6 +49,7 @@ public class Admin_levelupController {
 			
 			LevelupTestDTO levelup = adminLevelupTest.getTestDetail(map);
 			model.addAttribute("levelup",levelup);
+			
 			
 			return "Admin_LevelupDetail";	
 	}

@@ -1,0 +1,9 @@
+diff a/HealthPlanner/src/main/java/com/health/controller/MemberStateController.java b/HealthPlanner/src/main/java/com/health/controller/MemberStateController.java	(rejected hunks)
+@@ -64,6 +64,7 @@
+ 			//return showMessageWithRedirect("시스템에 문제가 발생하였습니다.", "/memberstate/list.do", Method.GET, null, model);
+ 		}
+ 		return showMessageWithRedirect("게시글이 등록되었습니다.", "/memberstate/list.do", Method.GET, null, model);
++		//return "memberstatelist";
+ 	}
+ 
+ 	@GetMapping(value = "/memberstate/list.do")
