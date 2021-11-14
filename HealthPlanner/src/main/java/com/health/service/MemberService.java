@@ -139,6 +139,14 @@ public class MemberService{
 				
 				return pList;
 		 }
+		 
+		 public int pointValueTotal(MemberDTO mbrdto) throws Exception
+		 {
+			 int pTotal= memberMapper.pointValueTotal(mbrdto);
+			 System.out.println(mbrdto + "포인트리스트에 pointValueTotal함수로 들어옴");
+				
+				return pTotal;
+		 }
 
 
 

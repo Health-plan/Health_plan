@@ -40,5 +40,7 @@ public interface MemberMapper {
 	  public void changeNewPwInMyPage(MemberDTO mbrdto) throws Exception;
 	  
 	  public List<PointDTO> pointContentsList(MemberDTO mbrdto) throws Exception;
+	  public int pointValueTotal(MemberDTO mbrdto) throws Exception;
+	  
 
 }

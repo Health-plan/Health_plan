@@ -370,11 +370,15 @@ public class HealthPlannerController {
 				{
 					MemberDTO myloginSessions =  (MemberDTO)session.getAttribute("member");
 					List<PointDTO> pointList = memberService.pointContentsList(myloginSessions);
+					int pointTotal= memberService.pointValueTotal(myloginSessions);
+					
 					if(myloginSessions != null)
 					{
 						//model.addAttribute("pointValue",myloginSessions.getPointValue());
 						model.addAttribute("userNm",myloginSessions.getMbrNm());
 						model.addAttribute("pointList", pointList);
+						model.addAttribute("pointTotal", pointTotal);
+						
 						System.out.println("포인트 리스트 들어오는지?? "+pointList);
 						return "mypage_point";
 					}

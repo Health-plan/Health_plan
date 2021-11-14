@@ -84,5 +84,14 @@
     ORDER BY mpr.point_date;
 	</select>
 	
+	<select id="pointValueTotal" parameterType="com.health.domain.MemberDTO" resultType="Integer">
+	SELECT sum(pp.point_value)
+	FROM members as m
+    right JOIN mbr_point_record as mpr ON m.mbr_id = mpr.mbr_id
+    JOIN point_police as pp ON mpr.point_id = pp.point_id
+	WHERE m.mbr_id = #{mbrId}
+    ORDER BY mpr.point_date;
+	</select>
+	
 	
 </mapper>

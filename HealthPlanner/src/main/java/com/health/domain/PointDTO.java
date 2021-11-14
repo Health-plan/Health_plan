@@ -18,6 +18,8 @@ public class PointDTO {
 	private String pointContents;
 	// 포인트 증감인지 차감인지
 	private String pointCategory;
+
+
 	
 	
 }
