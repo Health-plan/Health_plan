@@ -38,12 +38,12 @@
 					<div class="collapse" id="members-collapse">
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="#" class="link-dark rounded">회원조회</a></li>
-							<li><a href="#" class="link-dark rounded">탈퇴한회원</a></li>
+							<li><a th:href="@{admin_memberSecession.do}" class="link-dark rounded">탈퇴한회원</a></li>
 						</ul>
 					</div>
 				</li>
 				<!-- 라인추가 <li class="border-top my-3"></li> -->
-				<li class="mb-1">
+				<!-- <li class="mb-1">
 					<button class="btn btn-toggle align-items-center rounded collapsed"
 						data-bs-toggle="collapse" data-bs-target="#exercise-collapse"
 						aria-expanded="false" id="exerciseMgt">운동종목</button>
@@ -52,7 +52,7 @@
 							<li><a href="#" class="link-dark rounded">수정/추가/삭제</a></li>
 						</ul>
 					</div>
-				</li>
+				</li> -->
 				<li class="mb-1">
 					<button class="btn btn-toggle align-items-center rounded"
 						data-bs-toggle="collapse" data-bs-target="#point-collapse"

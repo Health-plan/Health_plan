@@ -34,6 +34,7 @@
 		</if>
 	</sql>
 	
+	<!-- 검색(Admin_levelup) -->
 	<sql id="search_levelup">
 		<if test="searchKeyword != null and searchKeyword != ''">
 			<choose>
@@ -51,6 +52,13 @@
 					)
 				</otherwise>
 			</choose>
+		</if>
+	</sql>
+	
+	<!-- 검색(Admin_memberSecession) -->
+	<sql id="search_memberSecession">
+		<if test="searchKeyword != null and searchKeyword != ''">
+			WHERE mbr_id LIKE CONCAT ('%',#{searchKeyword},'%')
 		</if>
 	</sql>
 	

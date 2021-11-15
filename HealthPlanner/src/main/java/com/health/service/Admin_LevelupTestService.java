@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.health.domain.LevelupTestDTO;
 
-public interface Admin_LevelupTest {
+public interface Admin_LevelupTestService {
 	
 	public LevelupTestDTO getTestDetail(HashMap<String, Object> map);
 	

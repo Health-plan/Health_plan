@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.health.domain.LevelupTestDTO;
-import com.health.service.Admin_LevelupTest;
+import com.health.service.Admin_LevelupTestService;
 
 @Controller
 public class Admin_levelupController {
 	
 	@Autowired
-	private Admin_LevelupTest adminLevelupTest;
+	private Admin_LevelupTestService adminLevelupTest;
 	
 	@GetMapping(value="admin_levelup.do")
 	public String adminLevelUp(@ModelAttribute(value="params")LevelupTestDTO params, Model model) {

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.health.mapper.Admin_MemberMapper">
+	<sql id="SecessionDTO">
+		sec_id,
+		mbr_id,
+		sec_reason,
+		registrant,
+		regist_date,
+		modifier,
+		modify_date
+	</sql>
+	
+	<select id="selectSecessionList" parameterType="SecessionDTO" resultType="SecessionDTO">
+		SELECT
+			<include refid="SecessionDTO"/>
+		FROM
+			secession
+		<include refid="CommonMapper.search_memberSecession"/>
+		ORDER BY
+			sec_id DESC
+		<include refid="CommonMapper.paging"/>
+	</select>
+	
+	<select id="selectSecessionTotalCount" parameterType="SecessionDTO" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			secession
+		<include refid="CommonMapper.search_memberSecession"/>
+	</select>
+</mapper>

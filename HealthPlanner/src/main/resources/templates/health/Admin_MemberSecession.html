@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/basic">
+	<th:block layout:fragment="title">
+		<title>탈퇴회원목록</title>
+	</th:block>
+	<body>
+	<th:block layout:fragment="contents">
+		<div class="title">
+			<h4 class="main_title fw-bold mb-4 d-inline-block">회원 정보</h4>
+			<h5 class="sub_title d-inline-block">탈퇴한 회원</h5>
+			
+			<label for="sort" class="float-end fs-6">정렬기준
+				<select class="form-select d-inline-block w-auto" id="sort" aria-label=".form-select-sm example">
+					<option value="" disabled selected>정렬</option>
+					<option value="2">최신순</option>
+					<option value="1">오래된순</option>
+				</select>
+			</label>
+		</div>
+		
+		<div class="table-responsive clearfix">
+			<table class="table table-hover text-center text-nowrap">
+				<thead>
+					<tr class="bg-light">
+						<th>번호</th>
+						<th>아이디</th>
+						<th>사유</th>
+						<th>탈퇴일자</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${not #lists.isEmpty( secession )}"
+						th:each="row : ${secession}">
+						<td scope="row" th:text="${row.secId}"/>
+						<td class="w-50" th:text="${row.mbrId}"/>
+						<td th:text="${row.secReason}"/>
+						<td th:text="${row.registDate}"/>
+					</tr>
+					<tr th:unless="${not #lists.isEmpty( secession )}">
+						<td colspan="6">조회된 결과가 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="page_navigation">
+			<th:block layout:fragment="paging">
+				<nav th:replace="fragments/common :: pagination"></nav>
+			</th:block>
+		</div>
+		
+		<div class="search">
+			<th:block layout:fragment="search">
+				<div th:replace="fragments/common :: search_MemberSecession"></div>
+			</th:block>
+		</div>
+		
+		<th:block layout:fragment="script">
+			<script th:inline="javascript">
+				let sideMenuIcon = document.getElementById('membersMgt');
+				sideMenuIcon.ariaExpanded = "true";
+				let sideMenuShow = document.getElementById('members-collapse');
+				sideMenuShow.className="collapse show";
+				
+				function movePage(uri,queryString){
+					location.href= uri + queryString;
+				}
+				
+				
+			</script>
+		</th:block>
+	</th:block>
+	</body>
+</html>

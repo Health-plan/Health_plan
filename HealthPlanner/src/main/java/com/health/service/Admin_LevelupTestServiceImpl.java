@@ -12,7 +12,7 @@ import com.health.mapper.Admin_LevelupTestMapper;
 import com.health.paging.PaginationInfo;
 
 @Service
-public class Admin_LevelupTestImpl implements Admin_LevelupTest{
+public class Admin_LevelupTestServiceImpl implements Admin_LevelupTestService{
 
 	@Autowired
 	private Admin_LevelupTestMapper adminLevelupTestMapper;
