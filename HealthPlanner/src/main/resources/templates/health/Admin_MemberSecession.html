@@ -12,7 +12,7 @@
 			<h5 class="sub_title d-inline-block">탈퇴한 회원</h5>
 			
 			<label for="sort" class="float-end fs-6">정렬기준
-				<select class="form-select d-inline-block w-auto" id="sort" aria-label=".form-select-sm example">
+				<select class="form-select d-inline-block w-auto" id="sortType" aria-label=".form-select-sm example">
 					<option value="" disabled selected>정렬</option>
 					<option value="2">최신순</option>
 					<option value="1">오래된순</option>
@@ -34,9 +34,9 @@
 					<tr th:if="${not #lists.isEmpty( secession )}"
 						th:each="row : ${secession}">
 						<td scope="row" th:text="${row.secId}"/>
-						<td class="w-50" th:text="${row.mbrId}"/>
+						<td scope="row" th:text="${row.mbrId}"/>
 						<td th:text="${row.secReason}"/>
-						<td th:text="${row.registDate}"/>
+						<td th:text="${row.registDate}" class="secessionDate"/>
 					</tr>
 					<tr th:unless="${not #lists.isEmpty( secession )}">
 						<td colspan="6">조회된 결과가 없습니다.</td>
@@ -59,14 +59,40 @@
 		
 		<th:block layout:fragment="script">
 			<script th:inline="javascript">
+				//사이드바 활성화
 				let sideMenuIcon = document.getElementById('membersMgt');
 				sideMenuIcon.ariaExpanded = "true";
 				let sideMenuShow = document.getElementById('members-collapse');
 				sideMenuShow.className="collapse show";
 				
+				//페이징 이동
 				function movePage(uri,queryString){
 					location.href= uri + queryString;
 				}
+				
+				//<select> 변경 시
+				var sortType = document.getElementById("sortType")
+				sortType.addEventListener("change",function movePageSelect(){
+					location.href = 'admin_memberSecession.do?sortType=' + sortType.value; 
+				})
+				
+				//시간처리
+				var now = new Date();
+				var nowYear = now.getFullYear();
+				var nowMonth = ('0' + (now.getMonth()+1)).slice(-2);
+				var nowDate = ('0' + now.getDate()).slice(-2);
+				var nowDay = nowYear + '-' + nowMonth + '-' + nowDate;
+				var recordsPerPage = /*[[${params.recordsPerPage}]]*/null;
+				var secessionDate = document.getElementsByClassName('secessionDate');
+				for(var i=0; i<(recordsPerPage);i++){
+					if(secessionDate[i].innerText.substr(0,10) == nowDay){
+						secessionDate[i].innerText = secessionDate[i].innerText.substr(11);
+					} else {
+						secessionDate[i].innerText = secessionDate[i].innerText.substr(0,10);
+					}
+				}
+				
+				console.log(secessionDate[1].innerText.substr(0,10));
 				
 				
 			</script>

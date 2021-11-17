@@ -17,10 +17,12 @@ public class Admin_LevelupTestServiceImpl implements Admin_LevelupTestService{
 	@Autowired
 	private Admin_LevelupTestMapper adminLevelupTestMapper;
 	
+	@Override
 	public LevelupTestDTO getTestDetail(HashMap<String, Object> map) {
 		return adminLevelupTestMapper.selectLevelupDetail(map);
 	};
 	
+	@Override
 	public boolean confirmTest(LevelupTestDTO params) {
 		
 		int queryResult = 0;
@@ -30,6 +32,7 @@ public class Admin_LevelupTestServiceImpl implements Admin_LevelupTestService{
 		return (queryResult == 1) ? true : false;
 	};
 	
+	@Override
 	public List<LevelupTestDTO> getTestList(LevelupTestDTO params){
 		//비어있는 List의 경우에도 return 할 수 있음
 		List<LevelupTestDTO> levelup = Collections.emptyList();

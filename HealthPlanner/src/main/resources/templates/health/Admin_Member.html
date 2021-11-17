@@ -6,8 +6,97 @@
 		<title>회원관리</title>
 	</th:block>
 	<body>
-	<th:block layout:fragment="contents">
+		<th:block layout:fragment="contents">
+			<div class="title">
+				<h4 class="main_title fw-bold mb-4 d-inline-block">회원 정보</h4>
+				<h5 class="sub_title d-inline-block">회원조회</h5>
+				
+				<label for="sort" class="float-end fs-6">정렬기준
+					<select class="form-select d-inline-block w-auto" id="sortType" aria-label=".form-select-sm example">
+						<option value="" disabled selected>정렬</option>
+						<option value="2">가입일자</option>
+						<option value="4">성별</option>
+						<option value="3">이름</option>
+						<option value="1">아이디</option>
+						<option value="0">등급</option>
+					</select>
+				</label>
+			</div>
+			
+			<div class="table-responsive clearfix">
+				<table class="table table-hover text-center text-nowrap">
+					<thead>
+						<tr class="bg-light">
+							<th>번호</th>
+							<th>아이디</th>
+							<th>이름</th>
+							<th>성별</th>
+							<th>등급</th>
+							<th>가입일자</th>
+						</tr>
+					</thead>
+					<tbody> 
+						<tr th:if="${not #lists.isEmpty( member )}"
+							th:each="row,i : ${member}" role="button" th:onclick="movePageList([[${row.mbrId}]])">
+							<td scope="row" th:text="((${row.currentPageNo}-1) * 10) + ${i.count}"/>
+							<td scope="row" th:text="${row.mbrId}"/>
+							<td scope="row" th:text="${row.mbrNm}"/>
+							<th:block scope="row" th:switch="${row.memberStateDTO.mbrGender}">
+								<td th:case="1" th:text="여자"/>
+								<td th:case="2" th:text="남자"/>
+							</th:block>
+							<td scope="row" th:text="${row.memberStateDTO.averageRank}"/>
+							<td scope="row" th:text="${row.registDate}"/>
+						</tr> 
+						<tr th:unless="${not #lists.isEmpty( member )}">
+							<td colspan="6">조회된 결과가 없습니다.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 	
-	</th:block>
+			<div class="page_navigation">
+				<th:block layout:fragment="paging">
+					<nav th:replace="fragments/common :: pagination"></nav>
+				</th:block>
+			</div>
+			
+			<div class="search">
+				<th:block layout:fragment="search">
+					<!-- <div th:replace="fragments/common :: search_MemberSecession"></div> -->
+				</th:block>
+			</div>
+			
+			<th:block layout:fragment="script">
+				<script th:inline="javascript">
+					/*<![CDATA[*/
+					let sideMenuIcon = document.getElementById('membersMgt');
+					sideMenuIcon.ariaExpanded = "true";
+					let sideMenuShow = document.getElementById('members-collapse');
+					sideMenuShow.className="collapse show";
+					
+					//sortType 초기값 파싱으로 추가 예정
+					
+					
+					//페이징처리
+					function movePage(uri,queryString){
+						location.href= uri + queryString;
+					}
+					
+					//select 클릭 시
+					var sortType = document.getElementById("sortType")
+					sortType.addEventListener("change",function movePageSelect(){
+						location.href = 'admin_member.do?sortType=' + sortType.value; 
+					})
+					
+					//리스트 목록 클릭 시 페이지 이동
+					function movePageList(mbrId){
+						var url = /*[[@{admin_memberDetail.do}]]*/null;
+						location.href = url + '?mbrId=' + mbrId;
+					}
+					/*]]>*/
+				</script>
+			</th:block>
+		</th:block>
 	</body>
 </html>

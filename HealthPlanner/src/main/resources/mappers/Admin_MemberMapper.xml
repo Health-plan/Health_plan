@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.health.mapper.Admin_MemberMapper">
+	<!-- 회원목록 -->
+	<resultMap type="MemberDTO" id="adminMemberList">
+		<id column="mbr_id" property="mbrId"/>
+		<result column="mbr_nm" property="mbrNm"/>
+		<result column="secession" property="secession"/>
+		<result column="regist_date" property="registDate"/>
+		
+		<collection property="memberStateDTO" javaType="MemberStateDTO">
+			<result column="mbr_gender" property="mbrGender"/>
+			<result column="average_rank" property="averageRank"/>
+		</collection>
+		
+		<collection property="levelPointDTO" javaType="LevelPointDTO">
+			<result column="level_id" property="levelId"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 상세목록1(기본정보) -->
+	<resultMap type="MemberDTO" id="adminMemberDetail">
+		<id column="mbr_id" property="mbrId"/>
+		<result column="mbr_nm" property="mbrNm"/>
+		<result column="mbr_birth" property="mbrBirth"/>
+		<result column="mbr_email" property="mbrEmail"/>
+		<result column="regist_date" property="registDate"/>
+		<collection javaType="MemberStateDTO" property="memberStateDTO">
+			<result column="mbr_gender" property="mbrGender"/>
+			<result column="average_rank" property="averageRank"/>
+			<result column="mbr_height" property="mbrHeight"/>
+			<result column="mbr_weight" property="mbrWeight"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 탈퇴회원 -->
 	<sql id="SecessionDTO">
 		sec_id,
 		mbr_id,
@@ -10,15 +43,159 @@
 		modifier,
 		modify_date
 	</sql>
+
+	<!-- 회원목록 -->
+	<select id="selectMemberList" parameterType="MemberDTO" resultMap="adminMemberList">
+		select 
+			mbr.mbr_id ,
+			mbr.mbr_nm,
+			mbr.secession,
+			mbr.regist_date,
+			ms.mbr_gender,
+			ms.average_rank,
+			ms.level_id,
+		    ms.member_state_date
+		from
+			members as mbr
+		join
+			(SELECT a.mbr_id, a.average_rank, a.mbr_gender,a.member_state_date, b.level_id
+		    FROM
+				(select *
+				 from(
+					 SELECT *
+					 FROM member_state
+					 WHERE (mbr_id, member_state_date)
+					 IN	( select mbr_id, max(member_state_date) as member_state_date
+						  from member_state
+						  group by mbr_id)) member_state_lately
+					 GROUP BY member_state_lately.mbr_id) as a
+		     JOIN levelpoint as b
+		     ON a.average_rank = b.level_nm
+		     ) as ms   
+		on
+			mbr.mbr_id = ms.mbr_id
+		where
+			mbr.secession = 0
+		group by
+			mbr.mbr_id
+		ORDER BY
+			<choose>
+				<when test="sortType==0">
+					ms.level_id DESC,
+					mbr.regist_date DESC
+				</when>
+				<when test="sortType==1">
+					mbr.mbr_id,
+					mbr.regist_date DESC
+				</when>
+				<when test="sortType==2">
+					mbr.regist_date
+				</when>
+				<when test="sortType==3">
+					mbr.mbr_nm,
+					mbr.regist_date DESC
+				</when>
+				<when test="sortType==4">
+					ms.mbr_gender,
+					mbr.regist_date DESC
+				</when>
+				<otherwise>
+					mbr.regist_date DESC
+				</otherwise>
+			</choose>
+		<include refid="CommonMapper.paging"/>
+	</select>
 	
+	<select id="selectMemberListTotalCount" parameterType="MemberDTO" resultType="int">
+		SELECT
+			count(*)
+		FROM(
+			SELECT *
+			FROM member_state
+			WHERE (mbr_id, member_state_date)
+				IN (SELECT mbr_id, max(member_state_date) as member_state_date
+					FROM member_state
+					GROUP BY mbr_id)) as member_state_lately
+	</select>
+	
+	<!-- 회원 기본정보 -->
+	<select id="selectMemberDetail" parameterType="String" resultMap="adminMemberDetail">
+		select
+			a.mbr_id, a.mbr_nm, b.mbr_gender, b.average_rank, b.mbr_height, b.mbr_weight, a.mbr_birth, a.mbr_email, a.regist_date
+		from
+			members as a
+		join(
+			SELECT *
+			FROM member_state
+			WHERE (mbr_id, member_state_date) in (
+					select mbr_id, max(member_state_date) as member_state_date
+					from member_state
+					where mbr_id = #{mbrId}
+					group by mbr_id)) as b
+		on a.mbr_id = #{mbrId};
+	</select>
+	
+	<!-- 회원진행현황 시작 -->
+	<select id="selectProgressStart" parameterType="String" resultType="MemberStateDTO">
+		SELECT member_state_date, member_fatper, mbr_weight
+		FROM member_state
+		WHERE (mbr_id, member_state_date)
+			IN (select mbr_id, MIN(member_state_date) as member_state_date
+				from member_state
+				where mbr_id = #{mbrId}
+				)
+	</select>
+	
+	<!-- 회원진행현황 진행 -->
+	<select id="selectProgress" parameterType="String" resultType="MemberStateDTO">
+		SELECT member_state_date, member_fatper
+		FROM member_state
+		WHERE (mbr_id, member_state_date)
+			IN (select mbr_id, MAX(member_state_date) as member_state_date
+				from member_state
+				where mbr_id = #{mbrId}
+				)
+	</select>
+	
+	<!-- 회원진행현황 목표 -->
+	<select id="selectProgressGoal" parameterType="String" resultType="GoalDTO">
+		SELECT
+			goal_date, goal_fatper, goal_weight
+		FROM
+			goal
+		WHERE
+			mbr_id = #{mbrId}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 탈퇴회원목록 -->
 	<select id="selectSecessionList" parameterType="SecessionDTO" resultType="SecessionDTO">
 		SELECT
 			<include refid="SecessionDTO"/>
 		FROM
 			secession
 		<include refid="CommonMapper.search_memberSecession"/>
-		ORDER BY
-			sec_id DESC
+		<choose>
+			<when test="sortType==2">
+				ORDER BY
+					sec_id DESC
+			</when>
+			<otherwise>
+				ORDER BY
+					sec_id
+			</otherwise>
+		</choose>
 		<include refid="CommonMapper.paging"/>
 	</select>
 	

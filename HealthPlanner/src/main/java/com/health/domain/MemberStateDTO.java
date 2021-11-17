@@ -31,7 +31,7 @@ public class MemberStateDTO {
 	private int mbrWeight;
 
 	/** 체지방률 */
-	private int memberFatper;
+	private double memberFatper;
 
 	/** 종합 신체 등급 */
 	private String averageRank;
