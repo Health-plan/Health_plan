@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.health.domain.AdminMemberProgressVO;
+import com.health.domain.ExerciseDTO;
+import com.health.domain.ExerciseDbDTO;
 import com.health.domain.GoalDTO;
 import com.health.domain.MemberDTO;
 import com.health.domain.MemberStateDTO;
@@ -64,6 +66,16 @@ public class Admin_MemberServiceImpl implements Admin_MemberService{
 		
 		return MemberProgress;
 	};
+	
+	//종목별 등급
+	@Override
+	public List<ExerciseDTO> getExerciseRank(String mbrId){
+		List<ExerciseDTO> exerciseRank = Collections.emptyList();
+		exerciseRank = adminMemberMapper.selectExerciseRank(mbrId);
+		
+		return exerciseRank;
+	}
+	;
 
 	//탈퇴회원 목록
 	@Override

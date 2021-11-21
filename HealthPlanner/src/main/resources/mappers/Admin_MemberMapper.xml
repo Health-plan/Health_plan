@@ -32,6 +32,13 @@
 			<result column="mbr_weight" property="mbrWeight"/>
 		</collection>
 	</resultMap>
+	<!-- 종목별 등급 -->
+	<resultMap type="ExerciseDTO" id="adminMemberDtailExerciseRank">
+		<result column="exercise_nm" property="exerciseNm"/>
+		<association javaType="ExerciseDbDTO" property="exerciseDbDTO">
+			<result column="level_nm" property="levelNm"/>
+		</association>
+	</resultMap>
 	
 	<!-- 탈퇴회원 -->
 	<sql id="SecessionDTO">
@@ -167,8 +174,26 @@
 			mbr_id = #{mbrId}
 	</select>
 	
+	<!-- 운동 종목 -->
+	<select id="selectExerciseName" resultType="ExerciseDTO">
+		SELECT
+			exercise_id,exercise_nm
+		FROM
+			exercise
+	</select>
 	
-	
+	<!-- 회원 종목별 등급 -->
+	<select id="selectExerciseRank" parameterType="String" resultMap="adminMemberDtailExerciseRank">
+		SELECT 
+			a.exercise_nm, IFNULL(b.level_nm, '입력한 정보가 없습니다.') as level_nm
+		FROM
+			exercise as a
+		LEFT JOIN (
+					SELECT *
+					FROM exercise_db
+					WHERE mbr_id = #{mbrId}) as b
+		ON a.exercise_id = b.exercise_id
+	</select>
 	
 	
 	

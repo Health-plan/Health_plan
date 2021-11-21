@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.health.domain.AdminMemberProgressVO;
-import com.health.domain.GoalDTO;
+import com.health.domain.ExerciseDTO;
+import com.health.domain.ExerciseDbDTO;
 import com.health.domain.MemberDTO;
 import com.health.domain.SecessionDTO;
 import com.health.mapper.Admin_MemberMapper;
@@ -39,13 +40,15 @@ public class Admin_MemberController {
 		if(mbrId == null || mbrId=="") {
 			return "redirect:Admin_member";
 		}
+		//상세기본정보
 		MemberDTO member = adminMemberService.getMemberDetail(mbrId);
 		model.addAttribute("member",member);
-		
+		//진행현황
 		AdminMemberProgressVO progress = adminMemberService.getMemberProgress(mbrId);
 		model.addAttribute("progress",progress);
-		
-		System.out.println(progress.getStart().getMemberFatper());
+		//회원 종목별 등급
+		List<ExerciseDTO> exerciseRank = adminMemberMapper.selectExerciseRank(mbrId);
+		model.addAttribute("exerciseRank",exerciseRank);
 		
 		
 		return "Admin_MemberDetail";

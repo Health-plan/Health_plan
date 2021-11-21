@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.health.domain.ExerciseDTO;
+import com.health.domain.ExerciseDbDTO;
 import com.health.domain.GoalDTO;
 import com.health.domain.MemberDTO;
 import com.health.domain.MemberStateDTO;
@@ -21,6 +23,9 @@ public interface Admin_MemberMapper {
 	public MemberStateDTO selectProgressStart(String mbrId);
 	public MemberStateDTO selectProgress(String mbrId);
 	public GoalDTO selectProgressGoal(String mbrId);
+	//운동종목
+	public List<ExerciseDTO> selectExerciseName();
+	public List<ExerciseDTO> selectExerciseRank(String mbrId);
 	//탈퇴회원
 	public List<SecessionDTO>selectSecessionList(SecessionDTO params);
 	public int selectSecessionTotalCount(SecessionDTO params);
