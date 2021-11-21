@@ -13,5 +13,11 @@ public interface Admin_PointMapper {
 	public List<MbrPointRecordDTO> selectPointList(MbrPointRecordDTO params);
 	//카운트
 	public int selectPointTotalCount(MbrPointRecordDTO params);
+	
+	public List<MbrPointRecordDTO> selectPointDetailList(MbrPointRecordDTO params);
+	
+	public int selectPointDetailTotalCount(MbrPointRecordDTO params);
+	
+	public int selectPointTotal(MbrPointRecordDTO params);
 
 }

@@ -36,11 +36,19 @@
 		ON a.point_id = b.point_id
 		
 		ORDER BY
-			b.point_date
+			<choose>
+				<when test="sortType=2">
+					b.point_date DESC
+				</when>
+				<when test="sortType=1">
+					b.point_date
+				</when>
+			</choose>
+			
 			
 		<include refid="CommonMapper.paging"/>	
 	</select>
-	
+
 	<select id="selectPointTotalCount" resultType="int">
 		SELECT
 			COUNT(*)
@@ -53,5 +61,69 @@
 			ON a.mbr_id = b.mbr_id
 			) as b
 		ON a.point_id = b.point_id
+	</select>
+	
+
+	<!-- 포인트 상세조회 -->
+	<select id="selectPointDetailList" parameterType="MbrPointRecordDTO" resultMap="PointList">
+		SELECT
+			a.point_contents,
+			a.point_category,
+			a.point_value,
+			b.point_date
+		FROM
+			point_police as a
+		JOIN
+			(SELECT a.*, b.mbr_nm
+			FROM mbr_point_record as a
+			JOIN members as b
+			ON a.mbr_id = b.mbr_id
+			) as b
+		ON a.point_id = b.point_id
+		WHERE
+			b.mbr_id = #{mbrId}
+		ORDER BY
+			<choose>
+				<when test="sortType=2">
+					b.point_date DESC
+				</when>
+				<when test="sortType=1">
+					b.point_date
+				</when>
+			</choose>
+		<include refid="CommonMapper.paging"/>	
+	</select>
+
+	<select id="selectPointDetailTotalCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			point_police as a
+		JOIN
+			(SELECT a.*, b.mbr_nm
+			FROM mbr_point_record as a
+			JOIN members as b
+			ON a.mbr_id = b.mbr_id
+			) as b
+		ON a.point_id = b.point_id
+		WHERE
+			b.mbr_id = #{mbrId}
+	</select>
+	
+	<!-- 현재포인트 -->
+	<select id="selectPointTotal" parameterType="MbrPointRecordDTO" resultType="int">
+	SELECT
+		SUM(a.point_value) as sum
+	FROM
+		point_police as a
+	JOIN
+		(SELECT a.*, b.mbr_nm
+		FROM mbr_point_record as a
+		JOIN members as b
+		ON a.mbr_id = b.mbr_id
+		) as b
+	ON a.point_id = b.point_id
+	WHERE
+		b.mbr_id = #{mbrId}
 	</select>
 </mapper>

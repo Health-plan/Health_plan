@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 	<th:block th:fragment="adminSidebar">
-		<div th:framgent="adminSidebar" class="flex-shrink-0 p-3 bg-white">
+		<div th:framgent="adminSidebar" class="flex-shrink-0 p-3 bg-light rounded">
 			<a th:href="@{admin.do}"
 				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
 				<!-- <img class="me-2" th:src="@{../static/image/logo.png}" aria-label="HealthPlanner" width="60"> -->
@@ -60,7 +60,7 @@
 					<div class="collapse" id="point-collapse">
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a th:href="@{admin_point.do}" class="link-dark rounded">조회</a></li>
-							<li><a th:href="@{admin_pointUpdate.do}" class="link-dark rounded">적립/차감</a></li>
+							<!--/* <li><a th:href="@{admin_pointUpdate.do}" class="link-dark rounded">적립/차감</a></li> */-->
 						</ul>
 					</div>
 				</li>

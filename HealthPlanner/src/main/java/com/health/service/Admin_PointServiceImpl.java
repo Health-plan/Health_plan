@@ -19,7 +19,6 @@ public class Admin_PointServiceImpl implements Admin_PointService{
 	@Override
 	public List<MbrPointRecordDTO> getPointList(MbrPointRecordDTO params){
 		List<MbrPointRecordDTO> point = Collections.emptyList();
-		
 		int pointTotalCount = adminPointMapper.selectPointTotalCount(params);
 		
 		PaginationInfo paginationInfo = new PaginationInfo(params);
@@ -28,11 +27,27 @@ public class Admin_PointServiceImpl implements Admin_PointService{
 		params.setPaginationInfo(paginationInfo);
 		
 		if(pointTotalCount > 0) {
-			System.out.println("포인트목록 총 갯수는" + pointTotalCount + "입니다.");
 			point = adminPointMapper.selectPointList(params);
 		}
 		
 		return point;
+	};
+	
+	@Override
+	public List<MbrPointRecordDTO> getPointDetailList(MbrPointRecordDTO params){
+		List<MbrPointRecordDTO> pointDetail = Collections.emptyList();
+		int pointDetailTotalCount = adminPointMapper.selectPointDetailTotalCount(params);
+		
+		PaginationInfo paginationInfo = new PaginationInfo(params);
+		paginationInfo.setTotalRecordCount(pointDetailTotalCount);
+		
+		params.setPaginationInfo(paginationInfo);
+		
+		if(pointDetailTotalCount > 0) {
+			pointDetail = adminPointMapper.selectPointDetailList(params);
+		}
+		
+		return pointDetail;
 	};
 	
 }

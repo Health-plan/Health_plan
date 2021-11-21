@@ -39,7 +39,7 @@
 						<tr th:if="${not #lists.isEmpty( member )}"
 							th:each="row,i : ${member}" role="button" th:onclick="movePageList([[${row.mbrId}]])">
 							<td scope="row" th:text="((${row.currentPageNo}-1) * 10) + ${i.count}"/>
-							<td scope="row" th:text="${row.mbrId}"/>
+							<td scope="row" th:text="${row.mbrId}"></td>
 							<td scope="row" th:text="${row.mbrNm}"/>
 							<th:block scope="row" th:switch="${row.memberStateDTO.mbrGender}">
 								<td th:case="1" th:text="여자"/>

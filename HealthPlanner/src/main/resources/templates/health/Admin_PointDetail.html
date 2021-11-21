@@ -3,52 +3,60 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/basic">
 	<th:block layout:fragment="title">
-		<title>포인트조회</title>
+		<title>포인트 상세조회</title>
 	</th:block>
 	<body>
 		<th:block layout:fragment="contents">
 			<div class="title">
 				<h4 class="main_title fw-bold mb-4 d-inline-block">포인트 관리</h4>
-				<h5 class="sub_title d-inline-block">조회</h5>
-				
-				<label for="sort" class="float-end fs-6">정렬기준
-					<select class="form-select d-inline-block w-auto" id="sort" aria-label=".form-select-sm example">
-						<option value="" disabled selected>정렬</option>
-						<option value="2">최신순</option>
-						<option value="1">오래된순</option>
-					</select>
-				</label>
+				<h5 class="sub_title d-inline-block">상세조회</h5>
 			</div>
 			
 			<div class="table-responsive clearfix rounded">
+				<table class="table table-hover text-center text-nowrap w-50">
+					<thead>
+						<tr class="bg-light">
+							<th>아이디</th>
+							<th>이름</th>
+							<th>현재포인트</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td	scope="row" th:text="${mbrId}"/>
+							<td scope="row" th:text="${mbrNm}"/>
+							<td scope="row" th:if="${point} >= 0" th:text="${point} + 'p'"/>
+							<td scope="row" th:unless="${point} >= 0" th:text="0"/>
+						</tr>
+					</tbody>
+				</table>
+
+				
 				<table class="table table-hover text-center text-nowrap">
 					<thead>
 						<tr class="bg-light">
 							<th>번호</th>
-							<th>아이디</th>
-							<th>이름</th>
-							<th>사용내역</th>
+							<th>날짜</th>
 							<th>분류</th>
 							<th>포인트</th>
-							<th>날짜</th>
+							<th>사용내역</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:if="${not #lists.isEmpty(list)}"
 							th:each="row, i : ${list}">
 							<td scope="row" th:text="(${params.currentPageNo} - 1) * 10 + ${i.count}"/>
-							<td	scope="row"><a th:text="${row.mbrId}" th:href="|@{admin_pointDetail.do}?mbrId=${row.mbrId}&mbrNm=${row.memberDTO.mbrNm}|"></a></td>
-							<td scope="row" th:text="${row.memberDTO.mbrNm}"/>
-							<td scope="row" th:text="${row.pointPoliceDTO.pointContents}"/>
+							<td scope="row" th:text="${row.pointDate}"/>
 							<td scope="row" th:text="${row.pointPoliceDTO.pointCategory}"/>
 							<td scope="row" th:text="${row.pointPoliceDTO.pointValue} + 'p'"/>
-							<td scope="row" th:text="${row.pointDate}"/>
+							<td scope="row" th:text="${row.pointPoliceDTO.pointContents}"/>
 						</tr>
 						<tr th:unless="${not #lists.isEmpty( list )}">
 							<td colspan="7">조회된 결과가 없습니다.</td>
 						</tr>
 					</tbody>
 				</table>
+				
 			</div>
 
 			<div class="page_navigation">
@@ -62,6 +70,7 @@
 					<!-- <div th:replace="fragments/common :: search_Question"></div> -->
 				</th:block>
 			</div>
+			
 			<th:block layout:fragment="script">
 				<script th:inline="javascript">
 					var sideMenuIcon = document.getElementById('pointMgt');
@@ -69,22 +78,18 @@
 					var sideMenuShow = document.getElementById('point-collapse');
 					sideMenuShow.className="collapse show";
 					
-					var listOne = /*[[${list}]]*/null;
-					console.log(listOne);
+					var mbrId = /*[[${mbrId}]]*/null;
+					var mbrNm = /*[[${mbrNm}]]*/null;
 					
 				/*<![CDATA[*/
-					function movePage(uri, queryString){
-						location.href = uri + queryString;
-					}	
-				
-					var sortType = document.getElementById("sort");
-					sortType.addEventListener("change",function movePageSelect(){
-						location.href = 'admin_point.do?sortType=' + sortType.value; 
-					})
-					
-				/*]]>*/
+				function movePage(uri,queryString){
+					location.href= uri + queryString + '&mbrId=' + mbrId + '&mbrNm=' + mbrNm;
+				}
+						
+				/*]]*/
 				</script>
 			</th:block>
 		</th:block>
+		
 	</body>
 </html>
