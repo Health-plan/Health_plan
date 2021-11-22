@@ -12,18 +12,24 @@ html,body{
 }
 
 body{
-  background-image:url("../image/background.gif");
+  /* background-image:url("../image/background.gif"); */
+  background-image:url("../image/white_mountain.jpg");
+  background-repeat : no-repeat;
+  background-size:cover;    /* 사이즈가 container에 맞지 않아도 꽉 차도록 채운다. */
+  background-position: center;  /* 컨테이너에 가운데로 오도록 한다. */ 
+  height: 100%;
+  width : 100vw;
 }
 
 a{
-  color:black;
+  color : rgb(64, 0, 128);
 }
 
-#wrapper{
+/* #wrapper{
   width:100%;
   height:100%;
   background:rgba(255,255,255,0.7 );
-}
+} */
 
 .empty{
   width:100%;
