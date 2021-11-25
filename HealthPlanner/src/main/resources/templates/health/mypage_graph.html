@@ -37,7 +37,7 @@
           <article class="main_contain">
             <!-- input값을 주고 readonly로 수정할 수 없게 -->
            <label class="userInfo">
-            <img class="userPhotos"  src="https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927">
+            <img class="userPhotos"  th:src="${userPhoto}">
             </label>
             <label class="userInfo">이름
               <input type="text" class="view" name="mbrNm" th:value="${userNm}" readonly/>

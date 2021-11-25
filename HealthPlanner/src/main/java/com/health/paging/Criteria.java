@@ -25,7 +25,7 @@ public class Criteria {
 	
 	public Criteria() {
 		this.currentPageNo = 1;
-		this.recordsPerPage = 10;
+		this.recordsPerPage = 5;
 		this.pageSize = 10;
 		this.sortType = 2;
 	}

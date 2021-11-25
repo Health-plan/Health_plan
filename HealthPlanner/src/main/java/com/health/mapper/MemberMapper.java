@@ -3,7 +3,7 @@ package com.health.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-
+import com.health.paging.Criteria;
 import com.health.domain.MemberDTO;
 import com.health.domain.PointDTO;
 
@@ -41,6 +41,8 @@ public interface MemberMapper {
 	  
 	  public List<PointDTO> pointContentsList(MemberDTO mbrdto) throws Exception;
 	  public int pointValueTotal(MemberDTO mbrdto) throws Exception;
-	  
+
+
+	public int selectPointTotalCount(MemberDTO mbrdto)throws Exception;
 
 }

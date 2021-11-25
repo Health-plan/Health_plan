@@ -31,7 +31,7 @@
           <article class="main_contain">
             <!-- input값을 주고 readonly로 수정할 수 없게 -->
            <label class="userInfo">
-            <img class="userPhotos"  src="https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927">
+            <img class="userPhotos"  th:src="${userPhoto}">
             </label>
             <label class="userInfo">이름
               <input type="text" class="view" name="mbrNm" th:value="${userNm}" readonly/>
@@ -40,6 +40,9 @@
             <h2>종합 신체 레벨 - 3</h2>
             <div class="muscle_img">
               <img th:src="@{/static/image/근육 앞 copy copy.png}" alt="">
+              	<button class="btn1" type="button" onclick="javascript:sensorBtnClick('btn1');">가슴</button>  				
+  				<button class="btn2" type="button" onclick="javascript:sensorBtnClick('btn2');">배</button>
+              	<button class="btn3" type="button" onclick="javascript:sensorBtnClick('btn3');">다리</button>
               <img th:src="@{/static/image/근육 뒤 copy copy.PNG}" alt="">
             </div>
             <h2>'부위값' 운동 레벨</h2>

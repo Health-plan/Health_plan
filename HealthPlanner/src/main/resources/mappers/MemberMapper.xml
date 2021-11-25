@@ -81,7 +81,9 @@
     right JOIN mbr_point_record as mpr ON m.mbr_id = mpr.mbr_id
     JOIN point_police as pp ON mpr.point_id = pp.point_id
 	WHERE m.mbr_id = #{mbrId}
-    ORDER BY mpr.point_date;
+    ORDER BY mpr.point_date
+    LIMIT
+			#{paginationInfo.firstRecordIndex}, #{recordsPerPage}
 	</select>
 	
 	<select id="pointValueTotal" parameterType="com.health.domain.MemberDTO" resultType="Integer">
@@ -91,7 +93,16 @@
     JOIN point_police as pp ON mpr.point_id = pp.point_id
 	WHERE m.mbr_id = #{mbrId}
     ORDER BY mpr.point_date;
+    
 	</select>
 	
+	<select id="selectPointTotalCount" parameterType="com.health.domain.MemberDTO" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM members as m
+    right JOIN mbr_point_record as mpr ON m.mbr_id = mpr.mbr_id
+    JOIN point_police as pp ON mpr.point_id = pp.point_id
+	WHERE m.mbr_id = #{mbrId}
+	</select>
 	
 </mapper>

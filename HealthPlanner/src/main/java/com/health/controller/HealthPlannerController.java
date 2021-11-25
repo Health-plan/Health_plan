@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -310,6 +312,7 @@ public class HealthPlannerController {
 			
 			if( myloginSessions ==null)
 			{
+				
 				System.out.println("세션0일때"+mbrdto );
 				
 				return "redirect:/main.do";							
@@ -334,7 +337,7 @@ public class HealthPlannerController {
 					if(myloginSessions != null)
 					{
 						model.addAttribute("userNm",myloginSessions.getMbrNm());
-						
+						model.addAttribute("userPhoto", myloginSessions.getMbrPhoto());
 						return "mypage_graph";
 					}
 					
@@ -353,6 +356,7 @@ public class HealthPlannerController {
 					if(myloginSessions != null)
 					{
 						model.addAttribute("userNm",myloginSessions.getMbrNm());
+						model.addAttribute("userPhoto", myloginSessions.getMbrPhoto());
 						return "mypage_body";
 					}
 					
@@ -366,20 +370,25 @@ public class HealthPlannerController {
 			
 				
 				@GetMapping(value = "mypage_point.do")
-				public String openMypage_point(HttpSession session, Model model) throws Exception
+				public String openMypage_point(@ModelAttribute("params") MemberDTO params ,HttpSession session, Model model) throws Exception
 				{
+					System.out.println("포인트 리스트 들어오는1지?? "+params);
 					MemberDTO myloginSessions =  (MemberDTO)session.getAttribute("member");
-					List<PointDTO> pointList = memberService.pointContentsList(myloginSessions);
+					params.setMbrId(myloginSessions.getMbrId());
+					List<PointDTO> pointList = memberService.pointContentsList(params);
 					int pointTotal= memberService.pointValueTotal(myloginSessions);
 					
 					if(myloginSessions != null)
 					{
 						//model.addAttribute("pointValue",myloginSessions.getPointValue());
 						model.addAttribute("userNm",myloginSessions.getMbrNm());
+						model.addAttribute("userPhoto", myloginSessions.getMbrPhoto());
 						model.addAttribute("pointList", pointList);
 						model.addAttribute("pointTotal", pointTotal);
 						
+						
 						System.out.println("포인트 리스트 들어오는지?? "+pointList);
+						System.out.println("포인트 리스트 들어오는2지?? "+params);
 						return "mypage_point";
 					}
 					

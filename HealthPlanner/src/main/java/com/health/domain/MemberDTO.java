@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MemberDTO {
+public class MemberDTO extends CommonDTO {
 	///회원가입---
 	//아이디
 	private String mbrId;

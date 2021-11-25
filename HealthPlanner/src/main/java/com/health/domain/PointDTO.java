@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PointDTO {
+public class PointDTO extends CommonDTO {
 	//id
 	private String mbrId;
 	//포인트 고유번호

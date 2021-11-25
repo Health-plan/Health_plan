@@ -60,7 +60,7 @@ $(function() {
             <form class="main" th:action="@{mypage_pwchange.do}" method="post">
             
            <label class="userInfo">
-            <img class="userPhotos"  src="https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927">
+            <img class="userPhotos"  th:src="${userPhoto}">
             </label>
               <label class="userInfo">이름
                 <input type="text" class="view" name="mbrNm" th:value="${userNm}" readonly/>
@@ -80,7 +80,7 @@ $(function() {
               </label>
               <div class="alert alert-success" id="alert-success">비밀번호가 일치합니다.</div>
               <div class="alert alert-danger" id="alert-danger">비밀번호가 일치하지 않습니다.</div>
-              <input type="submit" name="button" value= "변경">
+              <input class="changeBtn" type="submit" name="button" value= "변경">
               <label>E-Mail
                 <input type="text" class="view" name="mbrEmail" th:value="${userEm}" readonly/>
               </label>

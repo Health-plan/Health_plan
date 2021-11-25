@@ -1,5 +1,6 @@
 package com.health.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import com.health.domain.MemberDTO;
 import com.health.domain.PointDTO;
 import com.health.domain.UserDTO;
 import com.health.mapper.MemberMapper;
+import com.health.paging.PaginationInfo;
 
 @Service
 
@@ -134,9 +136,18 @@ public class MemberService{
 		//포인트 리스트 출력
 		 public List<PointDTO> pointContentsList(MemberDTO mbrdto) throws Exception
 		 {
-			 List<PointDTO> pList= memberMapper.pointContentsList(mbrdto);
-			 System.out.println(mbrdto + "포인트리스트에 pointcontentstlist함수로 들어옴");
-				
+			 List<PointDTO> pList= Collections.emptyList();
+			 int PointTotalCount = memberMapper.selectPointTotalCount(mbrdto);
+			 System.out.println(mbrdto + "포인트리스트에 pointcontentstlist함수로 들어옴"+PointTotalCount);
+			 PaginationInfo paginationInfo = new PaginationInfo(mbrdto);
+				paginationInfo.setTotalRecordCount(PointTotalCount);
+
+				mbrdto.setPaginationInfo(paginationInfo);	
+			 
+			 if(PointTotalCount >0)
+				{
+					pList= memberMapper.pointContentsList(mbrdto);
+				}
 				return pList;
 		 }
 		 

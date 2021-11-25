@@ -32,9 +32,27 @@ h5{
   background-color: #eee;
 }
 
-.practice_record :is(,td,th){
+.practice_record :is(td,th){
   padding:10px;
   border:1px solid #ccc;
   font-size: 14px;
   word-break: break-all;
+}
+
+button.btn1 {
+  position: absolute;
+     top: 494px;
+    left: 437px;
+}
+button.btn2 {
+  position: absolute;
+  top: 559px;
+  left : 442px;
+}
+
+button.btn3
+{
+	 position: absolute;
+  top: 745px;
+  left : 400px;
 }
