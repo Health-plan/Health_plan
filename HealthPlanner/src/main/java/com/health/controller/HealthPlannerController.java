@@ -43,10 +43,11 @@ public class HealthPlannerController {
 		
 		if(loginInfo ==null)
 		{
-			System.out.println("session값null? " + loginInfo);
+			System.out.println("session is null " + loginInfo);
 			model.addAttribute("nullsession",false);
+		}else {
+			System.out.println("session NOT Null " + loginInfo);
 		}
-		System.out.println("session값NOTnull? " + loginInfo);
 		return "main";
 	}
 	

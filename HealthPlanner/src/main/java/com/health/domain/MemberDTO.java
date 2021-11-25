@@ -1,7 +1,5 @@
 package com.health.domain;
 
-import java.time.LocalDateTime;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,6 +38,10 @@ public class MemberDTO extends CommonDTO {
 	private String modifier;
 	//수정일자
 	private String modifyDate;
+	
+	private MemberStateDTO memberStateDTO;
+	private LevelPointDTO levelPointDTO;
+	private GoalDTO goalDTO;
 
 	
 	@Override

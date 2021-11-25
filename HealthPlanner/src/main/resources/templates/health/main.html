@@ -17,23 +17,22 @@
       <div class="empty"></div>
       <div class="contain">
         <section>
-          <h1>기본정보 등록</h1>
+          <h1>Health Planner</h1>
           <article class="start">
-            <button class="start_btn" type="button" name="start" onclick="location.href='다음페이지'">START</button>
+            <button class="start_btn" type="button" name="start" onclick="location.href='admin.do'">START</button>
           </article>
           <article class="login">
           	<th:block th:if="${nullsession == false}">
-            <h5><a href="">다음에 하기</a></h5>
+                <h5><a href="">다음에 하기</a></h5>
             </th:block>
             <th:block th:unless="${nullsession == false}">
-            <h5><a th:href="@{mypage.do}">마이 페이지</a></h5>
+                <h5><a th:href="@{mypage.do}">마이 페이지</a></h5>
             </th:block>
-            <button class="login_btn" type="button"  name="button" >
-          <th:block th:if="${nullsession == false}">
-            <a  th:href="@{login.do}" >로그인</a>  
-           </th:block>
-           <th:block th:unless="${nullsession == false}">
-            <a  th:href="@{/logout}" >로그아웃</a>  
+            <button class="login_btn" type="button"  name="button" onclick="location.href='login.do'"> 로그인
+            <th:block th:if="${nullsession == false}">
+            </th:block>
+            <th:block th:unless="${nullsession == false}">
+                <a  th:href="@{/logout}" >로그아웃</a>  
            </th:block>
              
               
@@ -42,7 +41,7 @@
         </section>
       </div>
       <footer class="footer">
-        2021 ⓒ footer
+        2021 ⓒ Health Planner
        
       </footer>
     </div>

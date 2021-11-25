@@ -1,13 +1,249 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="ko" xmlns:th="www.thymeleaf.org"
+	xmlns:layout="www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/basic">
-	<th:block layout:fragment="title">
-		<title>회원관리상세</title>
-	</th:block>
-	<body>
+<th:block layout:fragment="title">
+	<title>회원관리 상세페이지</title>
+</th:block>
+<body>
 	<th:block layout:fragment="contents">
-	
+		<div class="title clearfix">
+			<h4 class="main_title fw-bold mb-4 d-inline-block">회원정보</h4>
+			<h5 class="sub_title d-inline-block">회원조회상세</h5>
+			<button class="btn btn-light float-end" onclick="history.back()">뒤로가기</button>
+		</div>
+
+		<div class="table-responsive mt-3">
+			<h5 class="fw-bold">기본정보</h5>
+			<table class="table table-hover text-center text-nowrap mt-3">
+				<thead>
+					<tr class="bg-light">
+						<th scope="col">아이디</th>
+						<th scope="col">이름</th>
+						<th scope="col">성별</th>
+						<th scope="col">운동평균등급</th>
+						<th scope="col">키</th>
+						<th scope="col">몸무게</th>
+						<th scope="col">생년월일</th>
+						<th scope="col">이메일주소</th>
+						<th scope="col">가입일자</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:object="${member}">
+						<td scope="row" th:text="*{mbrId}">아이디</td>
+						<td scope="row" th:text="*{mbrNm}">이름</td>
+						<td scope="row" th:text="*{memberStateDTO.mbrGender}">성별</td>
+						<td scope="row" th:text="*{memberStateDTO.averageRank}">운동평균등급</td>
+						<td scope="row" th:text="*{memberStateDTO.mbrHeight}">키</td>
+						<td scope="row" th:text="*{memberStateDTO.mbrWeight}">몸무게</td>
+						<td scope="row" th:text="*{mbrBirth}">생년월일</td>
+						<td scope="row" th:text="*{mbrEmail}">이메일주소</td>
+						<td scope="row" th:text="*{registDate}">가입일자</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="mt-5 container p-0" id="progress">
+			<div class="row">
+				<h5 class="fw-bold">진행현황</h5>
+			</div>
+			<div class="row" id="progress_info">
+				<div class="table-responsive clearfix col-9" id="progress_table">
+					<table class="table table-hover text-center mt-3">
+						<thead>
+							<tr class="bg-light">
+								<th class=""></th>
+								<th scope="col">시작</th>
+								<th scope="col">진행</th>
+								<th scope="col">목표</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">날짜</th>
+								<td scope="row" th:text="${progress.start.memberStateDate}" />
+								<th:block th:if="${progress.goal} != null">
+									<td scope="row"
+										th:if="${progress.progress.memberStateDate} != null"
+										th:text="${progress.progress.memberStateDate}" />
+									<td scope="row"
+										th:unless="${progress.progress.memberStateDate} != null">입력한
+										정보가 없습니다.</td>
+									<td scope="row" th:text="${progress.goal.goalDate}" />
+								</th:block>
+								<th:block th:unless="${progress.goal} != null">
+									<td scope="row">입력한 정보가 없습니다.</td>
+									<td scope="row">입력한 정보가 없습니다.</td>
+								</th:block>
+							</tr>
+							<tr>
+								<th scope="row">몸무게</th>
+								<td scope="row" th:text="${progress.start.mbrWeight} + 'kg'" />
+								<th:block th:if="${progress.goal} != null">
+									<td scope="row"
+										th:if="${member.memberStateDTO.mbrWeight} != null"
+										th:text="${member.memberStateDTO.mbrWeight} + 'kg'" />
+									<td scope="row"
+										th:unless="${member.memberStateDTO.mbrWeight} != null">입력한
+										정보가 없습니다.</td>
+									<td scope="row" th:text="${progress.goal.goalWeight} + 'kg'" />
+								</th:block>
+								<th:block th:unless="${progress.goal} != null">
+									<td scope="row">입력한 정보가 없습니다.</td>
+									<td scope="row">입력한 정보가 없습니다.</td>
+								</th:block>
+							</tr>
+							<tr>
+								<th scope="row">체지방률</th>
+								<td scope="row"
+									th:with="startFatper = ${progress.start.memberFatper} * 100"
+									th:text="${#numbers.formatDecimal(startFatper,0,1)} + '%'" />
+								<th:block th:if="${progress.goal} != null">
+									<td scope="row"
+										th:with="progressFatper = ${progress.progress.memberFatper} * 100"
+										th:if="${progress.progress.memberFatper} != null"
+										th:text="${#numbers.formatDecimal(progressFatper,0,1)} + '%'" />
+									<td scope="row"
+										th:unless="${progress.progress.memberFatper} != null">입력한
+										정보가 없습니다.</td>
+									<td scope="row"
+										th:with="goalFatper = ${progress.goal.goalFatper} * 100"
+										th:text="${#numbers.formatDecimal(goalFatper,0,1)} + '%'" />
+								</th:block>
+								<th:block th:unless="${progress.goal} != null">
+									<td scope="row">입력한 정보가 없습니다.</td>
+									<td scope="row">입력한 정보가 없습니다.</td>
+								</th:block>
+							</tr>
+							<tr>
+								<th scope="row">체지방량</th>
+								<td scope="row"
+									th:with="startFat = ${progress.start.memberFatper} * ${progress.start.mbrWeight}"
+									th:text="${#numbers.formatDecimal(startFat,0,1)} + 'kg'" />
+								<th:block
+									th:with="progressFat = ${progress.progress.memberFatper} * ${member.memberStateDTO.mbrWeight}"
+									th:if="${progress.goal} != null">
+									<td scope="row" th:if="progressFat != null"
+										th:text="${#numbers.formatDecimal(progressFat,0,1)} + 'kg'" />
+									<td scope="row"
+										th:unless="${#numbers.formatDecimal(progressFat,0,1)}">입력한
+										정보가 없습니다.</td>
+									<td scope="row"
+										th:with="goalFat = ${progress.goal.goalFatper} * ${member.memberStateDTO.mbrWeight}"
+										th:text="${#numbers.formatDecimal(goalFat,0,1)} + 'kg'" />
+								</th:block>
+								<th:block th:unless="${progress.goal} != null">
+									<td scope="row">입력한 정보가 없습니다.</td>
+									<td scope="row">입력한 정보가 없습니다.</td>
+								</th:block>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="text-center col-3">
+					<h2 class="pt-5">달성률</h2>
+					<th:block
+						th:with="goal = (100 * ((${progress.start.memberFatper} * 100) - (${progress.progress.memberFatper} * 100))) / ((${progress.goal.goalFatper} * 100) - (${progress.start.memberFatper}*100))" 
+						th:if="${progress.goal} != null">
+						<h1 th:if="${goal} >= 0"
+							th:text="${#numbers.formatDecimal(goal,0,1)} + '%'"></h1>
+						<h1 th:unless="${goal} >= 0"
+							th:text="(-1) * ${#numbers.formatDecimal(goal,0,1)} + '%'"></h1>
+					</th:block>
+					<th:block th:unless="${progress.goal} != null">
+						<h1>없음</h1>
+					</th:block>
+				</div>
+			</div>
+			<h5 class="fw-bold mt-5">종목별 운동 현황</h5>
+			<div class="row">
+				<div class="col-7" id="progress_graph">
+					<canvas id="weightInfo_graph"></canvas>
+				</div>
+				<div class="col-5" id="exercise_list">
+					<div class="table-responsive">
+						<table class="table table-hover text-center">
+							<thead>
+								<tr class="bg-light">
+									<th scope="col" class="w-50">운동종목</th>
+									<th scope="col" class="w-50">등급</tr>
+								
+							</thead>
+							<tbody>
+								<tr th:each="rank : ${exerciseRank}">
+									<td scope="row" th:text="${rank.exerciseNm}" />
+									<td scope="row" th:text="${rank.exerciseDbDTO.levelNm}" />
+									
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+
+		<th:block layout:fragment="script">
+			<script
+				src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+			<script th:inline="javascript">
+				/*<![CDATA[*/
+				let sideMenuIcon = document.getElementById('membersMgt');
+				sideMenuIcon.ariaExpanded = "true";
+				let sideMenuShow = document.getElementById('members-collapse');
+				sideMenuShow.className = "collapse show";
+
+				//유효성 검사
+				function formCheck() {
+					var weightCheck = document.getElementById("weightCheck");
+					var timeCheck = document.getElementById("timeCheck");
+					if (!confirm('등록하시겠습니까?')) {
+						return false;
+					} else {
+						if (weightCheck.value <= 0) {
+							alert('무게를 입력해주세요.');
+							return false;
+						}
+						if (timeCheck.value <= 0) {
+							alert('횟수를 입력해주세요.');
+							return false;
+						}
+					}
+				}
+
+				//그래프
+				new Chart(document.getElementById("weightInfo_graph"), {
+					type : 'bar',
+					data : {
+						labels :
+						//for문으로 exercise 명칭 순서대로 기입
+						[ "테스트", "테스트", "테스트", "테스트", "테스트", "테스트", "테스트",
+								"테스트" ],
+						datasets : [ {
+							data :
+							//for문
+							[ 50, 70, 80, 90, 150, 200, 500, 1100 ],
+							label : "test1",
+							borderColor : "green",
+							fill : false
+						}, {
+							data : [ 1100, 500, 200, 150, 90, 80, 70, 50 ],
+							label : "test2",
+							borderColor : "skyblue",
+							fill : false
+						} ]
+					},
+					options : {
+						title : {
+							display : true,
+							text : '신체등급'
+						}
+					}
+				});
+				/*]]>*/
+			</script>
+		</th:block>
 	</th:block>
-	</body>
+</body>
 </html>

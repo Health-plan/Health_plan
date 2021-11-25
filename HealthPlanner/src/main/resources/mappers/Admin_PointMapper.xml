@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.health.mapper.Admin_PointMapper">
+
+	<resultMap id="PointList" type="MbrPointRecordDTO">
+		<result column="mbr_id" property="mbrId"/>
+		<result column="point_date" property="pointDate"/>
+		<association javaType="MemberDTO" property="memberDTO">
+			<result column="mbr_nm" property="mbrNm"/>
+		</association>
+		<collection javaType="PointPoliceDTO" property="pointPoliceDTO">
+			<result column="point_contents" property="pointContents"/>
+			<result column="point_category" property="pointCategory"/>
+			<result column="point_value" property="pointValue"/>
+		</collection>
+	</resultMap>
+		
+
+	<!-- 포인트목록 -->
+	<select id="selectPointList" resultMap="PointList">
+		SELECT
+			a.point_contents,
+			a.point_category,
+			a.point_value,
+			b.mbr_id,
+			b.mbr_nm,
+			b.point_date
+		FROM
+			point_police as a
+		JOIN
+			(SELECT a.*, b.mbr_nm
+			FROM mbr_point_record as a
+			JOIN members as b
+			ON a.mbr_id = b.mbr_id
+			) as b
+		ON a.point_id = b.point_id
+		
+		ORDER BY
+			<choose>
+				<when test="sortType=2">
+					b.point_date DESC
+				</when>
+				<when test="sortType=1">
+					b.point_date
+				</when>
+			</choose>
+			
+			
+		<include refid="CommonMapper.paging"/>	
+	</select>
+
+	<select id="selectPointTotalCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			point_police as a
+		JOIN
+			(SELECT a.*, b.mbr_nm
+			FROM mbr_point_record as a
+			JOIN members as b
+			ON a.mbr_id = b.mbr_id
+			) as b
+		ON a.point_id = b.point_id
+	</select>
+	
+
+	<!-- 포인트 상세조회 -->
+	<select id="selectPointDetailList" parameterType="MbrPointRecordDTO" resultMap="PointList">
+		SELECT
+			a.point_contents,
+			a.point_category,
+			a.point_value,
+			b.point_date
+		FROM
+			point_police as a
+		JOIN
+			(SELECT a.*, b.mbr_nm
+			FROM mbr_point_record as a
+			JOIN members as b
+			ON a.mbr_id = b.mbr_id
+			) as b
+		ON a.point_id = b.point_id
+		WHERE
+			b.mbr_id = #{mbrId}
+		ORDER BY
+			<choose>
+				<when test="sortType=2">
+					b.point_date DESC
+				</when>
+				<when test="sortType=1">
+					b.point_date
+				</when>
+			</choose>
+		<include refid="CommonMapper.paging"/>	
+	</select>
+
+	<select id="selectPointDetailTotalCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			point_police as a
+		JOIN
+			(SELECT a.*, b.mbr_nm
+			FROM mbr_point_record as a
+			JOIN members as b
+			ON a.mbr_id = b.mbr_id
+			) as b
+		ON a.point_id = b.point_id
+		WHERE
+			b.mbr_id = #{mbrId}
+	</select>
+	
+	<!-- 현재포인트 -->
+	<select id="selectPointTotal" parameterType="MbrPointRecordDTO" resultType="int">
+	SELECT
+		SUM(a.point_value) as sum
+	FROM
+		point_police as a
+	JOIN
+		(SELECT a.*, b.mbr_nm
+		FROM mbr_point_record as a
+		JOIN members as b
+		ON a.mbr_id = b.mbr_id
+		) as b
+	ON a.point_id = b.point_id
+	WHERE
+		b.mbr_id = #{mbrId}
+	</select>
+</mapper>

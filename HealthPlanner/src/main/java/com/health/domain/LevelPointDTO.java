@@ -11,7 +11,7 @@ public class LevelPointDTO {
 	//등급명
 	private String levelNm;
 	//상위분포
-	private long levelPer;
+	private double levelPer;
 	//아이콘
 	private String icon;
 	//등록자
