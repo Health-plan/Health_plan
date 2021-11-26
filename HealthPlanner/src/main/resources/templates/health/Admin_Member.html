@@ -37,9 +37,9 @@
 					</thead>
 					<tbody> 
 						<tr th:if="${not #lists.isEmpty( member )}"
-							th:each="row,i : ${member}" role="button" th:onclick="movePageList([[${row.mbrId}]])">
+							th:each="row,i : ${member}" role="button">
 							<td scope="row" th:text="((${row.currentPageNo}-1) * 10) + ${i.count}"/>
-							<td scope="row" th:text="${row.mbrId}"></td>
+							<td scope="row"><a th:href="@{admin_memberDetail.do(mbrId=${row.mbrId})}" th:text="${row.mbrId}"></a></td>
 							<td scope="row" th:text="${row.mbrNm}"/>
 							<th:block scope="row" th:switch="${row.memberStateDTO.mbrGender}">
 								<td th:case="1" th:text="여자"/>
@@ -63,7 +63,7 @@
 			
 			<div class="search">
 				<th:block layout:fragment="search">
-					<!-- <div th:replace="fragments/common :: search_MemberSecession"></div> -->
+					<div th:replace="fragments/common :: search_Member"></div>
 				</th:block>
 			</div>
 			
@@ -88,12 +88,6 @@
 					sortType.addEventListener("change",function movePageSelect(){
 						location.href = 'admin_member.do?sortType=' + sortType.value; 
 					})
-					
-					//리스트 목록 클릭 시 페이지 이동
-					function movePageList(mbrId){
-						var url = /*[[@{admin_memberDetail.do}]]*/null;
-						location.href = url + '?mbrId=' + mbrId;
-					}
 					/*]]>*/
 				</script>
 			</th:block>

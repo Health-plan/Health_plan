@@ -5,6 +5,7 @@
 	<resultMap id="PointList" type="MbrPointRecordDTO">
 		<result column="mbr_id" property="mbrId"/>
 		<result column="point_date" property="pointDate"/>
+		<result column="registrant" property="registrant"/>
 		<association javaType="MemberDTO" property="memberDTO">
 			<result column="mbr_nm" property="mbrNm"/>
 		</association>
@@ -70,7 +71,8 @@
 			a.point_contents,
 			a.point_category,
 			a.point_value,
-			b.point_date
+			b.point_date,
+			b.registrant
 		FROM
 			point_police as a
 		JOIN
@@ -110,7 +112,33 @@
 			b.mbr_id = #{mbrId}
 	</select>
 	
-	<!-- 현재포인트 -->
+	<!-- 포인트 적립,차감 -->
+	<insert id="insertAdminPoint">
+		INSERT INTO
+			mbr_point_record
+		VALUE
+			(now(), #{mbrId}, #{pointId}, 'admin', null, null)
+	</insert>
+	
+	<!-- 포인트 정책 리스트 -->
+	<select id="selectPointPoliceList" parameterType="PointPoliceDTO" resultType="PointPoliceDTO">
+		SELECT
+			*
+		FROM
+			point_police
+		ORDER BY
+			point_id DESC
+		<include refid="CommonMapper.paging"/>	
+	</select>
+	
+	<select id="selectPointPoliceTotalCount" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			point_police
+	</select>
+	
+	<!-- 회원 현재포인트 -->
 	<select id="selectPointTotal" parameterType="MbrPointRecordDTO" resultType="int">
 	SELECT
 		SUM(a.point_value) as sum
@@ -126,4 +154,6 @@
 	WHERE
 		b.mbr_id = #{mbrId}
 	</select>
+	
+	
 </mapper>

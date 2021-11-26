@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/basic">
+	<th:block layout:fragment="title">
+		<title>포인트정책</title>
+	</th:block>
+	<body>
+		<th:blcok layout:fragment="contents">
+			<div class="title">
+				<h4 class="main_title fw-bold mb-4 d-inline-block">포인트 관리</h4>
+				<h5 class="sub_title d-inline-block">포인트 정책</h5>
+			</div>
+			
+			<div class="table-responsive clearfix rounded">
+				<table class="table table-hover text-center text-nowrap">
+					<thead>
+						<tr class="bg-light">
+							<th>번호</th>
+							<th>포인트 내용</th>
+							<th>유형</th>
+							<th>포인트값</th>
+							<th>등록자</th>
+							<th>등록일</th>							
+						</tr>
+					</thead>
+					<tbody>
+						<!--/*
+						더블클릭 시
+						 <tr th:if="${not #lists.isEmpty( police )}" th:each="row, i : ${police}" th:onclick="updateModal([[${row.pointId}]])" data-bs-toggle="modal" th:data-bs-target="|#updatePointPolice${row.pointId}|">
+						*/-->
+						<tr th:if="${not #lists.isEmpty( police )}"
+							th:each="row, i : ${police}" th:onclick="updateModalActive([[${row.pointId}]])" >	
+							<td scope="row" th:text="${row.pointId}"/>
+							<td	scope="row" th:text="${row.pointContents}"/>
+							<td scope="row" th:text="${row.pointCategory}"/>
+							<td scope="row" th:text="${row.pointValue}"/>
+							<td scope="row" th:text="${row.registrant}"/>
+							<td th:if="${row.modifier != null}" th:text="${row.modifier}">
+							<td th:unless="${row.modifier != null}" th:text="${row.registDate}">
+						</tr>
+						<tr th:unless="${not #lists.isEmpty( police )}">
+							<td colspan="4">조회된 결과가 없습니다.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="page_navigation">
+				<th:block layout:fragment="paging">
+					<!-- button trigger modal -->
+					<div class="float-end">
+						<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addPointPolice">
+							추가
+						</button>
+					</div>
+					<!-- paging -->
+					<nav th:replace="fragments/common :: pagination"></nav>
+				</th:block>
+			</div>
+			
+			<div class="search">
+				<th:block layout:fragment="search">
+					<!-- <div th:replace="fragments/common :: search_Question"></div> -->
+				</th:block>
+			</div>
+			
+			<!-- Update Modal -->
+			<div class="modal fade updateModal" id="updatePointPolice" tabindex="-1" aria-labelledby="updatePointPoliceLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-lg">
+					<div class="modal-content">
+						<!-- <form th:action="업데이트 경로" method="get" onsubmit=""> -->
+							<div class="modal-header">
+								<h5 class="modal-title" id="updatePointPoliceLabel">포인트 정책</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="container-fluid">
+									<div class="row  pb-2">
+										<div class="col-6">&nbsp;포인트 내용</div>
+										<div class="col-3">&nbsp;유형</div>
+										<div class="col-3">&nbsp;포인트값</div>
+									</div>
+									<div class="row">
+										<div class="col-6">
+											<input type="text" id="updateContent" class="form-control bg-white" value="포인트 적립/차감 내용 ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄹ" disabled>
+										</div>
+										<div class="col-3">
+											<input type="text" id="updateCategory" class="form-control bg-white" value="가감" disabled>
+										</div>
+										<div class="col-3">
+											<input type="number" id="updateValue" class="form-control" placeholder="값">
+										</div>
+									</div>	
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+								<button type="button" class="btn btn-primary">변경</button>
+							</div>
+						<!-- </form> -->
+					</div>
+				</div>
+			</div>
+			
+			<!-- Add Modal -->
+			<div class="modal fade" id="addPointPolice" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="myModalLabel">Modal title</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div class="container-fluid">
+								<div class="row">
+									<div class="col-"></div>
+								</div>
+								<div class="row">
+								
+								</div>	
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+							<button type="button" class="btn btn-primary">변경</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<th:block layout:fragment="script">
+				<script th:src="@{static/js/bootstrap/bootstrap.js}"></script>
+				<script th:inline="javascript">
+					var sideMenuIcon = document.getElementById('pointMgt');
+					sideMenuIcon.ariaExpanded = "true";
+					var sideMenuShow = document.getElementById('point-collapse');
+					sideMenuShow.className="collapse show";
+					
+					//dbclick modal
+					/*
+					function updateModal(pointId){
+						var updateModalContain = document.getElementsByClassName('updateModal')[0];
+						updateModalContain.setAttribute("id","updatePointPolice" + pointId);
+					}*/
+					
+					//onclick modal
+					function updateModalActive(pointId){
+						var updateModalContain = document.getElementsByClassName('updateModal')[0];
+						var activeModal = new bootstrap.Modal(updateModalContain);
+						activeModal.show();
+						
+						//modal 값
+						var list = /*[[${police}]]*/null;
+						for(var i=0; i<list.length; i++){
+							if(list[i].pointId == pointId){
+								var pointContent = list[i].pointContents;
+								var pointCategory = list[i].pointCategory;
+								var pointValue = list[i].pointValue;
+																
+								var updateContent = document.getElementById('updateContent');
+								var updateCategory = document.getElementById('updateCategory');
+								var updateValue = document.getElementById('updateValue');
+								
+								updateContent.setAttribute("value", pointContent);
+								updateCategory.setAttribute("value", pointCategory);
+								updateValue.setAttribute("placeholder", pointValue);
+								updateValue.value = null;
+							}
+						}
+					}
+					
+					/*<![CDATA[*/
+						function movePage(uri, queryString){
+							location.href= uri + queryString;
+						}
+					/*]]>*/
+				</script>
+			</th:block>
+		</th:blcok>
+	</body>
+</html>

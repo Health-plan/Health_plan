@@ -122,7 +122,7 @@
 		                        ) as b
 						<![CDATA[where a.exercise_id = b.exercise_id and a.body_weight <= b.mbr_weight and a.exercise_time <= b.exercise_time) AS b]]>
 				ON a.level_id = b.level_id) as levels
-		<include refid="CommonMapper.search_levelup"/>
+		<include refid="CommonMapper.searchLevelup"/>
 		ORDER BY
 		<choose>
 			<when test="sortType == 0">
@@ -147,8 +147,8 @@
 		SELECT
 			COUNT(*)
 		FROM
-			levelup_test
-		<include refid="CommonMapper.search_levelup"/>
+			levelup_test as lvt
+		<include refid="CommonMapper.searchLevelup"/>
 	</select>
 	
 </mapper>

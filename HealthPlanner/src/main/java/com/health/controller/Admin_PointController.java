@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.health.domain.MbrPointRecordDTO;
 import com.health.domain.MemberDTO;
+import com.health.domain.PointPoliceDTO;
 import com.health.mapper.Admin_PointMapper;
 import com.health.service.Admin_PointService;
 
@@ -54,5 +55,13 @@ public class Admin_PointController {
 		model.addAttribute("point",totalPoint);
 		
 		return "Admin_PointDetail";
+	}
+	
+	@GetMapping(value="admin_pointPolice.do")
+	public String adminPointPolice(@ModelAttribute("params")PointPoliceDTO params, Model model) {
+		List<PointPoliceDTO> police = adminPointService.getPointPoliceList(params);
+		model.addAttribute("police",police);
+		
+		return "Admin_PointPolice";
 	}
 }

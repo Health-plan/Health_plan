@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PointPoliceDTO {
+public class PointPoliceDTO extends CommonDTO {
 	//포인트식별자
 	private int pointId;
 	//포인트값

@@ -35,22 +35,42 @@
 	</sql>
 	
 	<!-- 검색(Admin_levelup) -->
-	<sql id="search_levelup">
+	<sql id="searchLevelup">
 		<if test="searchKeyword != null and searchKeyword != ''">
 			<choose>
 				<when test="'id'.equals(searchType)">
-					WHERE mbr_id LIKE CONCAT ('%', #{searchKeyword} ,'%')
+					WHERE lvt.mbr_id LIKE CONCAT ('%', #{searchKeyword} ,'%')
 				</when>
 				<when test="'exercise'.equals(searchType)">
-					WHERE exercise_id LIKE CONCAT ('%', #{searchKeyword} ,'%')
+					WHERE lvt.exercise_id LIKE CONCAT ('%', #{searchKeyword} ,'%')
 				</when>
 				<otherwise>
 					WHERE
 					(
-						mbr_id LIKE CONCAT ('%', #{searchKeyword} ,'%')
-					OR exercise_id LIKE CONCAT ('%', #{searchKeyword} ,'%')
+						lvt.mbr_id LIKE CONCAT ('%', #{searchKeyword} ,'%')
+					OR lvt.exercise_id LIKE CONCAT ('%', #{searchKeyword} ,'%')
 					)
 				</otherwise>
+			</choose>
+		</if>
+	</sql>
+	
+	<!-- 검색(Admin_member) -->
+	<sql id="search_member">
+		WHERE
+			mbr.secession = 0
+		<if test="searchKeyword != null and searchKeyword != ''">
+			<choose>
+				<when test="'id'.equals(searchType)">
+					and mbr.mbr_id LIKE CONCAT ('%',#{searchKeyword},'%')
+				</when>
+				<when test="'name'.equals(searchType)">
+					and mbr.mbr_Nm LIKE CONCAT ('%',#{searchKeyword},'%')
+				</when>
+				<when test="'rank'.equals(searchType)">
+					and ms.average_rank LIKE CONCAT ('%',#{searchKeyword},'%')
+				</when>
+				<otherwise></otherwise>
 			</choose>
 		</if>
 	</sql>

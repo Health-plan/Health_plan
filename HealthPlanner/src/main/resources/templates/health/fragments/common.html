@@ -45,7 +45,6 @@
 			<input type="hidden" name="pageSize" th:value="${params.pageSize}">
 			
 			<select name="searchType" class="form-select d-inline-block w-auto">
-				<option value=""  selected>분류</option>
 				<option value="title">제목</option>
 				<option value="writer">작성자</option>
 				<option value="content">내용</option>
@@ -63,10 +62,26 @@
 			<input type="hidden" name="pageSize" th:value="${params.pageSize}">
 			
 			<select name="searchType" class="form-select d-inline-block w-auto">
-				<option value=""  selected>분류</option>
 				<option value="id">아이디</option>
 				<!-- <option value="ranking">등급</option> -->
 				<option value="exercise">종목</option>
+			</select>
+			<input type="search" class="form-control w-25 d-inline-block" name="searchKeyword" th:value="${params.searchKeyword}" placeholder="검색어를 입력해주세요" aria-label="Search">
+			<button type="submit" class="btn btn-secondary mb-1">검색</button>
+		</form>
+	</div>
+	
+	<!-- 검색 Member -->
+	<div th:fragment="search_Member">	
+		<form id="searchForm" th:action="@{admin_member.do}" method="get" th:onsubmit="return searchQuestion(this)" class="text-center" role="form">
+			<input type="hidden" name="currentPageNo" value="1">
+			<input type="hidden" name="recordsPerPage" th:value="${params.recordsPerPage}">
+			<input type="hidden" name="pageSize" th:value="${params.pageSize}">
+			
+			<select name="searchType" class="form-select d-inline-block w-auto">
+				<option value="id">아이디</option>
+				<option value="name">이름</option>
+				<option value="rank">등급</option>
 			</select>
 			<input type="search" class="form-control w-25 d-inline-block" name="searchKeyword" th:value="${params.searchKeyword}" placeholder="검색어를 입력해주세요" aria-label="Search">
 			<button type="submit" class="btn btn-secondary mb-1">검색</button>
@@ -87,5 +102,6 @@
 			<button type="submit" class="btn btn-secondary mb-1">검색</button>
 		</form>
 	</div>
+	
 
 </html>

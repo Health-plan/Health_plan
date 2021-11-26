@@ -54,7 +54,7 @@
 	<!-- 회원목록 -->
 	<select id="selectMemberList" parameterType="MemberDTO" resultMap="adminMemberList">
 		select 
-			mbr.mbr_id ,
+			mbr.mbr_id,
 			mbr.mbr_nm,
 			mbr.secession,
 			mbr.regist_date,
@@ -81,8 +81,7 @@
 		     ) as ms   
 		on
 			mbr.mbr_id = ms.mbr_id
-		where
-			mbr.secession = 0
+			<include refid="CommonMapper.search_member"/>	
 		group by
 			mbr.mbr_id
 		ORDER BY
@@ -107,22 +106,36 @@
 					mbr.regist_date DESC
 				</when>
 				<otherwise>
-					mbr.regist_date DESC
+					mbr.regist_date DESC,
+					mbr.mbr_id
 				</otherwise>
 			</choose>
 		<include refid="CommonMapper.paging"/>
 	</select>
 	
 	<select id="selectMemberListTotalCount" parameterType="MemberDTO" resultType="int">
-		SELECT
+		select 
 			count(*)
-		FROM(
-			SELECT *
-			FROM member_state
-			WHERE (mbr_id, member_state_date)
-				IN (SELECT mbr_id, max(member_state_date) as member_state_date
-					FROM member_state
-					GROUP BY mbr_id)) as member_state_lately
+		from
+			members as mbr
+		join
+			(SELECT a.mbr_id, a.average_rank, a.mbr_gender,a.member_state_date, b.level_id
+		    FROM
+				(select *
+				 from(
+					 SELECT *
+					 FROM member_state
+					 WHERE (mbr_id, member_state_date)
+					 IN	( select mbr_id, max(member_state_date) as member_state_date
+						  from member_state
+						  group by mbr_id)) member_state_lately
+					 GROUP BY member_state_lately.mbr_id) as a
+		     JOIN levelpoint as b
+		     ON a.average_rank = b.level_nm
+		     ) as ms   
+		on
+			mbr.mbr_id = ms.mbr_id
+		<include refid="CommonMapper.search_member"/>
 	</select>
 	
 	<!-- 회원 기본정보 -->

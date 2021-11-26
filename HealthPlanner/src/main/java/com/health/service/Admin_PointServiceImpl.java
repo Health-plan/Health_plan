@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.health.domain.MbrPointRecordDTO;
+import com.health.domain.PointPoliceDTO;
 import com.health.mapper.Admin_PointMapper;
 import com.health.paging.PaginationInfo;
 
@@ -48,6 +49,24 @@ public class Admin_PointServiceImpl implements Admin_PointService{
 		}
 		
 		return pointDetail;
+	};
+	
+	@Override
+	public List<PointPoliceDTO> getPointPoliceList(PointPoliceDTO params){
+		List<PointPoliceDTO> police = Collections.emptyList();
+		
+		int pointPoliceTotalCount = adminPointMapper.selectPointPoliceTotalCount(params);
+		
+		PaginationInfo paginationInfo = new PaginationInfo(params);
+		paginationInfo.setTotalRecordCount(pointPoliceTotalCount);
+		
+		params.setPaginationInfo(paginationInfo);
+		
+		if(pointPoliceTotalCount > 0) {
+			police = adminPointMapper.selectPointPoliceList(params);
+		}
+		
+		return police;
 	};
 	
 }
