@@ -2,9 +2,11 @@ package com.health.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class PointPoliceDTO extends CommonDTO {
 	//포인트식별자
 	private int pointId;

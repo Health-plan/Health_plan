@@ -376,6 +376,7 @@ public class HealthPlannerController {
 					System.out.println("포인트 리스트 들어오는1지?? "+params);
 					MemberDTO myloginSessions =  (MemberDTO)session.getAttribute("member");
 					params.setMbrId(myloginSessions.getMbrId());
+					params.setRecordsPerPage(5);
 					List<PointDTO> pointList = memberService.pointContentsList(params);
 					int pointTotal= memberService.pointValueTotal(myloginSessions);
 					

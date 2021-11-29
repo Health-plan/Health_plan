@@ -17,6 +17,7 @@ public class Admin_PointServiceImpl implements Admin_PointService{
 	@Autowired
 	private Admin_PointMapper adminPointMapper;
 	
+	//포인트 적립목록
 	@Override
 	public List<MbrPointRecordDTO> getPointList(MbrPointRecordDTO params){
 		List<MbrPointRecordDTO> point = Collections.emptyList();
@@ -34,6 +35,7 @@ public class Admin_PointServiceImpl implements Admin_PointService{
 		return point;
 	};
 	
+	//회원별 목록
 	@Override
 	public List<MbrPointRecordDTO> getPointDetailList(MbrPointRecordDTO params){
 		List<MbrPointRecordDTO> pointDetail = Collections.emptyList();
@@ -52,6 +54,16 @@ public class Admin_PointServiceImpl implements Admin_PointService{
 	};
 	
 	@Override
+	public boolean addPointRecord(MbrPointRecordDTO params) {
+		int queryResult = 0;
+		
+		queryResult = adminPointMapper.insertAdminPoint(params);
+		
+		return (queryResult == 1) ? true : false;
+	};
+	
+	//포인트 정책 관련
+	@Override
 	public List<PointPoliceDTO> getPointPoliceList(PointPoliceDTO params){
 		List<PointPoliceDTO> police = Collections.emptyList();
 		
@@ -69,4 +81,23 @@ public class Admin_PointServiceImpl implements Admin_PointService{
 		return police;
 	};
 	
+	//포인트 정책 값 변경
+	@Override
+	public boolean modifyPointPolice(PointPoliceDTO params) {
+		int queryResult = 0;
+		
+		queryResult = adminPointMapper.updatePointPoliceValue(params);
+		
+		return (queryResult == 1) ? true : false;
+	};
+	
+	//포인트 정책 추가
+	@Override
+	public boolean addPointPolice(PointPoliceDTO params) {
+		int queryResult = 0;
+		
+		queryResult = adminPointMapper.insertPointPolice(params);
+		
+		return (queryResult == 1) ? true : false;
+	};
 }
