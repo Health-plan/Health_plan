@@ -35,12 +35,12 @@
 						</th:block>
 						<!-- 링크 바꾸기 -->
 						<td class="w-50"><a
-							th:href="@{admin_NoticeDetail.do( postId=${row.postId} )}"
+							th:href="@{admin_NoticeDetail.do(postId=${row.postId},currentPageNo=${params.currentPageNo})}"
 							th:text="${row.title}"></a></td>
 						<td th:text="${row.mbrId}"></td>
-						<td th:if="${row.modifyDate} == null" th:text="${row.postDate}"></td>
+						<td th:if="${row.modifyDate} == null" th:text="${row.postDate}" class="date"></td>
 						<td th:unless="${row.modifyDate} == null"
-							th:text="${row.modifyDate}"></td>
+							th:text="${row.modifyDate}" class="date"></td>
 					</tr>
 					<tr th:unless="${not #lists.isEmpty( postList )}">
 						<td colspan="6">조회된 결과가 없습니다.</td>
@@ -60,14 +60,34 @@
 
 		<th:block layout:fragment="script">
 			<script th:inline="javascript">
+				//사이드바 활성화
 				let sideMenuIcon = document.getElementById('boardMgt');
 				sideMenuIcon.ariaExpanded = "true";
 				let sideMenuShow = document.getElementById('board-collapse');
 				sideMenuShow.className = "collapse show";
 				
+				//페이징 경로
 				function movePage(uri, queryString){
 					location.href= uri + queryString;
 				}
+				
+				//날짜 포맷
+				var now = new Date();
+				var nowYear = now.getFullYear();
+				var nowMonth = ('0' + (now.getMonth() + 1)).slice(-2);
+				var nowDate = ('0' + now.getDate()).slice(-2);
+				var nowDay = nowYear + '-' + nowMonth + '-' + nowDate;
+				var rowNum = document.getElementsByTagName('table');
+				var date = document.getElementsByClassName('date');
+				console.log(nowDay);
+				for(var i=0; i<rowNum[0].rows.length-1; i++){
+					if(date[i].innerText.slice(0,10) == nowDay){
+						date[i].innerText = date[i].innerText.slice(-8);
+					} else {
+						date[i].innerText = date[i].innerText.slice(0,10);
+					}
+				 }
+
 			</script>
 		</th:block>
 	</th:block>

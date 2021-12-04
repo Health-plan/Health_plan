@@ -12,130 +12,120 @@
 			</div>
 			
 			<!-- TABLE -->
-			<div class="table-responsive clearfix" id="writeAnswer">			
-				<table class="table text-center text-nowrap">
-					<thead>
-						<tr class="bg-light">
-							<th class="border-end">분류</th>
-							<th scope="col">제목</th>
-							<th>작성자</th>
-							<th>작성일자</th>
-							<th th:if="${post.modifyDate} != null">수정일자</th>
-						</tr>
-					</thead>
-					<tbody>
-						<th:block th:if="${writeContain} != 1">
-							<tr>
-								<th:block th:switch="${post.boardSubType}">
-									<td th:case="1">운영정책</td>
-									<td th:case="2">시스템</td>
-									<td th:case="3">포인트</td>
-									<td th:case="4">기타</td>
-								</th:block>
-								<td	th:text="${post.title}" class="w-50"></td>
+			<div class="table-responsive clearfix" id="writeAnswer">
+				<form th:action="@{admin_NoticeUpdate.do}" th:object="${post}" onsubmit="return updateNotice()">
+					<input type="hidden" th:field="*{postId}" th:value="*{postId}">
+					<input type="hidden" th:field="*{mbrId}" th:value="*{mbrId}">			
+					<table class="table text-center text-nowrap">
+						<thead>
+							<tr class="bg-light">
+								<th class="border-end">분류</th>
+								<th scope="col">제목</th>
+								<th>작성자</th>
+								<th>작성일자</th>
+								<th th:if="${post.modifyDate} != null">수정일자</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="align-middle">
+								<td class="border-end">
+									<select class="form-select text-center bg-white border-0 " th:field="*{boardSubType}" th:value="${post.boardSubType}" id="subType" disabled>
+										<option value="1" th:text="운영정책"/>
+										<option value="2" th:text="시스템"/>
+										<option value="3" th:text="포인트"/>
+										<option value="4" th:text="기타"/>
+									</select>
+								</td>
+								<td class="w-50"><input type="text" th:field="*{title}" class="form-control text-center bg-white border-0" th:value="${post.title}" id="title" disabled></td>
 								<td th:text="${post.mbrId}"></td>
 								<td th:text="${post.postDate}"></td>
 								<th:block th:if="${post.modifyDate} != null">
-									<td th:text="${post.modifyDate}"></td>
+									<td th:text="${post.modifyDate}"/>
 								</th:block>
 							</tr>
-						</th:block>
-						
-						<th:block th:unless="${writeContain} != 1">
+							
 							<tr class="align-middle">
-								<td class="border-end">
-									<select class="form-select m-auto" id="postType">
-										<option value="" disabled selected>구분</option>
-										<option value="1">분류1</option>
-										<option value="2">분류2</option>
-										<option value="3">분류3</option>
-										<option value="4">분류4</option>
-									</select>
+								<td colspan="1" class="border-end">내용</td>
+								<td colspan="5">
+									<textarea class="form-control text-center h-100 border-0 bg-white" rows=14 disabled th:field="*{postContents}" th:text="${post.postContents}" id="containText" style="resize:none;"></textarea>
 								</td>
-								<td><input type="text" class="form-control w-100" th:value="${post.title}" id="titleText"></td>
-								<td th:text="${post.mbrId}"></td>
-								<td th:text="${post.postDate}"></td>
 							</tr>
-						</th:block>
-						
-						<tr class="align-middle">
-							<td colspan="1" class="border-end">내용</td>
-							<td colspan="5" th:if="${writeContain} != 1">
-								<textarea class="form-control border-0 bg-white text-center h-100" rows=14 disabled th:text="${post.postContents}" id="ContainText" style="resize:none;"></textarea>
-							</td>
-							<td colspan="5" th:unless="${writeContain} != 1">
-								<textarea class="form-control" rows=14 th:text="${post.postContents}" id="ContainText"></textarea>
-							</td>
-						</tr>
-						
-						<th:block th:if="${post.answerState} == 1">
-							<th:block th:if="(${writeContain} == 0) or (!${writeContain})">
-								<tr id="answerText" class="align-middle">
-									<td>답변내용</td>
-									<td colspan="5" th:text="${post.answer}"></td>
-								</tr>
-							</th:block>
-						</th:block>
-						
-					</tbody>
-				</table>
-				
-				<!-- BUTTON -->
-				<div id="btn" class="float-end" th:object="${post}">
-					<th:block>
-						<button th:if="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-secondary answerBtn" id="modify" onclick="activeBtn()">수정</button>
-						<button th:unless="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-secondary answerBtn" id="modify" onclick="updateNotice()">등록</button>
-						<button th:if="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-secondary answerBtn" id="answer" th:onclick="deleteNotice('[[ *{postId} ]]')">삭제</button>
-						<button th:unless="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn answerBtn" id="answer" onclick="activeBtn()">취소</button>							
-						<button th:if="(${writeContain} == 0) or (!${writeContain})" type="button" class="btn btn-light" onclick="history.back()">뒤로가기</button>					
-					</th:block>
+							
+						</tbody>
+					</table>
 					
-					
-				</div>
-				
+					<!-- BUTTON -->
+					<div id="btn" class="float-end">
+						<th:block>
+							<button type="button" class="btn btn-secondary" id="modifyBtn">수정</button>
+							<button type="submit" class="btn btn-secondary d-none" id="updateBtn">등록</button>
+							
+							<button type="button" class="btn btn-secondary " id="deleteBtn" th:onclick="deleteNotice('[[ *{postId} ]]')">삭제</button>
+							<button type="button" class="btn d-none" id="cancelBtn">취소</button>
+							
+							<button type="button" class="btn btn-light" id="backBtn" onclick="history.back()">뒤로가기</button>					
+						</th:block>
+					</div>
+				</form>
 			</div>
 			<th:block layout:fragment="script">
 			<script th:inline="javascript">
+				//사이드바 활성화
 				let sideMenuIcon = document.getElementById('boardMgt');
 				sideMenuIcon.ariaExpanded = "true";
 				let sideMenuShow = document.getElementById('board-collapse');
 				sideMenuShow.className="collapse show";
 				
+				//분류 초기값 설정
+				let boardSubType=/*[[${post.boardSubType}]]*/null;
+				let subType = document.getElementById("subType");
+				subType.value=boardSubType;
+				
+				//버튼 작동
+				const modifyBtn = document.getElementById("modifyBtn");
+				const updateBtn = document.getElementById("updateBtn");
+				const deleteBtn = document.getElementById("deleteBtn");
+				const cancelBtn = document.getElementById("cancelBtn");
+				const title = document.getElementById("title");
+				const containText = document.getElementById("containText");
+				
+				modifyBtn.addEventListener('click', function(){
+					subType.removeAttribute("disabled");
+					subType.className="form-select text-center";
+					title.removeAttribute("disabled");
+					title.className="form-control text-center";
+					containText.removeAttribute("disabled");
+					containText.className="form-control text-center h-100";
+					modifyBtn.style.display = 'none';
+					updateBtn.className = 'btn btn-secondary answerBtn';
+					deleteBtn.style.display = 'none';
+					cancelBtn.className = 'btn answerBtn';
+					backBtn.style.display = 'none';
+				})
+				
+				cancelBtn.addEventListener('click', function(){
+					subType.disabled = true;
+					subType.className="form-select text-center bg-white border-0";
+					title.disabled = true;
+					title.className="form-control text-center bg-white border-0";
+					containText.disabled = true;
+					containText.className="form-control text-center h-100 bg-white border-0";
+					modifyBtn.style.display = 'inline-block';
+					updateBtn.className = 'btn btn-secondary answerBtn d-none';
+					deleteBtn.style.display = 'inline-block';
+					cancelBtn.className = 'btn answerBtn d-none';
+					backBtn.style.display = 'inline-block';
+				})
+				
+				
 				/*<![CDATA[*/
 					let writeAnswerValue=0;
 					let selectVal = $("#postType").val();
 					let postNumber = /*[[${post.postId}]]*/
-					
-					function activeBtn(){
-						if(writeAnswerValue==0){
-							writeAnswerValue=1;
-						} else {
-							writeAnswerValue=0;
-						}
-						$.ajax({
-							type:"POST",
-							url:"admin_NoticeWriteContain.do",
-							dataType:"text",
-							data:{
-								writeContain:writeAnswerValue,
-								postId:postNumber
-							},
-							success:function(data){
-								console.log("성공");
-							},
-							error:function(jqXHR, textStatus, errorThrown){
-								console.log("Error : "+ textStatus + " : "+ errorThrown);
-							}
-						}).done(function(fragment){
-							$("#writeAnswer").replaceWith(fragment);
-						});
-					}
+
 					
 					function updateNotice(){
-						if($("#postType").val() == null){
-							alert("분류를 선택해주세요.");
-							return false;
-						} else if($("#titleText").val().length <1){
+						if($("#title").val().length <1){
 							alert("제목을 입력해주세요.");
 							return false;
 						} else if($("#ContainText").val().length < 1){
@@ -143,33 +133,6 @@
 							return false;
 						} else if(confirm("등록하시겠습니까?") == false){
 							return false;
-						} else {
-							if(writeAnswerValue==0){
-								writeAnswerValue=1;
-							} else {
-								writeAnswerValue=0;
-							}
-							$.ajax({
-								type:'POST',
-								url:'admin_NoticeUpdate.do',
-								dataType:'text',
-								data:{
-									postId:postNumber,
-									writeContain:writeAnswerValue,
-									boardSubType:$("#postType").val(),
-									title:$("#titleText").val(),
-									postContents:$("#ContainText").val()
-								},
-								success:function(data){
-									console.log("성공");
-								},
-								error:function(jqXHR, textStatus, errorThrown){
-									console.log("Error: " + textStatus + " : " + errorThrown);
-								}
-							}).done(function(fragment){
-								$("#writeAnswer").replaceWith(fragment);
-								alert("수정되었습니다.")
-							})
 						}
 					}
 					

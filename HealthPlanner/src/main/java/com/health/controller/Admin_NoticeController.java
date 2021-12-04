@@ -49,28 +49,14 @@ public class Admin_NoticeController extends UiUtils {
 	}
 	
 	
-	@PostMapping(value="admin_NoticeWriteContain.do")
-	public String adminNoticeDetailWrite(@RequestParam(value="postId", required=false)int postId, int writeContain, Model model) {
-		model.addAttribute("writeContain",writeContain);
-		
-		PostDTO post = adminNoticeService.getNoticeDetail(postId);
-		model.addAttribute("post",post);
-		
-		
-		
-		return "Admin_NoticeDetail :: #writeAnswer";
-	}
-	
 	//수정	
-	@PostMapping(value="admin_NoticeUpdate.do")
-	public String adminNoticeDetailUp(@RequestParam(value="postId", required=false)int postId, int writeContain, PostDTO post, Model model) {
-		model.addAttribute("writeContain",writeContain);
-		
+	@GetMapping(value="admin_NoticeUpdate.do")
+	public String adminNoticeDetailUp(@RequestParam(value="postId", required=false)int postId, PostDTO post, Model model) {
 		adminNoticeService.writeNotice(post);
 		post = adminNoticeService.getNoticeDetail(postId);
 		model.addAttribute("post",post);
 		
-		return "Admin_NoticeDetail :: #writeAnswer";
+		return "Admin_NoticeDetail";
 	}
 	
 	//삭제
@@ -120,6 +106,6 @@ public class Admin_NoticeController extends UiUtils {
 			return showMessageWithRedirect("시스템 오류입니다..", "admin_Notice.do", Method.GET, null, model);
 		}
 		
-		return showMessageWithRedirect("게시글 답변이 등록되었습니다.", "admin_Notice.do?postId="+ post.getPostId(), Method.GET, null, model);
+		return showMessageWithRedirect("게시글이 작성되었습니다.", "admin_Notice.do?postId="+ post.getPostId(), Method.GET, null, model);
 	}
 }

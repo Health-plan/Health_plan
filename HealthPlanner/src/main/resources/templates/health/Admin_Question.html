@@ -76,16 +76,18 @@
 		<th:block layout:fragment="script">
 			<script th:src="@{../../../static/js/common.js}"></script>
 			<script th:inline="javascript">
-				let sideMenuIcon = document.getElementById('boardMgt');
+				//사이드바 활성화
+				const sideMenuIcon = document.getElementById('boardMgt');
 				sideMenuIcon.ariaExpanded = "true";
-				let sideMenuShow = document.getElementById('board-collapse');
+				const sideMenuShow = document.getElementById('board-collapse');
 				sideMenuShow.className="collapse show";
 				
-				//query string pasing 하는 메소드
+				//queryString pasing 하는 메소드
 				function getQueryStringObject(){
-					let a = window.location.search.substr(1).split('&');
-					if(a == "") return {};
-					let b = {};
+					var a = window.location.search.substr(1).split('&');
+					if(a == "")
+						return {sortType:'2'};
+					var b = {};
 					for(let i=0; i<a.length; ++i){
 						let p = a[i].split('=',2);
 						if(p.length == 1)
@@ -97,12 +99,11 @@
 				}
 				
 				//sortType값(queryString에서 가져옴)
-				let qs = getQueryStringObject();
-				let sortType = qs.sortType
+				const qs = getQueryStringObject();
+				let sortType = qs.sortType;
 				
 				//select값 유지
 				document.getElementById("sort").value=sortType;
-				
 				
 				/*select 선택 시*/
 				$("#sort").change(function(){
@@ -122,9 +123,9 @@
 				}
 			
 				//당일 작성일자 시간으로 변경
-				let nowDate = /*[[${nowDate}]]*/null; //controller 사용
-				let writtenDate = document.getElementsByClassName('writtenDate');
-				let recordsPerPage = /*[[${params.recordsPerPage}]]*/null;
+				const nowDate = /*[[${nowDate}]]*/null; //controller 사용
+				const writtenDate = document.getElementsByClassName('writtenDate');
+				const recordsPerPage = /*[[${params.recordsPerPage}]]*/null;
 				
 				for(var i=0; i<recordsPerPage; i++){
 					if(writtenDate[i].innerText.substr(0,10) == nowDate){
@@ -137,14 +138,14 @@
 				//검색 유효성
 				function searchQuestion(form){
 					try{
-					if(isEmpty(form.searchKeyword.value) == true){
-						alert("키워드를 입력해 주세요.");
-						form.searchKeyword.focus();
-						console.log("testtesttest");
-						return false;
-					} else {
-						console.log("test");
-					}
+						if(isEmpty(form.searchKeyword.value) == true){
+							alert("키워드를 입력해 주세요.");
+							form.searchKeyword.focus();
+							console.log("testtesttest");
+							return false;
+						} else {
+							console.log("test");
+						}
 					}catch(error){
 						alert(error);
 					}
