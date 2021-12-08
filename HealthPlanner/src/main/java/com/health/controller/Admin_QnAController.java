@@ -46,7 +46,6 @@ public class Admin_QnAController {
 		return "Admin_QnADetail";
 	}
 	
-	
 	@PostMapping(value="admin_QnAWriteContain.do")
 	public String adminQnADetailWrite(@RequestParam(value="postId", required=false)int postId, int writeContain, Model model) {
 		model.addAttribute("writeContain",writeContain);
@@ -54,21 +53,17 @@ public class Admin_QnAController {
 		PostDTO post = adminQnAService.getQnADetail(postId);
 		model.addAttribute("post",post);
 		
-		
-		
 		return "Admin_QnADetail :: #writeAnswer";
 	}
 	
 	//수정	
-	@PostMapping(value="admin_QnAUpdate.do")
-	public String adminQnADetailUp(@RequestParam(value="postId", required=false)int postId, int writeContain, PostDTO post, Model model) {
-		model.addAttribute("writeContain",writeContain);
-		
+	@GetMapping(value="admin_QnAUpdate.do")
+	public String adminQnADetailUp(@RequestParam(value="postId", required=false)int postId, PostDTO post, Model model) {
 		adminQnAService.writeQnA(post);
 		post = adminQnAService.getQnADetail(postId);
 		model.addAttribute("post",post);
 		
-		return "Admin_QnADetail :: #writeAnswer";
+		return "redirect:admin_QnADetail.do?postId="+post.getPostId();
 	}
 	
 	//삭제
@@ -117,4 +112,6 @@ public class Admin_QnAController {
 		
 		return "redirect:admin_QnA.do";
 	}
+	
+	
 }

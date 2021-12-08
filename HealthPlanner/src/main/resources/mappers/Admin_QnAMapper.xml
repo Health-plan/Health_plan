@@ -60,7 +60,8 @@
 			title = #{title},
 			post_contents = #{postContents},
 			modifier = #{mbrId},
-			modify_date = now()
+			modify_date = now(),
+			answer = #{answer}
 		WHERE
 			post_id = #{postId}
 	</update>

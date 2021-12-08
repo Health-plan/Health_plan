@@ -51,7 +51,7 @@ public class DBConfiguration {
 		factoryBean.setMapperLocations(applicationContext.getResources("classpath:/mappers/**/*Mapper.xml"));
 		//클래스 풀 패키지 경로
 		factoryBean.setTypeAliasesPackage("com.health.*");
-		//55~59라인에 추가된 mybatis 설정과 관련된 빈(bean)을 설정파일로 지정
+		//65~69라인에 추가된 mybatis 설정과 관련된 빈(bean)을 설정파일로 지정
 		factoryBean.setConfiguration(mybatisConfg());
 		return factoryBean.getObject();
 	}
