@@ -31,7 +31,7 @@
 	                    Enter the text you want to send and click the button.</p>
 	                
 	                <!--/* Ajax 사용할 부분 */-->    
-	                <form class="card-text">
+	                <!-- <form class="card-text"> -->
 	                    <div class="col-12">
 	                        <div class="input-group mb-3">
 	                        
@@ -44,26 +44,55 @@
 	                    
 	                    <!--/* resultDiv 안에 데이터 update*/-->
 	                    <div id="resultDiv">
-	                        <p th:if="${msg}!=null" th:text="${msg}"></p>
+	                        <!-- <p th:if="${msg}!=null" th:text="${msg}"></p> -->
+	                        <br>
+	                        <div>입력한 값</div>
+	                        <input type="text" th:if="${#strings.isEmpty(msg)}" placeholder="이건 나와야 하는 거 아님?">
+	                        <input type="text" th:if="${not #strings.isEmpty(msg)}" th:value="${msg}">
+	                        <br>
+	                        <br>
+	                        <div>테스트1</div>
+	                        <input type="text" th:if="${#strings.isEmpty(test)}" placeholder="이건 나와야 하는 거 아님?">
+	                        <input type="text" th:if="${not #strings.isEmpty(test)}" th:each="row : ${test}" th:value="${row.test1}">
+	                        <br>
+	                        <br>
+	                        <div>테스트2</div>
+	                        <input type="text" th:if="${#strings.isEmpty(test2)}" placeholder="이건 나와야 하는 거 아님?">
+	                        <input type="text" th:if="${not #strings.isEmpty(test2)}" th:each="list : ${test2}" th:value="${list.test2}">
 	                    </div>
-	                </form>
-	                
-	                <a href="#" class="btn" style="background-color: #EBDEF0">Go github</a>
+	                <!-- </form> -->
 	            </div>
 	        </div>
 	    </div>
 	</div>
 	<script>
 	function dataSend() {
-	    var data=$("#input").val();
-	    var messageDTO={
-	        result:data
-	    };
+		var dto = {};
+		dto.result = $("#input").val();
+		dto.test1 = "가나다라";
+		dto.test2 = "마바사아";
+		dto.test3 = "자차카타";
+		dto.test4 = "파하";
+		
+		var dto2 = {};
+		dto2.test1 = "1번째";
+		dto2.test2 = "2번째";
+		dto2.test3 = "3번째";
+		dto2.test4 = "4번째";
+
 	    $.ajax({
-	        url: "dataSend.do",
-	        data: messageDTO,
+	        url: "data.do",
+	        data: dto,
 	        type:"POST",
-	    }).done(function (fragment) {
+	        success : function(){
+	        	alert('성공');
+	        },
+	        error : function(request, status){
+	        	alert('실패');
+	        	alert(request.status);
+	        }
+	    })
+	    .done(function (fragment) {
 	        $("#resultDiv").replaceWith(fragment);
 	    });
 	}

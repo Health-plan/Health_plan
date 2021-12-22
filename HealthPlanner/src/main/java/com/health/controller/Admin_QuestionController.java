@@ -13,74 +13,111 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.health.constant.Method;
+import com.health.domain.LevelupTestDTO;
+import com.health.domain.MbrPointRecordDTO;
 import com.health.domain.PostDTO;
+import com.health.service.Admin_LevelupTestService;
+import com.health.service.Admin_PointService;
 import com.health.service.Admin_QuestionService;
 import com.health.util.UiUtils;
 
 //Admin_Question Page
 @Controller
-public class Admin_QuestionController extends UiUtils{
+public class Admin_QuestionController extends UiUtils {
 
 	@Autowired
 	private Admin_QuestionService adminQuestionService;
 
-	//List
-	@GetMapping(value="admin.do")
-	public String adminQuestion(@ModelAttribute("params") PostDTO postDto, Model model){
-		//작성일자에서 사용할 현재 정보
+	// List
+	@GetMapping(value = "admin.do")
+	public String adminQuestion(@ModelAttribute("params") PostDTO postDto, Model model) {
+		// 작성일자에서 사용할 현재 정보
 		LocalDate nowDate = LocalDate.now();
-		model.addAttribute("nowDate",nowDate);
-		
-		//리스트 출력
+		model.addAttribute("nowDate", nowDate);
+
+		// 리스트 출력
 		List<PostDTO> postList = adminQuestionService.getPostList(postDto);
-		model.addAttribute("postList",postList);
-		
+		model.addAttribute("postList", postList);
+
 		return "Admin_Question";
 	}
+
+	@Autowired
+	private Admin_PointService adminPointService;
+
+	@Autowired
+	private Admin_LevelupTestService adminLevelupTest;
+
+	// TEST
+	@GetMapping(value = "ListTest.do")
+	public String testList(@ModelAttribute("params") MbrPointRecordDTO mbrPointRecordDTO, PostDTO postDTO, 
+			LevelupTestDTO levelupTestDTO, Model model) {
+		// 작성일자에서 사용할 현재 정보
+		LocalDate nowDate = LocalDate.now();
+		model.addAttribute("nowDate", nowDate);
+
+		// 리스트 출력
+		postDTO.setRecordsPerPage(7);
+		List<PostDTO> postList = adminQuestionService.getPostList(postDTO);
+		model.addAttribute("postList", postList);
 		
-	//Detail
-	@GetMapping(value="admin_QuestionDetail.do")
-	public String adminQuestionDetail(@ModelAttribute("params") PostDTO params, @RequestParam(value="postId", required = false)int postId, Model model) {
-		if(postId == 0) {
-			//TODO => 올바르지 않은 접근이라는 메시지를 전달, 게시글 리스트로 리다이렉트
+		mbrPointRecordDTO.setRecordsPerPage(3);
+		List<MbrPointRecordDTO> list = adminPointService.getPointList(mbrPointRecordDTO);
+		model.addAttribute("list", list);
+		
+		levelupTestDTO.setRecordsPerPage(10);
+		List<LevelupTestDTO> levelup = adminLevelupTest.getTestList(levelupTestDTO);
+		model.addAttribute("levelup",levelup);
+		
+		return "Admin_Question2";
+	}
+
+	// Detail
+	@GetMapping(value = "admin_QuestionDetail.do")
+	public String adminQuestionDetail(@ModelAttribute("params") PostDTO params,
+			@RequestParam(value = "postId", required = false) int postId, Model model) {
+		if (postId == 0) {
+			// TODO => 올바르지 않은 접근이라는 메시지를 전달, 게시글 리스트로 리다이렉트
 			return "redirect:admin.do";
 		}
 		PostDTO post = adminQuestionService.getPostDetail(postId);
 
-		if(post == null || post.getAvailable() == 1) {
-			//TODO => 없는 게시글이거나, 삭제된 게시글이라는 메시지를 전달, 리스트로 리다이렉트
+		if (post == null || post.getAvailable() == 1) {
+			// TODO => 없는 게시글이거나, 삭제된 게시글이라는 메시지를 전달, 리스트로 리다이렉트
 			return "redirect:admin.do";
 		}
-		model.addAttribute("post",post);
-		//답변 update에서 사용할 postId값
-		model.addAttribute("postId",postId);
+		model.addAttribute("post", post);
+		// 답변 update에서 사용할 postId값
+		model.addAttribute("postId", postId);
 
 		return "Admin_QuestionDetail";
 	}
-	
-	//Answer & Modify
-	@PostMapping(value="admin_QuestionDetailAnswer.do")
-	public String adminQuestionDetailAnswer(@RequestParam(value="postId", required = false)int postId, PostDTO post, Model model) {
-		//postId 정보가 없으면 리스트페이지로 이동
-		if(postId == 0) {
+
+	// Answer & Modify
+	@PostMapping(value = "admin_QuestionDetailAnswer.do")
+	public String adminQuestionDetailAnswer(@RequestParam(value = "postId", required = false) int postId, PostDTO post,
+			Model model) {
+		// postId 정보가 없으면 리스트페이지로 이동
+		if (postId == 0) {
 			return "redirect:admin.do";
 		}
-		//update 답변 메소드 실행
+		// update 답변 메소드 실행
 		try {
-			boolean isUpdated =	adminQuestionService.adminQuestionAnswer(post);
-			if(isUpdated == false) {
+			boolean isUpdated = adminQuestionService.adminQuestionAnswer(post);
+			if (isUpdated == false) {
 				System.out.println("메소드 문제");
 				return showMessageWithRedirect("게시글 등록에 실패하였습니다.", "admin.do", Method.GET, null, model);
 			}
-		} catch(DataAccessException e){
+		} catch (DataAccessException e) {
 			System.out.println("DB 오류 : " + e);
 			return showMessageWithRedirect("데이터베이스 처리 과정에 문제가 발생하였습니다.", "admin.do", Method.GET, null, model);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println("시스템 오류 : " + e);
 			return showMessageWithRedirect("시스템에 문제가 발생했습니다.", "admin.do", Method.GET, null, model);
-		} 
-		
-		return showMessageWithRedirect("게시글 답변이 등록되었습니다.", "admin_QuestionDetail.do?postId="+ post.getPostId(), Method.GET, null, model);
-		
+		}
+
+		return showMessageWithRedirect("게시글 답변이 등록되었습니다.", "admin_QuestionDetail.do?postId=" + post.getPostId(),
+				Method.GET, null, model);
+
 	}
 }
