@@ -7,11 +7,15 @@ public class MessageDTO {
 	private String msg;
 	private String Result;
 	
-	public String message;
-	public String href;
+	private String test1;
+	private String test2;
+	private String test3;
+	private String test4;
 	
+	/*
 	public MessageDTO(String message, String href) {
 		this.message = message;
 		this.href = href;
 	}
+	*/
 }

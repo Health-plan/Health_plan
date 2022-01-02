@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!-- 공통 헤드-->
+<head th:replace="layout/head :: headFragment">
+</head>
+<!-- 공통 스크립트-->
+<th:block th:replace="layout/script :: scriptFragment"></th:block>
+  <div class="row" style="display:none;">
+  		<input type="hidden" id="popupPatientNo" th:value="${patientNo}">
+  </div>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>환자상세</title>
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/mealsugarins.css">
+  <link th:href="@{/css/common3.css}" rel="stylesheet">
+  <div>
+  	<input type="hidden" id= "patientNo" th:value="${patientNo}">
+  	<input type="hidden" id= "beforeYn" th:value="${beforeYn}">
+  	<input type="hidden" id= "aftYn" th:value="${aftYn}">
+  </div>
+    <div class="flex">
+    <!--detail-wrapper -->
+    <!-- 20211208 수정 -->
+    <div class="detail-wrapper borderr detail-p" style="background-color: #c6e0f5;">
+      <div class="btn-wrapper evenly pt3 pb1 borderb">
+        <a class="btn btn-primary patientAppend" th:href="@{/patinqList}">환자목록</a>
+        <th:block th:if="${list.treatProgressNm}!='삭제'">
+        	<a class="btn btn-primary patientAppend" id="patientInfo" onclick="pooupAddPatient()">환자정보수정</a>
+        </th:block>
+      </div>
+      <div class="detail-wrap">
+        <table class="fff b"> 
+          <tr>
+            <td>MSII 진행</td>
+            <td th:text="${list.treatProgressNm}">-</td>
+          </tr>
+          <tr>
+            <td>MSII 시작날짜</td>
+            <td th:text="${list.treatStartDt}">-</td>
+          </tr>
+          <tr>
+            <td>환자등록번호</td>
+            <td th:text="${patientNo}" id="patientNo" th:value="${patientNo}">11000</td>
+          </tr>
+          <tr>
+            <td>이름</td>
+            <td th:text="${list.patientNm}">신규환</td>
+          </tr>
+          <tr>
+            <td>연령</td>
+            <td th:text="${list.age}">50</td>
+          </tr>
+          <tr>
+            <td>성별</td>
+            <td th:text="${list.genderNm}">남성</td>
+          </tr>
+          <tr>
+            <td>체중 (kg)</td>
+            <td th:text="${list.weightNo}">70</td>
+          </tr>
+          <tr>
+            <td>기존공복혈당</td>
+            <td th:text="${list.fastBloodSugarNo}">300</td>
+          </tr>
+          <tr>
+            <td>HbA1c (%)</td>
+            <td th:text="${list.hba1cNo}">12</td>
+          </tr>
+          <tr>
+            <td>eGFR(me/min/1.73)</td>
+            <td th:text="${list.egfrNo}">70</td>
+          </tr>
+          <tr>
+            <td>당뇨병 종류</td>
+            <td th:text="${list.diabetesTypeNm}">제 2형 당뇨</td>
+          </tr>
+          <tr>
+            <td>저혈당 고위험군</td>
+            <td th:text="${list.highRiskHypoglyYn}">N</td>
+          </tr>
+          <tr>
+            <td>목표 혈당 (mg/dL)</td>
+            <td th:text="${list.lowBloodSugarNo}+' ~ '+ ${list.highBloodSugarNo}">100 ~ 140</td>
+          </tr>
+          <tr>
+            <td>식사종류</td>
+            <td th:text="${list.mealTypeNm}">일반식</td>
+          </tr>
+          <tr>
+            <td>식사량</td>
+            <td th:text="${list.mealMountNm}">전량</td>
+          </tr>
+          <tr>
+            <td>식전인슐린 투여시기</td>
+            <td th:text="${list.befInsulinPeriodNm}">식전</td>
+          </tr>
+          <tr>
+            <td>기저 인슐린</td>
+            <td style="color: #5bc74d;" th:text="${list.baseInsulinTypeNm}">Tresiba</td>
+          </tr>
+          <tr>
+            <td>식전 인슐린</td>
+            <td style="color: #ff9100;" th:text="${list.befInsulinTypeNm}">Novorapid</td>
+          </tr>
+          <tr>
+            <td class="h100">메모</td>
+            <td th:text="${list.memoTx}">집중케어 필요</td>
+          </tr>
+          <tr>
+            <td>당뇨약제 복용 중</td>
+            <td th:text="${list.diabetesMedTakeYn}">N</td>
+          </tr>
+          <tr>
+            <td>당뇨약제종류</td>
+            <td th:text="${list.diabetesMedTypeNm}"></td>
+          </tr>
+          <tr>
+            <td>기존 인슐린 사용여부</td>
+            <td th:text="${list.existInsulinUseYn}">N</td>
+          </tr>
+          <tr>
+            <td>기존 기저 인슐린<br>투여량 (단위)</td>
+            <td th:text="${list.existBaseInsulinDosNo}"></td>
+          </tr>
+          <tr>
+            <td>기존 식전 인슐린<br>투여량 (단위,매끼니)</td>
+            <td th:text="${list.existBefInsulinDosNo}"></td>
+          </tr>
+          <tr>
+            <td>저혈당 발생 위험 높음</td>
+            <td th:text="${list.highRiskHypoglyYn}">N</td>
+          </tr>
+          <tr>
+            <td>최근 1달간 1번이상<br>저혈당 경험</td>
+            <td th:text="${list.hypogly1ExpYn}">N</td>
+          </tr>
+          <tr>
+            <td>의식 장애 동반한<br>저혈당 경험</td>
+            <td th:text="${list.consDisHypoglyExpYn}">N</td>
+          </tr>
+          <tr>
+            <td>인슐린 감량치 (%)</td>
+            <td th:text="${list.lossInsulinNo}"></td>
+          </tr>
+          <tr>
+            <td>담당자</td>
+            <td th:text="${list.memberNm}"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="btn-wrapper pt2 pb2 txtc">
+      	<th:block th:if="${list.treatProgressNm}!='삭제'">
+        	<div><button class="pd1 mb2 btn btn-red" onclick="updateCancelConfirm()">환자삭제</button></div>
+        </th:block>
+      </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    <!-- patinq-wrapper -->
+    <!-- 20211208 수정 -->
+    <div class="patinq-wrapper w1000 pr1 pl1 pb3" style="width: 100%; background-color:#f3f3f4;">
+        <h1 class="h1 pb2">환자상세</h1>
+        <div class="patinq-wrap">
+          <ul class="tab">
+            <li class="active"><a href="#">인슐린 투여</a></li>
+            <!-- <li><a href="/detailPatientChart/2021120700004">혈당 그래프</a></li> -->
+            <li><a th:href="|@{/detailPatientChart}/${patientNo}|">혈당 그래프</a></li>
+          </ul>
+          <div class="active-wrapper">
+            <div class="title-warp flex">
+              <h1 style="font-weight: bold;">인슐린 투여</h1>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <button class="btn btn-blue h40 w125" th:if="${list.treatProgressCd} == '00'" id="checkTreatProgressCd" th:value="${list.treatProgressCd}">MSII 시작</button>
+              <button class="btn btn-blue h40 w125" th:if="${list.treatProgressCd} == '01'" id="checkTreatProgressCd" th:value="${list.treatProgressCd}">MSII 중단</button>
+              <button class="btn btn-blue h40 w125" th:if="${list.treatProgressCd} == '02'" id="checkTreatProgressCd" th:value="${list.treatProgressCd}">MSII 시작</button>
+            </div>
+            <div class="f14 b pb05" th:text="${list.nowDate}">2021.07.30</div>
+            
+            
+            
+            
+            
+            <!-- 신치수 작업공간 -->
+            <div class="f14 b pb05">혈당입력</div>
+            <table class="bgf f14 em-tb" id="addMealSugarinsBtn">
+              <tr class="b">
+                <td>아침 공복</td>
+                <td>점심 공복</td>
+                <td>저녁 공복</td>
+                <td>자기 전</td>
+              </tr>
+              <!-- <tr id="addMealSugarinsBtn" class="blueBtn-wrap">
+                <td><a href="#addMealSugarins" data-toggle='modal' class="btn btn-primary patientAppend" th:value="MORNING" id="morningBloodSugarNoValue">입력</a></td>
+                <td><a href="#addMealSugarins" data-toggle='modal' class="btn btn-primary patientAppend" th:value="LUNCH" id="lunchBloodSugarNoValue">입력</a></td>
+                <td><a href="#addMealSugarins" data-toggle='modal' class="btn btn-primary patientAppend" th:value="DINNER" id="dinnerBloodSugarNoValue">입력</a></td>
+                <td><a href="#addSleepSugarins" data-toggle='modal' class="btn btn-primary patientAppend" th:value="NIGHT" id="nightBloodSugarNoValue">입력</a></td>
+              </tr> -->
+                            
+              <tr th:if="${!list.treatProgressCd.equals('01')}" th:each="each : ${bloodInsInfoDt}">
+              	<td th:text=${#numbers.formatDecimal(each.morning_blood_sugar_no,0,0)}></td>
+              	<td th:text=${#numbers.formatDecimal(each.lunch_blood_sugar_no,0,0)}></td> 
+              	<td th:text=${#numbers.formatDecimal(each.dinner_blood_sugar_no,0,0)}></td>
+              	<td th:text=${#numbers.formatDecimal(each.night_blood_sugar_no,0,0)}></td>
+              </tr>
+        
+        
+        
+       		<!-- 수정중 -->
+              <tr th:unless="${!list.treatProgressCd.equals('01')}" th:each="each : ${bloodInsInfoDt}">
+              	<!-- 값이 입력 안 됐을 때 -->
+              	<td th:if="${each.morning_blood_sugar_no == 0 }" th:utext="|<a href='#addMealSugarins' data-toggle='modal' class='btn btn-primary patientAppend' value='MORNING'>입력</a>|"></td>
+              	<!-- 입력 됐을 때 -->
+              	<td th:if="${each.morning_blood_sugar_no > 0 }">
+              		<a href='#addMealSugarins' data-toggle='modal' class='patientAppend init' th:text='${#numbers.formatDecimal(each.morning_blood_sugar_no,0,0)}' value='MORNING'></a>
+           		</td>
+              	
+              	<td th:if="${each.lunch_blood_sugar_no == 0 }" th:utext="|<a href='#addMealSugarins' data-toggle='modal' class='btn btn-primary patientAppend' value='LUNCH'>입력</a>|"></td>
+              	<td th:if="${each.lunch_blood_sugar_no > 0 }">
+              		<a href="#addMealSugarins" data-toggle='modal' class='patientAppend init' th:text="${#numbers.formatDecimal(each.lunch_blood_sugar_no,0,0)}" value='LUNCH'></a>
+           		</td>
+              	
+              	<td th:if="${each.dinner_blood_sugar_no == 0 }" th:utext="|<a href='#addMealSugarins' data-toggle='modal' class='btn btn-primary patientAppend' value='DINNER'>입력</a>|"></td>
+              	<td th:if="${each.dinner_blood_sugar_no > 0 }">
+            	  	<a href="#addMealSugarins" data-toggle='modal' class='patientAppend init' th:text="${#numbers.formatDecimal(each.dinner_blood_sugar_no,0,0)}" value='DINNER'></a>
+           	  	</td>
+              	
+              	<td th:if="${each.night_blood_sugar_no == 0 }" th:utext="|<a href='#addSleepSugarins' data-toggle='modal' class='btn btn-primary patientAppend' value='NIGHT'>입력</a>|"></td>
+              	<td th:if="${each.night_blood_sugar_no > 0 }"> 
+              		<a href="#addSleepSugarins" data-toggle='modal' class='patientAppend init' th:text="${#numbers.formatDecimal(each.night_blood_sugar_no,0,0)}" value='NIGHT'></a>
+           		</td>              	
+              </tr>
+              
+              <!-- 수정 전 코드 -->
+              <!-- <tr th:unless="${!list.treatProgressCd.equals('01')}" th:each="each : ${bloodInsInfoDt}">
+              	<td th:if="${each.morning_blood_sugar_no == 0 }" th:utext="|<a href='#addMealSugarins' data-toggle='modal' class='btn btn-primary patientAppend' value='MORNING'>입력</a>|"></td>
+              	<td th:if="${each.morning_blood_sugar_no > 0 }" th:text=${#numbers.formatDecimal(each.morning_blood_sugar_no,0,0)}></td>
+              	<td th:if="${each.lunch_blood_sugar_no == 0 }" th:utext="|<a href='#addMealSugarins' data-toggle='modal' class='btn btn-primary patientAppend' value='LUNCH'>입력</a>|"></td>
+              	<td th:if="${each.lunch_blood_sugar_no > 0 }" th:text="${#numbers.formatDecimal(each.lunch_blood_sugar_no,0,0)}"></td>
+              	<td th:if="${each.dinner_blood_sugar_no == 0 }" th:utext="|<a href='#addMealSugarins' data-toggle='modal' class='btn btn-primary patientAppend' value='DINNER'>입력</a>|"></td>
+              	<td th:if="${each.dinner_blood_sugar_no > 0 }" th:text="${#numbers.formatDecimal(each.dinner_blood_sugar_no,0,0)}"></td>
+              	<td th:if="${each.night_blood_sugar_no == 0 }" th:utext="|<a href='#addSleepSugarins' data-toggle='modal' class='btn btn-primary patientAppend' value='NIGHT'>입력</a>|"></td>
+              	<td th:if="${each.night_blood_sugar_no > 0 }" th:text="${#numbers.formatDecimal(each.night_blood_sugar_no,0,0)}"></td>              	
+              </tr> -->
+            </table>
+            
+            
+            
+            
+            
+            
+            
+            <div class="f14 b pt1 pb1">식전 인슐린 투여 전에 반드시 혈당을 기입해주세요.</div>
+            <table class="bgf f14 in-tb" id="addBefInjectsSugarinsBtn">
+            	<thead>
+	              <tr class="b">
+	                <td>&nbsp;</td>
+	                <td>인슐린종류</td>
+	                <td>투여시기</td>
+	                <td>식사량</td>
+	                <td>전일투여량</td>
+	                <td>권장배정량</td>
+	                <td>교정인슐린</td>
+	                <td>총처방량</td>
+	                <td>실투여량</td>
+	                <td>투여시간</td>
+	              </tr>
+              	</thead>
+              	<tbody th:if="${!befInsullinInfo.empty}" th:each="each : ${befInsullinInfo}">
+	              <tr th:if="${!list.treatProgressCd.equals('01')}">
+	                <td th:text="${each.insulin_dos_period_nm}">식전 인슐린</td>
+	                <td th:text="${each.bef_insulin_type_nm}">-</td>
+	                <td th:text="${each.bef_insulin_period_nm}">-</td>
+	                <td th:text="${each.meal_mount_nm}">-</td>
+	                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0 ,0)}">-</td>
+	                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">&nbsp;</td>
+	                <td th:text="${#numbers.formatDecimal(each.corr_insulin_dos_no,0,0)}">&nbsp;</td>
+	                <td th:text="${#numbers.formatDecimal(each.tot_insulin_dos_no,0,0)}">&nbsp;</td>
+	                <td th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+	                <td th:text="${each.insulin_dos_at}">&nbsp;</td>
+              	  </tr>
+	              <tr th:unless="${!list.treatProgressCd.equals('01')}">
+	                <td th:text="${each.insulin_dos_period_nm}">식전 인슐린</td>
+	                <td th:text="${each.bef_insulin_type_nm}">-</td>
+	                <td th:text="${each.bef_insulin_period_nm}">-</td>
+	                <td th:text="${each.meal_mount_nm}">-</td>
+	                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0 ,0)}">-</td> 
+	                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">&nbsp;</td>
+	                <td th:text="${#numbers.formatDecimal(each.corr_insulin_dos_no,0,0)}">&nbsp;</td>
+	                <td th:text="${#numbers.formatDecimal(each.tot_insulin_dos_no,0,0)}">&nbsp;</td>
+	                <td th:if="${each.btn_enable_cd.equals('1')}"  th:utext="|<a href='#addInjectsSugarins' data-toggle='modal' class='btn btn-primary patientAppend' value='${each.insulin_dos_period_cd}'>입력</a>|"></td>
+	                <td th:if="${each.btn_enable_cd.equals('0')}"  th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+	                <td th:if="${each.btn_enable_cd.equals('2')}"  th:utext="|<div class='btn btn-primary2 patientAppend' value='${each.insulin_dos_period_cd}'>입력</div>|"></td>
+	                <td th:text="${each.insulin_dos_at}">&nbsp;</td>
+	              </tr>
+              	</tbody>
+            </table>
+            <div class="f14 b pt1 pb1">기저 인슐린 투여 전에 반드시 혈당을 기입해주세요.</div>
+            <table class="bgf f14 in-tb" id="addBaseInjectsSugarinsBtn">
+            	<thead>
+	              <tr class="b">
+	                <td>&nbsp;</td>
+	                <td>인슐린 종류</td>
+	                <td>투여시기</td>
+	                <td>전일 투여량</td>
+	                <td>권장 배정량</td>
+	                <td>실투여량</td>
+	                <td>투여 시간</td>
+	              </tr>
+	            </thead>
+	            <tbody th:if="${!baseInsullinInfo.empty}" th:each="each : ${baseInsullinInfo}">
+	              <tr th:if="${!list.treatProgressCd.equals('01')}">
+	                <td th:text="${each.insulin_dos_period_nm}">기저 인슐린</td>
+	                <td th:text="${each.base_insulin_type_nm}">-</td>
+	                <td th:text="${each.base_insulin_period_nm}">-</td>
+	                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0,0)}">-</td>
+	                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">-</td>
+	                <td th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+	                <td th:text="${each.insulin_dos_at}">-</td>
+	              </tr>
+	              <tr th:unless="${!list.treatProgressCd.equals('01')}">
+	                <td th:text="${each.insulin_dos_period_nm}">기저 인슐린</td>
+	                <td th:text="${each.base_insulin_type_nm}">-</td>
+	                <td th:text="${each.base_insulin_period_nm}">-</td>
+	                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0,0)}">-</td>
+	                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">-</td>
+	                <td th:if="${each.btn_enable_cd.equals('1')}"  th:utext="|<a href='#addInjectsSugarins' data-toggle='modal' class='btn btn-primary patientAppend' value='${each.insulin_dos_period_cd}'>입력</a>|"></td>
+	                <td th:if="${each.btn_enable_cd.equals('0')}"  th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+	                <td th:if="${each.btn_enable_cd.equals('2')}"  th:utext="|<div class='btn btn-primary2 patientAppend' value='${each.insulin_dos_period_cd}'>입력</div>|"></td>	
+	                <td th:text="${each.insulin_dos_at}">-</td>
+	              </tr>
+	            </tbody>
+            </table>
+
+            <div class="title-warp">
+              <h1 class="h1 pd0 mt3">인슐린 투여 히스토리</h1>
+              <div>
+              	  <button id="beforeDateBtn" onclick="fnHisURL('1')">◀</button>
+              	  <span th:text="${#temporals.createDate(HisDt7, 'yyyy-MM-dd')}"></span>
+              	  <input type="hidden" id="beforeDate" name="beforeDate" th:value="${#temporals.createDate(HisDt7, 'yyyy-MM-dd')}">
+              	  <input type="hidden" name="patientNo" id="patientNo" th:value="${patientNo}">
+	              <span>~</span>
+	              <span th:text="${#temporals.createDate(HisDt1, 'yyyy-MM-dd')}"></span>
+	              <button id="afterDateBtn" onclick="fnHisURL('0')">▶</button>
+	              <input type="hidden" id="afterDate" name="afterDate" th:value="${#temporals.createDate(HisDt1, 'yyyy-MM-dd')}">
+              	  <input type="hidden" name="patientNo" id="patientNo" th:value="${patientNo}">
+              </div>
+              <div class="f14 b pt1 pb1 in-bg" th:if="${bloodInsCnt1 > 0}">
+	              <div class="f14 b pt1 pb1" th:text="${HisDt1}">일자</div>
+	              <div class="f14 b pt1 pb1">혈당</div>
+	              <table class="bgf f14 em-tb">
+		              <tr class="b">
+		                <td>아침 공복</td>
+		                <td>점심 공복</td>
+		                <td>저녁 공복</td>
+		                <td>자기 전</td>
+		              </tr>
+		              <tr th:if="${!pointCdDtBloodInsHis1.empty}" th:each="each : ${pointCdDtBloodInsHis1}">
+		              	<td th:text="${#numbers.formatDecimal(each.morning_blood_sugar_no,0,0)}">0</td>
+		              	<td th:text="${#numbers.formatDecimal(each.lunch_blood_sugar_no,0,0)}">0</td>
+		              	<td th:text="${#numbers.formatDecimal(each.dinner_blood_sugar_no,0,0)}">0</td>
+		              	<td th:text="${#numbers.formatDecimal(each.night_blood_sugar_no,0,0)}">0</td>
+		              </tr>
+		          </table>
+		          <div class="f14 b pt1 pb1">식전 인슐린</div>
+	              <table class="bgf f14 in-tb">
+	            	<thead>
+		              <tr class="b">
+		                <td>&nbsp;</td>
+		                <td>인슐린종류</td>
+		                <td>투여시기</td>
+		                <td>식사량</td>
+		                <td>전일투여량</td>
+		                <td>권장배정량</td>
+		                <td>교정인슐린</td>
+		                <td>총 처방량</td>
+		                <td>실투여량</td>
+		                <td>투여시간</td>
+		                <td>결과혈당</td>
+		              </tr>
+	              	</thead>
+	              	<tbody>
+		              <tr th:if="${!befInsullinInfoHis1.empty}" th:each="each : ${befInsullinInfoHis1}">
+		                <td th:text="${each.insulin_dos_period_nm}">식전 인슐린</td>
+		                <td th:text="${each.bef_insulin_type_nm}">-</td>
+		                <td th:text="${each.bef_insulin_period_nm}">-</td>
+		                <td th:text="${each.meal_mount_nm}">-</td>
+		                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0,0)}">-</td>
+		                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">&nbsp;</td>
+		                <td th:text="${#numbers.formatDecimal(each.corr_insulin_dos_no,0,0)}">&nbsp;</td>
+		                <td th:text="${#numbers.formatDecimal(each.tot_insulin_dos_no,0,0)}">&nbsp;</td>
+		                <td th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+		                <td th:text="${each.insulin_dos_at}">&nbsp;</td>
+		                <td th:text="${#numbers.formatDecimal(each.aft_blood_sugar_no,0,0)}">&nbsp;</td>
+		              </tr>
+	              	</tbody>
+		          </table>
+		          <div class="f14 b pt1 pb1">기저 인슐린</div>
+		            <table class="bgf f14 in-tb">
+		            	<thead>
+			              <tr class="b">
+			                <td>&nbsp;</td>
+			                <td>인슐린 종류</td>
+			                <td>투여시기</td>
+			                <td>전일 투여량</td>
+			                <td>권장 배정량</td>
+			                <td>실투여량</td>
+			                <td>투여 시간</td>
+			                <td>결과혈당</td>
+			              </tr>
+			            </thead>
+			            <tbody>
+			              <tr th:if="${!baseInsullinInfoHis1.empty}" th:each="each : ${baseInsullinInfoHis1}">
+			                <td th:text="${each.insulin_dos_period_nm}">기저 인슐린</td>
+			                <td th:text="${each.base_insulin_type_nm}">-</td>
+			                <td th:text="${each.base_insulin_period_nm}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0,0)}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+			                <td th:text="${each.insulin_dos_at}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.aft_blood_sugar_no,0,0)}">&nbsp;</td>
+			              </tr>
+			            </tbody>
+			       </table>
+		       </div>
+
+			  <div class="f14 b pt1 pb1 in-bg" th:if="${bloodInsCnt2 > 0}">
+				  <div class="f14 b pt1 pb1" th:text="${HisDt2}">일자</div>
+	              <div class="f14 b pt1 pb1">혈당</div>
+	              <table class="bgf f14 em-tb">
+		              <tr class="b">
+		                <td>아침 공복</td>
+		                <td>점심 공복</td>
+		                <td>저녁 공복</td>
+		                <td>자기 전</td>
+		              </tr>
+		              <tr th:if="${!pointCdDtBloodInsHis2.empty}" th:each="each : ${pointCdDtBloodInsHis2}">
+		              	<td th:text="${#numbers.formatDecimal(each.morning_blood_sugar_no,0,0)}">0</td>
+		              	<td th:text="${#numbers.formatDecimal(each.lunch_blood_sugar_no,0,0)}">0</td>
+		              	<td th:text="${#numbers.formatDecimal(each.dinner_blood_sugar_no,0,0)}">0</td>
+		              	<td th:text="${#numbers.formatDecimal(each.night_blood_sugar_no,0,0)}">0</td>
+		              </tr>
+		          </table>
+		          <div class="f14 b pt1 pb1">식전 인슐린</div>
+	              <table class="bgf f14 in-tb">
+	            	<thead>
+		              <tr class="b">
+		                <td>&nbsp;</td>
+		                <td>인슐린종류</td>
+		                <td>투여시기</td>
+		                <td>식사량</td>
+		                <td>전일투여량</td>
+		                <td>권장배정량</td>
+		                <td>교정인슐린</td>
+		                <td>총 처방량</td>
+		                <td>실투여량</td>
+		                <td>투여시간</td>
+		                <td>결과혈당</td>
+		              </tr>
+	              	</thead>
+	              	<tbody>
+		              <tr th:if="${!befInsullinInfoHis2.empty}" th:each="each : ${befInsullinInfoHis2}">
+		                <td th:text="${each.insulin_dos_period_nm}">식전 인슐린</td>
+		                <td th:text="${each.bef_insulin_type_nm}">-</td>
+		                <td th:text="${each.bef_insulin_period_nm}">-</td>
+		                <td th:text="${each.meal_mount_nm}">-</td>
+		                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0,0)}">-</td>
+		                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">&nbsp;</td>
+		                <td th:text="${#numbers.formatDecimal(each.corr_insulin_dos_no,0,0)}">&nbsp;</td>
+		                <td th:text="${#numbers.formatDecimal(each.tot_insulin_dos_no,0,0)}">&nbsp;</td>
+		                <td th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+		                <td th:text="${each.insulin_dos_at}">&nbsp;</td>
+		                <td th:text="${#numbers.formatDecimal(each.aft_blood_sugar_no,0,0)}">&nbsp;</td>
+		              </tr>
+	              	</tbody>
+		          </table>
+		          <div class="f14 b pt1 pb1">기저 인슐린</div>
+		            <table class="bgf f14 in-tb">
+		            	<thead>
+			              <tr class="b">
+			                <td>&nbsp;</td>
+			                <td>인슐린 종류</td>
+			                <td>투여시기</td>
+			                <td>전일 투여량</td>
+			                <td>권장 배정량</td>
+			                <td>실투여량</td>
+			                <td>투여 시간</td>
+			                <td>결과혈당</td>	
+			              </tr>
+			            </thead>
+			            <tbody>
+			              <tr th:if="${!baseInsullinInfoHis2.empty}" th:each="each : ${baseInsullinInfoHis2}">
+			                <td th:text="${each.insulin_dos_period_nm}">기저 인슐린</td>
+			                <td th:text="${each.base_insulin_type_nm}">-</td>
+			                <td th:text="${each.base_insulin_period_nm}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0,0)}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+			                <td th:text="${each.insulin_dos_at}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.aft_blood_sugar_no,0,0)}">&nbsp;</td>
+			              </tr>
+			            </tbody>
+			       </table>
+			    </div>
+		       
+		          <div class="f14 b pt1 pb1 in-bg" th:if="${bloodInsCnt3 > 0}">
+			      	  <div class="f14 b pt1 pb1" th:text="${HisDt3}">일자</div>
+		              <div class="f14 b pt1 pb1">혈당</div>
+		              <table class="bgf f14 em-tb">
+			              <tr class="b">
+			                <td>아침 공복</td>
+			                <td>점심 공복</td>
+			                <td>저녁 공복</td>
+			                <td>자기 전</td>
+			              </tr>
+			              <tr th:if="${!pointCdDtBloodInsHis3.empty}" th:each="each : ${pointCdDtBloodInsHis3}">
+			              	<td th:text="${#numbers.formatDecimal(each.morning_blood_sugar_no,0,0)}">0</td>
+			              	<td th:text="${#numbers.formatDecimal(each.lunch_blood_sugar_no,0,0)}">0</td>
+			              	<td th:text="${#numbers.formatDecimal(each.dinner_blood_sugar_no,0,0)}">0</td>
+			              	<td th:text="${#numbers.formatDecimal(each.night_blood_sugar_no,0,0)}">0</td>
+			              </tr>
+			          </table>
+			          <div class="f14 b pt1 pb1">식전 인슐린</div>
+		              <table class="bgf f14 in-tb">
+		            	<thead>
+			              <tr class="b">
+		                	<td>&nbsp;</td>
+		                	<td>인슐린종류</td>
+		                	<td>투여시기</td>
+			                <td>식사량</td>
+			                <td>전일투여량</td>
+			                <td>권장배정량</td>
+			                <td>교정인슐린</td>
+			                <td>총 처방량</td>
+			                <td>실투여량</td>
+			                <td>투여시간</td>
+			                <td>결과혈당</td>
+			              </tr>
+		              	</thead>
+		              	<tbody>
+			              <tr th:if="${!befInsullinInfoHis3.empty}" th:each="each : ${befInsullinInfoHis3}">
+			                <td th:text="${each.insulin_dos_period_nm}">식전 인슐린</td>
+			                <td th:text="${each.bef_insulin_type_nm}">-</td>
+			                <td th:text="${each.bef_insulin_period_nm}">-</td>
+			                <td th:text="${each.meal_mount_nm}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0,0)}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.corr_insulin_dos_no,0,0)}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.tot_insulin_dos_no,0,0)}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+			                <td th:text="${each.insulin_dos_at}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.aft_blood_sugar_no,0,0)}">&nbsp;</td>
+			              </tr>
+		              	</tbody>
+			          </table>
+			          <div class="f14 b pt1 pb1">기저 인슐린</div>
+			            <table class="bgf f14 in-tb">
+			            	<thead>
+				              <tr class="b">
+			                	<td>&nbsp;</td>
+			                	<td>인슐린 종류</td>
+			                	<td>투여시기</td>
+			                	<td>전일 투여량</td>
+			                	<td>권장 배정량</td>
+			                	<td>실투여량</td>
+			                	<td>투여 시간</td>
+			                	<td>결과혈당</td>	
+				              </tr>
+				            </thead>
+				            <tbody>
+				              <tr th:if="${!baseInsullinInfoHis3.empty}" th:each="each : ${baseInsullinInfoHis3}">
+				                <td th:text="${each.insulin_dos_period_nm}">기저 인슐린</td>
+				                <td th:text="${each.base_insulin_type_nm}">-</td>
+				                <td th:text="${each.base_insulin_period_nm}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0,0)}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+				                <td th:text="${each.insulin_dos_at}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.aft_blood_sugar_no,0,0)}">&nbsp;</td>
+				              </tr>
+				            </tbody>
+				       </table>
+				    </div>
+		       
+		          <div class="f14 b pt1 pb1 in-bg" th:if="${bloodInsCnt4 > 0}">
+			 	      <div class="f14 b pt1 pb1" th:text="${HisDt4}">일자</div>
+		              <div class="f14 b pt1 pb1">혈당</div>
+		              <table class="bgf f14 em-tb">
+			              <tr class="b">
+			                <td>아침 공복</td>
+			                <td>점심 공복</td>
+			                <td>저녁 공복</td>
+			                <td>자기 전</td>
+			              </tr>
+			              <tr th:if="${!pointCdDtBloodInsHis4.empty}" th:each="each : ${pointCdDtBloodInsHis4}">
+			              	<td th:text="${#numbers.formatDecimal(each.morning_blood_sugar_no,0,0)}">0</td>
+			              	<td th:text="${#numbers.formatDecimal(each.lunch_blood_sugar_no,0,0)}">0</td>
+			              	<td th:text="${#numbers.formatDecimal(each.dinner_blood_sugar_no,0,0)}">0</td>
+			              	<td th:text="${#numbers.formatDecimal(each.night_blood_sugar_no,0,0)}">0</td>
+			              </tr>
+			          </table>
+			          <div class="f14 b pt1 pb1">식전 인슐린</div>
+		              <table class="bgf f14 in-tb">
+		            	<thead>
+			              <tr class="b">
+			                <td>&nbsp;</td>
+			                <td>인슐린종류</td>
+			                <td>투여시기</td>
+			                <td>식사량</td>
+			                <td>전일투여량</td>
+			                <td>권장배정량</td>
+			                <td>교정인슐린</td>
+			                <td>총 처방량</td>
+			                <td>실투여량</td>
+			                <td>투여시간</td>
+			                <td>결과혈당</td>
+			              </tr>
+		              	</thead>
+		              	<tbody>
+			              <tr th:if="${!befInsullinInfoHis4.empty}" th:each="each : ${befInsullinInfoHis4}">
+			                <td th:text="${each.insulin_dos_period_nm}">식전 인슐린</td>
+			                <td th:text="${each.bef_insulin_type_nm}">-</td>
+			                <td th:text="${each.bef_insulin_period_nm}">-</td>
+			                <td th:text="${each.meal_mount_nm}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0,0)}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.corr_insulin_dos_no,0,0)}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.tot_insulin_dos_no,0,0)}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+			                <td th:text="${each.insulin_dos_at}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.aft_blood_sugar_no,0,0)}">&nbsp;</td>
+			              </tr>
+		              	</tbody>
+			          </table>
+			          <div class="f14 b pt1 pb1">기저 인슐린</div>
+			            <table class="bgf f14 in-tb">
+			            	<thead>
+				              <tr class="b">
+				                <td>&nbsp;</td>
+				                <td>인슐린 종류</td>
+				                <td>투여시기</td>
+				                <td>전일 투여량</td>
+				                <td>권장 배정량</td>
+				                <td>실투여량</td>
+				                <td>투여 시간</td>
+				                <td>결과혈당</td>
+				              </tr>
+				            </thead>
+				            <tbody>
+				              <tr th:if="${!baseInsullinInfoHis4.empty}" th:each="each : ${baseInsullinInfoHis4}">
+				                <td th:text="${each.insulin_dos_period_nm}">기저 인슐린</td>
+				                <td th:text="${each.base_insulin_type_nm}">-</td>
+				                <td th:text="${each.base_insulin_period_nm}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0,0)}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+				                <td th:text="${each.insulin_dos_at}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.aft_blood_sugar_no,0,0)}">&nbsp;</td>		
+				              </tr>
+				            </tbody>
+				       </table>
+			       </div>
+		 	      
+		 	      <div class="f14 b pt1 pb1 in-bg" th:if="${bloodInsCnt5 > 0}">
+			          <div class="f14 b pt1 pb1" th:text="${HisDt5}">일자</div>
+		              <div class="f14 b pt1 pb1">혈당</div>
+		              <table class="bgf f14 em-tb">
+			              <tr class="b">
+			                <td>아침 공복</td>
+			                <td>점심 공복</td>
+			                <td>저녁 공복</td>
+			                <td>자기 전</td>
+			              </tr>
+			              <tr th:if="${!pointCdDtBloodInsHis5.empty}" th:each="each : ${pointCdDtBloodInsHis5}">
+			              	<td th:text="${#numbers.formatDecimal(each.morning_blood_sugar_no,0,0)}">0</td>
+			              	<td th:text="${#numbers.formatDecimal(each.lunch_blood_sugar_no,0,0)}">0</td>
+			              	<td th:text="${#numbers.formatDecimal(each.dinner_blood_sugar_no,0,0)}">0</td>
+			              	<td th:text="${#numbers.formatDecimal(each.night_blood_sugar_no,0,0)}">0</td>
+			              </tr>
+			          </table>
+			          <div class="f14 b pt1 pb1">식전 인슐린</div>
+		              <table class="bgf f14 in-tb">
+		            	<thead>
+			              <tr class="b">
+			                <td>&nbsp;</td>
+			                <td>인슐린종류</td>
+			                <td>투여시기</td>
+			                <td>식사량</td>
+			                <td>전일투여량</td>
+			                <td>권장배정량</td>
+			                <td>교정인슐린</td>
+			                <td>총 처방량</td>
+			                <td>실투여량</td>
+			                <td>투여시간</td>
+			                <td>결과혈당</td>
+			              </tr>
+		              	</thead>
+		              	<tbody>
+			              <tr th:if="${!befInsullinInfoHis5.empty}" th:each="each : ${befInsullinInfoHis5}">
+			                <td th:text="${each.insulin_dos_period_nm}">식전 인슐린</td>
+			                <td th:text="${each.bef_insulin_type_nm}">-</td>
+			                <td th:text="${each.bef_insulin_period_nm}">-</td>
+			                <td th:text="${each.meal_mount_nm}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0,0)}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.corr_insulin_dos_no,0,0)}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.tot_insulin_dos_no,0,0)}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+			                <td th:text="${each.insulin_dos_at}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.aft_blood_sugar_no,0,0)}">&nbsp;</td>
+			              </tr>
+		              	</tbody>
+			          </table>
+			          <div class="f14 b pt1 pb1">기저 인슐린</div>
+			            <table class="bgf f14 in-tb">
+			            	<thead>
+				              <tr class="b">
+				                <td>&nbsp;</td>
+				                <td>인슐린 종류</td>
+				                <td>투여시기</td>
+				                <td>전일 투여량</td>
+				                <td>권장 배정량</td>
+				                <td>실투여량</td>
+				                <td>투여 시간</td>
+				                <td>결과혈당</td>
+				              </tr>
+				            </thead>
+				            <tbody>
+				              <tr th:if="${!baseInsullinInfoHis5.empty}" th:each="each : ${baseInsullinInfoHis5}">
+				                <td th:text="${each.insulin_dos_period_nm}">기저 인슐린</td>
+				                <td th:text="${each.base_insulin_type_nm}">-</td>
+				                <td th:text="${each.base_insulin_period_nm}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0,0)}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+				                <td th:text="${each.insulin_dos_at}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.aft_blood_sugar_no,0,0)}">&nbsp;</td>
+				              </tr>
+				            </tbody>
+				       </table>
+			       </div>
+		       
+		          <div class="f14 b pt1 pb1 in-bg" th:if="${bloodInsCnt6 > 0}">
+		  	          <div class="f14 b pt1 pb1" th:text="${HisDt6}">일자</div>
+		              <div class="f14 b pt1 pb1">혈당</div>
+		              <table class="bgf f14 em-tb">
+			              <tr class="b">
+			                <td>아침 공복</td>
+			                <td>점심 공복</td>
+			                <td>저녁 공복</td>
+			                <td>자기 전</td>
+			              </tr>
+			              <tr th:if="${!pointCdDtBloodInsHis6.empty}" th:each="each : ${pointCdDtBloodInsHis6}">
+			              	<td th:text="${#numbers.formatDecimal(each.morning_blood_sugar_no,0,0)}">0</td>
+			              	<td th:text="${#numbers.formatDecimal(each.lunch_blood_sugar_no,0,0)}">0</td>
+			              	<td th:text="${#numbers.formatDecimal(each.dinner_blood_sugar_no,0,0)}">0</td>
+			              	<td th:text="${#numbers.formatDecimal(each.night_blood_sugar_no,0,0)}">0</td>
+			              </tr>
+			          </table>
+			          <div class="f14 b pt1 pb1">식전 인슐린</div>
+		              <table class="bgf f14 in-tb">
+		            	<thead>
+			              <tr class="b">
+			                <td>&nbsp;</td>
+			                <td>인슐린종류</td>
+			                <td>투여시기</td>
+			                <td>식사량</td>
+			                <td>전일투여량</td>
+			                <td>권장배정량</td>
+			                <td>교정인슐린</td>
+			                <td>총 처방량</td>
+			                <td>실투여량</td>
+			                <td>투여시간</td>
+			                <td>결과혈당</td>
+			              </tr>
+		              	</thead>
+		              	<tbody>
+			              <tr th:if="${!befInsullinInfoHis6.empty}" th:each="each : ${befInsullinInfoHis6}">
+			                <td th:text="${each.insulin_dos_period_nm}">식전 인슐린</td>
+			                <td th:text="${each.bef_insulin_type_nm}">-</td>
+			                <td th:text="${each.bef_insulin_period_nm}">-</td>
+			                <td th:text="${each.meal_mount_nm}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0,0)}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.corr_insulin_dos_no,0,0)}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.tot_insulin_dos_no,0,0)}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+			                <td th:text="${each.insulin_dos_at}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.aft_blood_sugar_no,0,0)}">&nbsp;</td>
+			              </tr>
+		              	</tbody>
+			          </table>
+			          <div class="f14 b pt1 pb1">기저 인슐린</div>
+			            <table class="bgf f14 in-tb">
+			            	<thead>
+				              <tr class="b">
+				                <td>&nbsp;</td>
+				                <td>인슐린 종류</td>
+				                <td>투여시기</td>
+				                <td>전일 투여량</td>
+				                <td>권장 배정량</td>
+				                <td>실투여량</td>
+				                <td>투여 시간</td>
+				                <td>결과혈당</td>
+				              </tr>
+				            </thead>
+				            <tbody>
+				              <tr th:if="${!baseInsullinInfoHis6.empty}" th:each="each : ${baseInsullinInfoHis6}">
+				                <td th:text="${each.insulin_dos_period_nm}">기저 인슐린</td>
+				                <td th:text="${each.base_insulin_type_nm}">-</td>
+				                <td th:text="${each.base_insulin_period_nm}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0,0)}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+				                <td th:text="${each.insulin_dos_at}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.aft_blood_sugar_no,0,0)}">&nbsp;</td>
+				              </tr>
+				            </tbody>
+				       </table>
+			       </div>
+		       
+		       	  <div class="f14 b pt1 pb1 in-bg" th:if="${bloodInsCnt7 > 0}">
+			      	  <div class="f14 b pt1 pb1" th:text="${HisDt7}">일자</div>
+		              <div class="f14 b pt1 pb1">혈당</div>
+		              <table class="bgf f14 em-tb">
+			              <tr class="b">
+			                <td>아침 공복</td>
+			                <td>점심 공복</td>
+			                <td>저녁 공복</td>
+			                <td>자기 전</td>
+			              </tr>
+			              <tr th:if="${!pointCdDtBloodInsHis7.empty}" th:each="each : ${pointCdDtBloodInsHis7}">
+			              	<td th:text="${#numbers.formatDecimal(each.morning_blood_sugar_no,0,0)}">0</td>
+			              	<td th:text="${#numbers.formatDecimal(each.lunch_blood_sugar_no,0,0)}">0</td>
+			              	<td th:text="${#numbers.formatDecimal(each.dinner_blood_sugar_no,0,0)}">0</td>
+			              	<td th:text="${#numbers.formatDecimal(each.night_blood_sugar_no,0,0)}">0</td>
+			              </tr>
+			          </table>
+			          <div class="f14 b pt1 pb1">식전 인슐린</div>
+		              <table class="bgf f14 in-tb">
+		            	<thead>
+			              <tr class="b">
+			                <td>&nbsp;</td>
+			                <td>인슐린종류</td>
+			                <td>투여시기</td>
+			                <td>식사량</td>
+			                <td>전일투여량</td>
+			                <td>권장배정량</td>
+			                <td>교정인슐린</td>
+			                <td>총 처방량</td>
+			                <td>실투여량</td>
+			                <td>투여시간</td>
+			                <td>결과혈당</td>
+			              </tr>
+		              	</thead>
+		              	<tbody>
+			              <tr th:if="${!befInsullinInfoHis7.empty}" th:each="each : ${befInsullinInfoHis7}">
+			                <td th:text="${each.insulin_dos_period_nm}">식전 인슐린</td>
+			                <td th:text="${each.bef_insulin_type_nm}">-</td>
+			                <td th:text="${each.bef_insulin_period_nm}">-</td>
+			                <td th:text="${each.meal_mount_nm}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0,0)}">-</td>
+			                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.corr_insulin_dos_no,0,0)}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.tot_insulin_dos_no,0,0)}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+			                <td th:text="${each.insulin_dos_at}">&nbsp;</td>
+			                <td th:text="${#numbers.formatDecimal(each.aft_blood_sugar_no,0,0)}">&nbsp;</td>
+			              </tr>
+		              	</tbody>
+			          </table>
+			          <div class="f14 b pt1 pb1">기저 인슐린</div>
+			            <table class="bgf f14 in-tb">
+			            	<thead>
+				              <tr class="b">
+				                <td>&nbsp;</td>
+				                <td>인슐린 종류</td>
+				                <td>투여시기</td>
+				                <td>전일 투여량</td>
+				                <td>권장 배정량</td>
+				                <td>실투여량</td>
+				                <td>투여 시간</td>
+				                <td>결과혈당</td>	
+				              </tr>
+				            </thead>
+				            <tbody>
+				              <tr th:if="${!baseInsullinInfoHis7.empty}" th:each="each : ${baseInsullinInfoHis7}">
+				                <td th:text="${each.insulin_dos_period_nm}">기저 인슐린</td>
+				                <td th:text="${each.base_insulin_type_nm}">-</td>
+				                <td th:text="${each.base_insulin_period_nm}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.bef_insulin_dos_no,0,0)}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.recom_insulin_dos_no,0,0)}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.insulin_dos_no,0,0)}"></td>
+				                <td th:text="${each.insulin_dos_at}">-</td>
+				                <td th:text="${#numbers.formatDecimal(each.aft_blood_sugar_no,0,0)}">&nbsp;</td>
+				              </tr>
+				            </tbody>
+				       </table>
+			       </div>
+            </div>
+          </div>
+          
+          <div id="addMealSugarins" class="modal fade" aria-hidden="true">
+			<div class="modal-dialog" style="margin-left:28%; margin-top:6%;">
+				<div class="modal-content" style="width:500px;">
+					<div class="modal-body">
+						<div class="container">
+						  	<form th:action="@{/addMealSugarins}" method="post" onsubmit="return checkMountSubmit();" >
+							    <div class="sugarins-wrapper popupbox">
+							      <div class="title-wrap">
+							        <h1 class="h1">혈당 입력 (식전)</h1>
+							      </div>
+							      <div class="sugarins-wrap" id="mealSugarins">
+							        <div class="sugarins">
+						        	  <input type="number" th:if="${#strings.isEmpty(getBloodSugarNo)}" class="first" name="bloodSugarNo" id="bloodSugarNo">
+						          	  <input type="number" th:unless="${#strings.isEmpty(getBloodSugarNo)}" class="first" name="bloodSugarNo" id="bloodSugarNo" th:value="${getBloodSugarNo}">
+						          	  <!-- <input type="number" class="first" name="bloodSugarNo" id="bloodSugarNo2" th:value="*{bloodSugarNo}"> -->
+							          <p class="unit">mg/dL</p>
+							        </div>
+							        <h2 class="h2">추가질문</h2>
+							        <div class="sugarins">
+							          <div class="h3">
+							            환자에게 저혈당 증상이 나타납니까?<br>
+							            (배고픔, 식은땀, 현기증 등)
+							          </div>
+							          <div class="radio-wrap">
+							          	<th:block th:if="${Q0001} == 'Y'">
+								          <input type="radio" class="radio" name="Q0001" id="Q0001" value="Y" checked>네
+								          <input type="radio" class="radio" name="Q0001" id="Q0001" value="N">아니오
+							            </th:block>
+							            <th:block th:unless="${Q0001} == 'Y'">
+								          <input type="radio" class="radio" name="Q0001" id="Q0001" value="Y">네
+								          <input type="radio" class="radio" name="Q0001" id="Q0001" value="N" checked>아니오
+							            </th:block>
+							            <!-- <input type="radio" class="radio" name="Q0001" id="Q0001" value="Y">네
+							            <input type="radio" class="radio" name="Q0001" id="Q0001" value="N" checked>아니오 -->
+							          </div>
+							        </div>
+							        <div class="sugarins">
+							          <div class="h3">
+							            저혈당과 동반된 의식장애가<br>
+							            있습니까?
+							          </div>
+							          <div class="radio-wrap">
+							          	<th:block th:if="${Q0002} == 'Y'">
+								          <input type="radio" class="radio" name="Q0002" id="Q0002" value="Y" checked>네
+								          <input type="radio" class="radio" name="Q0002" id="Q0002" value="N">아니오
+							            </th:block>
+							            <th:block th:unless="${Q0002} == 'Y'">
+								          <input type="radio" class="radio" name="Q0002" id="Q0002" value="Y">네
+								          <input type="radio" class="radio" name="Q0002" id="Q0002" value="N" checked>아니오
+							            </th:block>
+							            <!-- <input type="radio" class="radio" name="Q0002" id="Q0002" value="Y">네
+							            <input type="radio" class="radio" name="Q0002" id="Q0002" value="N" checked>아니오 -->
+							          </div>
+							        </div>
+							        <div class="sugarins">
+							          <div class="h3">
+							            환자가 간식을 먹었습니까?
+							          </div>
+							          <div class="radio-wrap">
+							          	<th:block th:if="${Q0003} == 'Y'">
+								          <input type="radio" class="radio" name="Q0003" id="Q0003" value="Y" checked>네
+								          <input type="radio" class="radio" name="Q0003" id="Q0003" value="N">아니오
+							            </th:block>
+							            <th:block th:unless="${Q0003} == 'Y'">
+								          <input type="radio" class="radio" name="Q0003" id="Q0003" value="Y">네
+								          <input type="radio" class="radio" name="Q0003" id="Q0003" value="N" checked>아니오
+							            </th:block>
+							            <!-- <input type="radio" class="radio" name="Q0003" id="Q0003" value="Y">네
+							            <input type="radio" class="radio" name="Q0003" id="Q0003" value="N" checked>아니오 -->
+							          </div>
+							        </div>
+							        <div class="sugarins">
+							          <div class="h3">
+							            환자가 전량, 혹은 전량에 가깝게<br>
+							            식사합니까?(했습니까?)
+							          </div>
+							          <div class="radio-wrap">
+							          	<th:block th:if="${Q0004} == 'Y'">
+								          <input type="radio" class="radio" name="Q0004" id="Q0004" value="Y" checked>네
+								          <input type="radio" class="radio" name="Q0004" id="Q0004" value="N">아니오
+							            </th:block>
+							            <th:block th:unless="${Q0004} == 'Y'">
+								          <input type="radio" class="radio" name="Q0004" id="Q0004" value="Y">네
+								          <input type="radio" class="radio" name="Q0004" id="Q0004" value="N" checked>아니오
+							            </th:block>
+							            <!-- <input type="radio" class="radio" name="Q0004" id="Q0004" value="Y" checked>네
+							            <input type="radio" class="radio" name="Q0004" id="Q0004" value="N">아니오 -->
+							          </div>
+							        </div>
+							        <div>
+							          <div class="h3">
+							            환자가 식사를 얼마나 할것으로 예상됩니까?<br>
+							            (또는 얼마나 식사했습니까?)
+							          </div>
+							          	<input type="hidden" id="initMealMount" th:if="${not #strings.isEmpty(getMealMountCd)}" th:value="${getMealMountCd}">
+								        <select name="mealMountCd" id="mealMountCd" th:if="${not #strings.isEmpty(getMealMountCd)}" th:value="${getMealMountCd}">
+								          <option value="1">전량</option>
+										  <option value="0">0</option>
+										  <option value="1/3">1/3</option>
+										  <option value="1/2">1/2</option>
+										  <option value="2/3">2/3</option>
+								        </select>
+								        <select name="mealMountCd" id="mealMountCd" th:unless="${not #strings.isEmpty(getMealMountCd)}">
+								          <option value="1">전량</option>
+										  <option value="0">0</option>
+										  <option value="1/3">1/3</option>
+										  <option value="1/2">1/2</option>
+										  <option value="2/3">2/3</option>
+								        </select>
+							        </div>
+							      </div>
+							      <div>
+						        	<input type="hidden" name="patientNo" id="patientNo" th:value="${patientNo}">
+						        	<input type="hidden" name="bloodSugarPointCd" id="bloodSugarPointCd">
+						        	<input type="hidden" name="nowDate" id="nowDate" th:value="${list.nowDate}">
+						          </div>
+							      <div class="btn-wrap">
+							        <button class="btn btn-white" data-dismiss="modal">취소</button>
+							        <button class="btn btn-blue" type="submit" id="btn_Save">확인</button>
+							      </div>
+							    </div>
+						    </form>
+						  </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div id="addSleepSugarins" class="modal fade" aria-hidden="true">
+				<div class="modal-dialog" style="margin-left:28%; margin-top:6%;">
+					<div class="modal-content" style="width:500px;">
+						<div class="modal-body">
+							<!-- 수정 -->
+							<!-- onsubmit 속성 추가 -->
+						  	<form th:action="@{/addMealSugarins}" method="post" onsubmit="return checkMountSubmit2();">
+							    <div class="sugarins-wrapper popupbox">
+							      <div class="title-wrap">
+							        <h1 class="h1">혈당 입력 (자기전)</h1>
+							      </div>
+							      <div class="sugarins-wrap" id="sleepSugarins">
+							        <div class="sugarins">
+							          <input type="number" th:if="${#strings.isEmpty(getBloodSugarNo)}" class="first" name="bloodSugarNo" id="bloodSugarNo2">
+						          	  <input type="number" th:unless="${#strings.isEmpty(getBloodSugarNo)}" class="first" name="bloodSugarNo" id="bloodSugarNo2" th:value="${getBloodSugarNo}">
+							          	<!-- <input type="number" class="first" name="bloodSugarNo" id="bloodSugarNo2" th:value="*{bloodSugarNo}"> -->
+							          <p class="unit">mg/dL</p>
+							        </div>
+							        <h2 class="h2">추가질문</h2>
+							        <div class="sugarins">
+							          <div class="h3">
+							            환자에게 저혈당 증상이 나타납니까?<br>
+							            (배고픔, 식은땀, 현기증 등)
+							          </div>
+							          <div class="radio-wrap">
+							          	<th:block th:if="${Q0001} == 'Y'">
+								          <input type="radio" class="radio" name="Q0001" id="Q0001" value="Y" checked>네
+								          <input type="radio" class="radio" name="Q0001" id="Q0001" value="N">아니오
+							            </th:block>
+							            <th:block th:unless="${Q0001} == 'Y'">
+								          <input type="radio" class="radio" name="Q0001" id="Q0001" value="Y">네
+								          <input type="radio" class="radio" name="Q0001" id="Q0001" value="N" checked>아니오
+							            </th:block>
+							            <!-- <input type="radio" class="radio" name="Q0001" id="Q0001" value="Y">네
+							            <input type="radio" class="radio" name="Q0001" id="Q0001" value="N" checked>아니오 -->
+							          </div>
+							        </div>
+							        <div class="sugarins">
+							          <div class="h3">
+							            저혈당과 동반된 의식장애가<br>
+							            있습니까?
+							          </div>
+							          <div class="radio-wrap">
+							          	<th:block th:if="${Q0002} == 'Y'">
+								          <input type="radio" class="radio" name="Q0002" id="Q0002" value="Y" checked>네
+								          <input type="radio" class="radio" name="Q0002" id="Q0002" value="N">아니오
+							            </th:block>
+							            <th:block th:unless="${Q0002} == 'Y'">
+								          <input type="radio" class="radio" name="Q0002" id="Q0002" value="Y">네
+								          <input type="radio" class="radio" name="Q0002" id="Q0002" value="N" checked>아니오
+							            </th:block>
+							            <!-- <input type="radio" class="radio" name="Q0002" id="Q0002" value="Y">네
+							            <input type="radio" class="radio" name="Q0002" id="Q0002" value="N" checked>아니오 -->
+							          </div>
+							        </div>
+							        <div class="sugarins">
+							          <div class="h3">
+							            환자가 간식을 먹었습니까?
+							          </div>
+							          <div class="radio-wrap">
+							          	<th:block th:if="${Q0003} == 'Y'">
+								          <input type="radio" class="radio" name="Q0003" id="Q0003" value="Y" checked>네
+								          <input type="radio" class="radio" name="Q0003" id="Q0003" value="N">아니오
+							            </th:block>
+							            <th:block th:unless="${Q0003} == 'Y'">
+								          <input type="radio" class="radio" name="Q0003" id="Q0003" value="Y">네
+								          <input type="radio" class="radio" name="Q0003" id="Q0003" value="N" checked>아니오
+							            </th:block>
+							            <!-- <input type="radio" class="radio" name="Q0003" id="Q0003" value="Y">네
+							            <input type="radio" class="radio" name="Q0003" id="Q0003" value="N" checked>아니오 -->
+							          </div>
+							        </div>
+							      </div>  
+					              <div>
+						          	<input type="hidden" name="patientNo" id="patientNo" th:value="${patientNo}">
+						         	<input type="hidden" name="bloodSugarPointCd" id="bloodSugarPointCd" value="NIGHT">
+						        	<input type="hidden" name="nowDate" id="nowDate" th:value="${list.nowDate}">
+					              </div>
+							      <div class="btn-wrap">
+							        <button class="btn btn-white" data-dismiss="modal">취소</button>
+							        <button class="btn btn-blue" type="submit" id="btn_Save">확인</button>
+							      </div>
+							  </div>  
+						    </form>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div id="addInjectsSugarins" class="modal fade" aria-hidden="true">
+				<div class="modal-dialog" style="margin-left:28%; margin-top:6%;">
+					<div class="modal-content" style="width:450px;">
+						<div class="modal-body">
+							<div class="container">
+								<form th:action="@{/addInjectsugarins}" method="post" id="frm">
+								    <div class="sugarins-wrapper popupbox">
+								      <div class="title-wrap">
+								        <h1 class="h1">실투여량 입력</h1>
+								      </div>
+								      <div class="sugarins-wrap">
+								        <div class="sugarins">
+								          <input type="text" class="first" name="insulinDosNo" id="insulinDosNo" th:value="*{insulinDosNo}">
+								          <p class="unit">단위</p>
+								        </div>
+								        <h2 class="h2">투여시간</h2>
+								        <div class="sugarins">
+								          <input type="time" class="time" name="insulinDosAtTime" id="insulinDosAtTime" th:value="${#calendars.format(#calendars.createNow(),'HH:mm')}">
+								        </div>
+								      </div>
+								      <div>
+							        	<input type="hidden" name="patientNo" id="patientNo" th:value="${patientNo}">
+							        	<input type="hidden" name="insulinDosPeriodCd" id="insulinDosPeriodCd">
+							        	<input type="hidden" name="nowDate" id="nowDate" th:value="${list.nowDate}">
+							        	<input type="hidden" name="totInsulinDosNo" id="totInsulinDosNo">
+							        	<input type="hidden" name="befInsulinPeriodCd" id="befInsulinPeriodCd" th:value="${list.befInsulinPeriodCd}">
+							        	<input type="hidden" name="befInsulinTypeCd" id="befInsulinTypeCd" th:value="${list.befInsulinTypeCd}">
+							        	<input type="hidden" name="baseInsulinPeriodCd" id="baseInsulinPeriodCd" th:value="${list.baseInsulinPeriodCd}">
+							        	<input type="hidden" name="baseInsulinTypeCd" id="baseInsulinTypeCd" th:value="${list.baseInsulinTypeCd}">
+							          </div>
+								      <div class="btn-wrap">
+								        <button class="btn btn-white" data-dismiss="modal">취소</button>
+								        <button class="btn btn-blue" type="button" id="btn_Save" onclick="checkInsullinSubmit();">확인</button>
+								      </div>
+								    </div>
+							    </form>
+							</div>
+						</div>
+					</div>
+				</div>
+	        </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- script -->
+  <!-- 신치수 속성 추가 - th:inline="javascript"  -->
+  <script th:inline="javascript">
+  
+  	var patientNo = $('#patientNo').val();
+	var beforeYn = $('#beforeYn').val();
+	var aftYn = $('#aftYn').val();
+	
+	
+  
+	$( document ).ready(function() {
+		checkTreatProgressCd();
+		checkHisBtn();
+		//checkBloodSugarNo();
+		
+		$('#addMealSugarinsBtn a').click(function(){
+			$('#bloodSugarPointCd').val($(this).attr('value'));		
+			$('#bloodSugarNo').val('');
+			$('#bloodSugarNo2').val('');
+			//신치수
+			//select 초기화 추가
+			$('#mealMountCd').val('1');
+		});
+		
+		$('#addBefInjectsSugarinsBtn a').click(function(){
+			$('#insulinDosPeriodCd').val($(this).attr('value'));
+			$('#totInsulinDosNo').val($(this).parent().parent().find('td').eq(7).html());
+			$('#insulinDosNo').val('');
+		});
+		
+		$('#addBaseInjectsSugarinsBtn a').click(function(){
+			$('#insulinDosPeriodCd').val($(this).attr('value'));
+			$('#totInsulinDosNo').val($(this).parent().parent().find('td').eq(4).html());
+			$('#insulinDosNo').val('');
+		});
+	});
+	
+
+	//swal컨펌
+	var checkTreatProgressCd = function(){
+		$('#checkTreatProgressCd').click(function(){
+			var checkTreatProgressCd = $('#checkTreatProgressCd').val();
+			swal({
+		        title: "치료상태 변경",
+		        text: "치료상태를 변경하시겠습니까?",
+		        type: "warning",
+		        showCancelButton: true,
+		        confirmButtonColor: '#DD6B55',
+		        confirmButtonText: "확인",
+		        closeOnConfirm: false,
+		        cancelButtonText: '취소',
+		    }, function () {
+		    	
+	    		updateTreatProgressCd(checkTreatProgressCd);
+	    		
+		    });
+		});
+	};
+	
+	
+	var updateTreatProgressCd = function(checkTreatProgressCd){
+    	
+    	var params = '';
+    	
+    	if(checkTreatProgressCd == "01"){
+    		treatProgressCd = "02"
+    	} else {
+    		treatProgressCd = "01"
+    	}
+    	
+    	params = "patientNo=" + patientNo + '&treatProgressCd=' + treatProgressCd;
+    	
+    	$.ajax({
+			type: "POST",
+			url: '/updateTreatProgressCd',
+			data: params,
+			success: function(data){
+
+				location.reload();
+			}
+		});
+    	
+    };
+    
+    
+    function fnHisURL(beForeAftGbn){
+    	
+    	
+    	var beforeDate = $('#beforeDate').val();
+    	var afterDate = $('#afterDate').val();
+    	var hisDt = "";
+    	
+    	
+    	if (beForeAftGbn=="1"){
+    		
+    		hisDt = beforeDate ;
+    	}else{
+    		
+    		hisDt = afterDate ;
+    		
+    	}
+    	
+    	
+    	params = patientNo + "?" + "beforeAftGbn" + "=" + beForeAftGbn + "&" + "hisDt" + "=" + hisDt;
+    	
+    	location.href = "/detailPatientIns/" + params; 
+    	
+    }
+    
+    
+    function checkMountSubmit(){
+    	
+    	var bloodSugarNo = $('#bloodSugarNo').val() ; //혈당
+    	
+    	if (bloodSugarNo=='' || bloodSugarNo==0){
+    		//sweetAlert 적용
+    		//alert("혈당이 입력되지 않았습니다.") ;
+    		swal({
+				title: "",
+				text: "혈당이 입력되지 않았습니다.",
+				icon: "success",
+				button: "확인",
+			})
+    		return false;	
+    	}    	
+   		return true;	
+    }
+    
+    
+	function checkMountSubmit2(){
+    	
+    	var bloodSugarNo = $('#bloodSugarNo2').val() ; //혈당
+    	
+    	if (bloodSugarNo=='' || bloodSugarNo==0){
+    		//sweetAlert 적용
+    		//alert("혈당이 입력되지 않았습니다.") ;
+    		swal({
+				title: "",
+				text: "혈당이 입력되지 않았습니다.",
+				icon: "success",
+				button: "확인",
+			})
+    		return false;	
+    	}    	
+   		return true;	
+    }
+
+
+    function checkInsullinSubmit(){
+    	
+    	var totInsulinDosNo = $('#totInsulinDosNo').val() ;   //전체권장량
+    	var insulinDosNo = $('#insulinDosNo').val() ;         //실투여량
+    	var insulinDosAtTime = $('#insulinDosAtTime').val() ; //시간
+    	
+    	if (insulinDosNo=='' || insulinDosNo==0){
+    		//sweetAlert 적용
+    		//alert("인슐린투여량이 입력되지 않았습니다.") ;
+    		swal({
+				title: "",
+				text: "인슐린투여량이 입력되지 않았습니다.",
+				icon: "success",
+				button: "확인",
+			})
+    		return false;	
+    	}
+    	
+    	if (insulinDosAtTime == ""){
+    		//sweetAlert 적용
+    		//alert("투여시간이 입력되지 않았습니다.") ;
+    		swal({
+				title: "",
+				text: "투여시간이 입력되지 않았습니다.",
+				icon: "success",
+				button: "확인",
+			})
+    		return false;	
+    	}
+		
+		if (totInsulinDosNo != insulinDosNo){
+			swal({
+	        	title: "치료상태 변경",
+		        text: "권장량과 투여량이 다릅니다.그래도 투여하시겠습니까?",
+		        type: "warning",
+		        showCancelButton: true,
+		        confirmButtonColor: '#DD6B55',
+		        confirmButtonText: "확인",
+		        closeOnConfirm: false,
+		        cancelButtonText: '취소'
+			 }, function () {
+		    	
+				 document.getElementById('frm').submit();
+	    		
+		    });
+
+	    
+		}else{
+			
+			document.getElementById('frm').submit();
+		}
+
+    }
+    
+    
+    function checkHisBtn(){
+    	
+    	if(beforeYn == "" || beforeYn == "N"){
+    		$('#beforeDateBtn').attr("disabled",true);
+    	}
+    	
+    	if(aftYn == "" || aftYn == "N"){
+    		$('#afterDateBtn').attr("disabled",true);
+    	}
+    }
+
+    //신치수
+	//ajax 문법 추가    
+    /*<![CDATA[*/
+    
+    $('document').ready(function(){
+	    $('.init').click(function(){
+
+	    	var bloodIns = {};
+	    	bloodIns.patientNo = /*[[${patientNo}]]*/null;
+	    	bloodIns.createDt = /*[[${createDt}]]*/null;
+	    	bloodIns.bloodSugarPointCd = $('#bloodSugarPointCd').val();
+	    		
+		 	$.ajax({
+		 		type : 'POST',
+		 		url: '/getBloodPopupIns',
+		 		data : bloodIns,
+		 		error: function(request,status,error){
+		 			alert(request.status);
+		 			console.log(request.responseText);
+		 		}
+			})
+			.done(function (fragment) {				
+				if(bloodIns.bloodSugarPointCd == 'NIGHT'){
+					$("#sleepSugarins").replaceWith(fragment);
+				} else {
+					$("#mealSugarins").replaceWith(fragment);
+					if($('#initMealMount').val() != $('#mealMountCd').val()){
+						$('#mealMountCd').val($('#initMealMount').val());
+					}
+				}
+			});
+		});
+	})
+	
+	
+	/*]]*/
+	
+	/* MSII 시작 전 주의사항 */
+    /* var checkTreatProgressCd = function(){
+        $('#checkTreatProgressCd').click(function(){
+            var checkTreatProgressCd = $('#checkTreatProgressCd').val();
+            swal({
+                title: "MSII 시작 전 주의사항을 확인하셨습니까?",
+                text: "치료상태를 변경하시겠습니까?",
+                html: true,
+                text: "<div class='notice_title notice_desc_top'>MSII 시작 전 다음 사항들을 반드시 확인하십시오.</div>" +
+                    "<div class='notice_desc'>기존 복용 중인 당뇨약제를 중단해주십시오.</div>" +
+                    "<div class='notice_desc_em'>(특히나 설폰요소제 계열은 반드시 중단되어야 합니다.)</div>" +
+                    "<div class='notice_desc'>제1형 당뇨 환자에게는 MSII 시행을 재고해주십시오.</div>" +
+                    "<div class='notice_desc notice_desc_bottom'>임신성 당뇨, 기타 당뇨 환자는 MSII 대상이 아닙니다.</div>",
+                showCancelButton: true,
+                confirmButtonColor: '#1e98d7',
+                confirmButtonText: "예",
+                closeOnConfirm: false,
+                customClass: 'swal-box',
+                cancelButtonText: '아니요',
+            }, function () {
+
+                updateTreatProgressCd(checkTreatProgressCd);
+
+            });
+        });
+    }; */
+    
+  </script>
+  <script th:src="@{/js/patient/list.js}"></script>
+  <script th:src="@{/js/patient/patdetail.js}"></script>
+</html>
