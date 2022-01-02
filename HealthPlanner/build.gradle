@@ -1,3 +1,7 @@
+// Gradle
+// Gradle은 Groovy를 기반으로 한 빌드 도구
+// Ant와 Maven과 같은 이전 세대 빌드 도구의 단점을 보완하고 장점을 취합하여 만든 오픈소스로 공개된 빌드 도구
+
 plugins {
 	id 'org.springframework.boot' version '2.5.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -20,20 +24,36 @@ repositories {
 
 dependencies {
 	
+	//implementation - compile보다 빠르고 API 노출을 막아줌
+	//의존 라이브러리 수정 시 본 모듈까지만 재빌드(본 모듈을 의존하는 모듈은 해당 라이브러리의 api를 사용할 수 없음
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' 				/* jpa								*/
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' 			/* thymeleaf(Template Engines) - 내장*/
+	implementation 'org.springframework.boot:spring-boot-starter-web' 					/* Spring Web						*/
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0' 			/* mybatis - 내장					*/
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect' 					/* Thymeleaf Layout 				*/
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16' 				/* Log4JDBC 						*/
 	
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
-	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect' /* Thymeleaf Layout */
-	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16' /*Log4JDBC*/
-	compileOnly 'org.projectlombok:lombok'	
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'mysql:mysql-connector-java'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	//api
+	//의존 라이브러리 수정 시 본 모듈을 의존하는 모듈들도 재빌드
+	//본 모듈을 의존하는 모듈들도 해당 라이브러리의 api를 사용할 수 있음
 	
+	//compileOnly
+	//compile 시에만 빌드하고 빌드 결과물에는 포함하지 않음(runtime 시 필요없는 라이브러리인 경우)
+	compileOnly 'org.projectlombok:lombok' 												/* lombok 							*/
+	
+	//developmentOnly
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'						/* developer Tools					*/
+	
+	//runtime 시에만 필요한 라이브러리인 경우
+	runtimeOnly 'mysql:mysql-connector-java'											/* MySQL(SQL)						*/
+	
+	//annotation processor 명시
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'	/* Configuration Processor			*/
+	annotationProcessor 'org.projectlombok:lombok'										/* lombok							*/
+	
+	//테스트 코드 수행 시에만 적용
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'				/* test - 내장 						*/
+		
 
 	//implementation 'org.springframework.boot:spring-boot-starter-security'
 	//implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
